@@ -2,7 +2,7 @@
 
 面向汽车、高端装备、电子、消费品、材料和能源的本地知识库。支持资料入库、复杂文档解析、图文检索、带来源问答、任务续跑、版本差异、图文区域对照及质量排错。
 
-**只建设知识库，使用现有预训练模型推理，不训练、不微调。** 原 `General-Energy-RAG-System` 仓库在保留提交历史的基础上更新为本系统，仓库地址保持不变。
+**只建设知识库，使用现有预训练模型推理，不训练、不微调。** 仓库已由 `General-Energy-RAG-System` 更名为 [`Manufacturing-Energy-Industrial-Knowledge-System`](https://github.com/JHY-1224/Manufacturing-Energy-Industrial-Knowledge-System)，提交历史保留。
 
 ## 开始使用
 

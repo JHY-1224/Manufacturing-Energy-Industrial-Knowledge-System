@@ -18,7 +18,7 @@
 
 - 官方产品名称：`制造能源工业知识库系统`。
 - 前端、网页标题、API 标题、CLI 帮助、包描述和项目说明统一使用上述名称；RAG 是检索增强生成技术术语，不再单独充当产品品牌。
-- npm 技术标识：`manufacturing-energy-industrial-knowledge-system`。本地根目录于 2026-11-01 经用户授权改为 `制造能源工业知识库系统`；GitHub 仓库地址、API 路径和历史数据 ID 保持不变。未经额外授权不重命名远端仓库。
+- npm 技术标识：`manufacturing-energy-industrial-knowledge-system`。本地根目录于 2026-11-01 经用户授权改为 `制造能源工业知识库系统`；2026-11-03 用户追加授权将 GitHub 仓库更名为 `Manufacturing-Energy-Industrial-Knowledge-System`；API 路径和历史数据 ID 保持不变。
 - `Agent 案例库`、`多 Agent` 等术语描述的是业务知识类别或技术架构，不属于产品品牌，可按语义保留。
 
 ### 当前阶段：开源项目基座模式（用户于 2026-11-01 确认）
@@ -781,7 +781,7 @@ node --test tests/frontend_state.test.mjs
 远端：
 
 ```text
-https://github.com/JHY-1224/General-Energy-RAG-System.git
+https://github.com/JHY-1224/Manufacturing-Energy-Industrial-Knowledge-System.git
 ```
 
 默认分支：`main`
@@ -2045,6 +2045,13 @@ AHSS FLC的1×2 HTML表实际为公式图片布局。已按原HTML链接补存�
 
 ### GitHub 发布与 CI 的透明记录
 
-公开源码首提交为 [`7d41a02`](https://github.com/JHY-1224/General-Energy-RAG-System/commit/7d41a0241aae00bd3c62cd5d4dee4205f55dd8de)，是原 `db35205` 的正常后继提交；337个文件全部按公开清单核对。仓库About与README已更新为“制造能源工业知识库系统”，保留原URL与历史，不携带私有运行库、行业原件或权重。
+公开源码首提交为 [`7d41a02`](https://github.com/JHY-1224/Manufacturing-Energy-Industrial-Knowledge-System/commit/7d41a0241aae00bd3c62cd5d4dee4205f55dd8de)，是原 `db35205` 的正常后继提交；337个文件全部按公开清单核对。仓库About与README已更新为“制造能源工业知识库系统”，保留原URL与历史，不携带私有运行库、行业原件或权重。
 
-首次远端 [CI #4](https://github.com/JHY-1224/General-Energy-RAG-System/actions/runs/41573846043) 安装成功后执行315项测试，8项扫描表格测试因 `ModuleNotFoundError: numpy` 失败。本机NumPy原由检索环境提供，暴露了解析依赖清单漏声明的问题；原CI日志保留在 `github-ci-first.log`。已在 `backend/requirements-parsers.txt` 补上既有 `numpy==2.5.4` 并重建许可证清单，不改算法、预期或断言；相关解析回归通过。后续远端检查可在 [Actions](https://github.com/JHY-1224/General-Energy-RAG-System/actions) 按提交追溯，最终状态另存本机发布收据。常规CI依赖安装和合成测试不称作用户已取消的整套干净环境/模型复现。
+首次远端 [CI #4](https://github.com/JHY-1224/Manufacturing-Energy-Industrial-Knowledge-System/actions/runs/41573846043) 安装成功后执行315项测试，8项扫描表格测试因 `ModuleNotFoundError: numpy` 失败。本机NumPy原由检索环境提供，暴露了解析依赖清单漏声明的问题；原CI日志保留在 `github-ci-first.log`。已在 `backend/requirements-parsers.txt` 补上既有 `numpy==2.5.4` 并重建许可证清单，不改算法、预期或断言；相关解析回归通过。后续远端检查可在 [Actions](https://github.com/JHY-1224/Manufacturing-Energy-Industrial-Knowledge-System/actions) 按提交追溯，最终状态另存本机发布收据。常规CI依赖安装和合成测试不称作用户已取消的整套干净环境/模型复现。
+
+
+## 2026-11-03 GitHub 仓库名称统一
+
+用户追加授权把仓库名称改为“制造能源工业知识库系统”，英文亦可。采用英文仓库名 `Manufacturing-Energy-Industrial-Knowledge-System`，中文产品名称不变。新地址为 https://github.com/JHY-1224/Manufacturing-Energy-Industrial-Knowledge-System ，本地origin、README及本文的GitHub链接同步更新。
+
+这是原GitHub仓库的更名，保留仓库身份、全部代码、提交历史和既有CI运行记录，没有重建仓库或重写历史。上文“保留原URL”均为更名前阶段的历史范围，以本节最新授权为准。仅调整名称、链接和记录，不涉及知识库资料或模型。
