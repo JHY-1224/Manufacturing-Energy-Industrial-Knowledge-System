@@ -1,9 +1,9 @@
 {
-  "name": "vernova-rag",
+  "name": "manufacturing-energy-industrial-knowledge-system",
   "version": "1.0.0",
   "private": true,
   "type": "module",
-  "description": "Windows-friendly Energy O&M RAG System with FastAPI backend and Vue frontend.",
+  "description": "制造能源工业知识库系统：以制造业为长期主线，兼顾能源与电气，基于 FastAPI 与 Vue 的 RAG 知识管理系统。",
   "scripts": {
     "dev": "vite --host 127.0.0.1 --port 8080",
     "dev:frontend": "vite --host 127.0.0.1 --port 8080",
@@ -14,7 +14,9 @@
   "dependencies": {
     "@vitejs/plugin-vue": "^6.0.1",
     "vite": "^7.3.1",
-    "vue": "^3.5.22"
+    "vue": "^3.5.22",
+    "@element-plus/icons-vue": "2.3.2"
   },
-  "devDependencies": {}
+  "devDependencies": {},
+  "license": "AGPL-3.0-only"
 }

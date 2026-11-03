@@ -11,6 +11,9 @@ build/
 # Environment files
 .env
 .env.local
+.env.*
+!.env.example
+.venv*/
 
 # Logs
 npm-debug.log*
@@ -71,6 +74,7 @@ __pycache__/
 # Runtime knowledge and evaluation artifacts
 backend/uploaded_documents/
 data/traces/
+data/runtime/
 data/graph/*.json
 reports/eval_reports/*.json
 reports/eval_reports/*.csv

@@ -12,4 +12,4 @@ class VectorIndex:
 
     def search(self, query: str, top_k: int, metadata_filter: dict | None = None) -> list[RetrievalHit]:
         rows = self.store.search(self.embedding.embed(query), top_k, metadata_filter)
-        return [RetrievalHit(doc_id=chunk.doc_id, chunk_id=chunk.chunk_id, content=chunk.content, metadata=chunk.metadata, score=score, vector_score=score) for chunk, score in rows]
+        return [RetrievalHit(doc_id=chunk.doc_id, chunk_id=chunk.chunk_id, content=chunk.content, metadata=chunk.metadata, score=score, vector_score=score, vector_rank=rank, retrieval_sources=['vector']) for rank,(chunk, score) in enumerate(rows,1)]

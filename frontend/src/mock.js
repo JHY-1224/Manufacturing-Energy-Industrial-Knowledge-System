@@ -277,6 +277,38 @@ export const demoState = {
   ],
 };
 
+// Demo fixtures above are examples only; disconnected pages start without fabricated records.
+export function createEmptyEvaluation() {
+  return {
+    metric_cards: demoState.evaluation.metric_cards.map((metric) => ({
+      ...metric, current_avg: null, previous_avg: null, delta: null, trend: null,
+    })),
+    datasets: [], runs: [], metrics: [], sample_results: [], failures: [], trend: [], config_comparisons: [],
+    failure_types: demoState.evaluation.failure_types,
+    metric_guide: demoState.evaluation.metric_guide,
+    energy_scenarios: demoState.evaluation.energy_scenarios,
+    automatic_diagnosis: null,
+  };
+}
+
+export function createEmptyState() {
+  return {
+    domains: demoState.domains,
+    runtime: demoState.runtime,
+    overview: { kpis: [], pipelineStatus: [], recentDocumentJobs: [], recentTests: [] },
+    knowledge: [], documents: [], chunks: [], metadata: [],
+    vectorConfig: {
+      embedding: { model: '—', mode: '—', dimension: '—', batchSize: '—', status: '未加载' },
+      vectorDb: { engine: '—', indexName: '—', indexedChunks: '—', failedChunks: '—' },
+      bm25: { enabled: false, backend: '未加载' },
+      hybrid: { vectorTopK: '—', bm25TopK: '—', fusionMethod: '—' },
+      rerank: { model: '—', enabled: false, topN: '—', scoreThreshold: '—' },
+      jobs: [],
+    },
+    evaluation: createEmptyEvaluation(),
+  };
+}
+
 export const apiSections = [
   { group: 'Document API', items: ['POST /api/documents/upload', 'GET /api/documents', 'POST /api/documents/{document_id}/process', 'DELETE /api/documents/{document_id}', 'POST /api/v2/ingest'] },
   { group: 'Config API', items: ['GET /api/v2/config/options', 'GET /api/vector-index', 'GET /api/state'] },

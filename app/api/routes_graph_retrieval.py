@@ -1,17 +1,20 @@
 from __future__ import annotations
 
 from time import perf_counter
+import hashlib
 
 from fastapi import APIRouter, HTTPException, Query
 from pydantic import BaseModel
 
 from app.api.dependencies import engine
-from app.core.models import GraphRetrievalRequest, GraphRetrievalResponse
+from app.core.models import GraphRetrievalRequest, GraphRetrievalResponse, RetrievalHit
+from app.storage.workbench_store import WorkbenchStore
 from app.graph_retrieval.energy_schema import ENTITY_TYPES, RELATION_TYPES, SUPPORTED_DOMAINS
 from app.graph_retrieval.graph_hybrid_retriever import GraphHybridRetriever
 from app.graph_retrieval.graph_index_builder import GraphIndexBuilder
 from app.graph_retrieval.graph_metrics import calculate_graph_metrics
 from app.graph_retrieval.graph_store import GraphStore
+from app.knowledge.catalog import validate_base
 
 
 router = APIRouter(prefix="/api/v2/graph", tags=["Graph-Enhanced Energy Retrieval"])
@@ -24,22 +27,36 @@ class GraphBuildRequest(BaseModel):
 
 
 try:
-    graph_store = GraphStore.load()
+    graph_store = GraphStore.load(engine.store.directory / "graph.json")
 except (OSError, ValueError):
-    graph_store = GraphStore()
+    graph_store = GraphStore(engine.store.directory / "graph.json")
+
+_source_signature = None
 
 
 def _build_graph(domain: str | None = None, rebuild: bool = True) -> dict:
-    return GraphIndexBuilder(graph_store).build_graph_from_chunks(engine.chunks, domain=domain, rebuild=rebuild)
+    global _source_signature
+    engine.refresh()
+    # A source/review change requires removal of expired edges even for a caller
+    # requesting incremental construction.
+    result = GraphIndexBuilder(graph_store).build_graph_from_chunks(engine.chunks, domain=domain, rebuild=rebuild or _source_signature != _signature())
+    _source_signature = None if domain else _signature()
+    return result
+
+
+def _signature():
+    return hashlib.sha256("\n".join(sorted(chunk.model_dump_json() for chunk in engine.chunks)).encode()).hexdigest()
 
 
 def _ensure_graph() -> None:
-    if not graph_store.entities and engine.chunks:
+    engine.refresh()
+    if _source_signature != _signature():
         _build_graph()
 
 
 @router.get("/status")
 def graph_status():
+    _ensure_graph()
     status = graph_store.status()
     status["supported_domains"] = SUPPORTED_DOMAINS
     status["entity_types"] = sorted(ENTITY_TYPES)
@@ -60,7 +77,15 @@ def query_graph(payload: GraphRetrievalRequest):
         raise HTTPException(status_code=422, detail=f"Unsupported graph mode: {payload.options.mode}")
     _ensure_graph()
     started = perf_counter()
-    result = GraphHybridRetriever(graph_store).retrieve(
+    selected_store = graph_store
+    if payload.options.knowledge_base_id or payload.options.review_mode != 'reference':
+        if payload.options.knowledge_base_id:
+            try: validate_base(payload.options.knowledge_base_id)
+            except ValueError as exc: raise HTTPException(422, str(exc)) from exc
+        selected_store = GraphStore(graph_store.path)
+        GraphIndexBuilder(selected_store).build_graph_from_chunks(engine.chunks, persist=False,
+            knowledge_base_id=payload.options.knowledge_base_id, review_mode=payload.options.review_mode)
+    result = GraphHybridRetriever(selected_store).retrieve(
         payload.question,
         mode=payload.options.mode,
         domain=payload.options.domain,
@@ -75,6 +100,9 @@ def query_graph(payload: GraphRetrievalRequest):
     if not payload.options.include_chunk_context:
         chunk_context = ""
     final_context = "\n\n".join(item for item in [graph_context, chunk_context] if item)
+    WorkbenchStore(engine.store).assert_sources_current([
+        RetrievalHit(doc_id=c.doc_id, chunk_id=c.chunk_id, content=c.content, metadata=c.metadata, score=0)
+        for c in related_chunks])
     metrics = calculate_graph_metrics(
         [item.entity_id for item in result["entities"]],
         [item.relation_id for item in result["relations"]],
@@ -95,6 +123,7 @@ def query_graph(payload: GraphRetrievalRequest):
             "latency_ms": round((perf_counter() - started) * 1000, 3),
             "metrics": metrics,
             "graph_path": graph_store.path.as_posix(),
+            "evidence_revision_checked": True,
         },
     )
 

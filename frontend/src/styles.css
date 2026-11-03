@@ -187,6 +187,7 @@ button {
 
 .page-grid {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: 22px;
 }
 
@@ -1040,8 +1041,14 @@ pre {
 }
 
 .eval-upload-row {
-  grid-template-columns: repeat(2, minmax(220px, 1fr)) auto minmax(240px, 1fr);
+  grid-template-columns: repeat(3, minmax(160px, 1fr)) auto;
   align-items: end;
+}
+
+.eval-upload-row input,
+.eval-upload-row select {
+  width: 100%;
+  min-width: 0;
 }
 
 .eval-upload-row label {

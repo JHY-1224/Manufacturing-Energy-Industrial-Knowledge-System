@@ -1,0 +1,62 @@
+{
+  "kind": "synthetic_engineering_fixture",
+  "training_allowed": false,
+  "records": [
+    {
+      "doc_id": "doc_p2_fixture_line_a",
+      "chunk_id": "chunk_p2_fixture_line_a",
+      "knowledge_base_id": "manufacturing",
+      "title": "SYN-LINE-A 合成流转卡",
+      "content": "这是软件测试的虚构资料，不是实际工艺标准。A 线的合成流转卡编号为 SYN-LINE-A。测试温度字段填 36 摄氏度；保持时间字段填 12 分钟。两项只用于检索验收。"
+    },
+    {
+      "doc_id": "doc_p2_fixture_line_b",
+      "chunk_id": "chunk_p2_fixture_line_b",
+      "knowledge_base_id": "manufacturing",
+      "title": "SYN-LINE-B 合成流转卡",
+      "content": "这是软件测试的虚构资料，不是实际工艺标准。B 线合成流转卡 SYN-LINE-B 的测试温度为 42 摄氏度，保持时间为 7 分钟。不要把 A 线的合成值填进 B 线。"
+    },
+    {
+      "doc_id": "doc_p2_fixture_quality",
+      "chunk_id": "chunk_p2_fixture_quality",
+      "knowledge_base_id": "manufacturing",
+      "title": "SYN-QA 虚构检验记录",
+      "content": "这是软件测试的虚构资料，不是实际质量放行标准。SYN-QA 记录必须关联批次编号 Batch-ID 和检验记录编号 Check-ID。示例的外观检查通过，不代表尺寸或附着力检查已经通过。"
+    },
+    {
+      "doc_id": "doc_p2_fixture_revision",
+      "chunk_id": "chunk_p2_fixture_revision",
+      "knowledge_base_id": "manufacturing",
+      "title": "SYN-REV 合成受控版本",
+      "content": "这是软件测试的虚构资料，不是实际工艺标准。当前受控版本编号是 SYN-REV-02。SYN-REV-01 已失效，只能作为历史记录查看。新回答应引用当前版本并明确旧版失效。"
+    },
+    {
+      "doc_id": "doc_p2_fixture_material",
+      "chunk_id": "chunk_p2_fixture_material",
+      "knowledge_base_id": "materials",
+      "title": "TEST-M01 合成材料字段",
+      "content": "这是软件测试的虚构资料，不是实际材料参数。TEST-M01 的试样厚度字段为 2 mm。厚度与宽度不是同一个字段；这份资料没有给出宽度数值。"
+    },
+    {
+      "doc_id": "doc_p2_fixture_energy",
+      "chunk_id": "chunk_p2_fixture_energy",
+      "knowledge_base_id": "energy",
+      "title": "SYN-EMS 合成功率字典",
+      "content": "这是软件测试的虚构资料，不是现场控制指令。SYN-EMS 中 P_GRID_KW 表示并网点功率，单位是 kW；正值代表从电网取电，负值代表向电网送电。此约定仅属于本合成字典。"
+    },
+    {
+      "doc_id": "doc_p2_fixture_electrical",
+      "chunk_id": "chunk_p2_fixture_electrical",
+      "knowledge_base_id": "electrical",
+      "title": "SYN-DRIVE-A 合成告警字典",
+      "content": "这是软件测试的虚构资料，不是实际设备操作指令。SYN-DRIVE-A 的 SIM-E17 告警表示合成传感器信号缺失。本条目没有设备复位操作或可执行控制参数。"
+    },
+    {
+      "doc_id": "doc_p2_fixture_cosmetic",
+      "chunk_id": "chunk_p2_fixture_cosmetic",
+      "knowledge_base_id": "cosmetics_manufacturing",
+      "title": "SYN-COSMETICS 来源介绍参考",
+      "content": "这是软件测试的虚构资料。SYN-COSMETICS 只有一段网页来源介绍：透明包装容器。介绍未经核验，没有进行视觉识读。不能从这段来源介绍确认划痕、色差、瓶体缺陷或制造根因。"
+    }
+  ]
+}

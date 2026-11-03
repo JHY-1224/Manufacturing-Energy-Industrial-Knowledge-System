@@ -1,3 +1,3 @@
-"""Configurable Energy O&M RAG System application."""
+"""制造能源工业知识库系统的可配置 RAG 应用。"""
 
 __version__ = "2.0.0"

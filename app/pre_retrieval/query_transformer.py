@@ -2,6 +2,7 @@ class QueryTransformer:
     def transform(self, query: str) -> dict:
         filters: dict[str, str] = {}
         domain_terms = {
+            "风电功率预测": "风电功率预测",
             "风电": "风电故障诊断",
             "塔架": "风电故障诊断",
             "负荷": "区域负荷预测",
@@ -15,8 +16,6 @@ class QueryTransformer:
             if term.lower() in query.lower():
                 filters["domain"] = domain
                 break
-        if "变量" in query or any(term in query for term in ("AccY", "lag_96", "var_name_")):
-            filters["chunk_type"] = "变量解释"
-        if "塔架共振" in query:
-            filters["fault_type"] = "塔架共振"
+        # Chunk structure (Child/Table/Summary) is not a business intent.
+        # Infer only a domain hint; explicit user filters remain authoritative.
         return filters

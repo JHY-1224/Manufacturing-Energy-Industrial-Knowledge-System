@@ -1,0 +1,3105 @@
+{
+  "schema_version": 1,
+  "generated_on": "2026-11-03",
+  "project_license": "AGPL-3.0-only",
+  "scope": "declared Python profiles and complete npm lockfile; binaries and model weights not distributed",
+  "python_profiles": {
+    "backend/requirements-base.lock.txt": [
+      {
+        "requirement": "annotated-types==0.8.0",
+        "recorded_versions": [
+          "0.8.0"
+        ]
+      },
+      {
+        "requirement": "anyio==4.15.1",
+        "recorded_versions": [
+          "4.15.1"
+        ]
+      },
+      {
+        "requirement": "click==8.5.0",
+        "recorded_versions": [
+          "8.5.0"
+        ]
+      },
+      {
+        "requirement": "fastapi==0.115.14",
+        "recorded_versions": [
+          "0.115.14"
+        ]
+      },
+      {
+        "requirement": "h11==0.16.0",
+        "recorded_versions": [
+          "0.16.0"
+        ]
+      },
+      {
+        "requirement": "idna==3.20",
+        "recorded_versions": [
+          "3.20"
+        ]
+      },
+      {
+        "requirement": "pydantic==2.14.2",
+        "recorded_versions": [
+          "2.14.2"
+        ]
+      },
+      {
+        "requirement": "pydantic_core==2.50.2",
+        "recorded_versions": [
+          "2.50.2"
+        ]
+      },
+      {
+        "requirement": "PyYAML==6.0.3",
+        "recorded_versions": [
+          "6.0.3"
+        ]
+      },
+      {
+        "requirement": "starlette==0.46.2",
+        "recorded_versions": [
+          "0.46.2"
+        ]
+      },
+      {
+        "requirement": "typing-inspection==0.4.4",
+        "recorded_versions": [
+          "0.4.4"
+        ]
+      },
+      {
+        "requirement": "typing_extensions==4.16.0",
+        "recorded_versions": [
+          "4.16.0"
+        ]
+      },
+      {
+        "requirement": "uvicorn==0.34.3",
+        "recorded_versions": [
+          "0.34.3"
+        ]
+      }
+    ],
+    "backend/requirements-dev.txt": [
+      {
+        "requirement": "httpx==0.28.1",
+        "recorded_versions": [
+          "0.28.1"
+        ]
+      }
+    ],
+    "backend/requirements-parsers.txt": [
+      {
+        "requirement": "PyMuPDF==1.26.7",
+        "recorded_versions": [
+          "1.26.7"
+        ]
+      },
+      {
+        "requirement": "Pillow==13.0.0",
+        "recorded_versions": [
+          "13.0.0"
+        ]
+      },
+      {
+        "requirement": "openpyxl==3.1.5",
+        "recorded_versions": [
+          "3.1.5"
+        ]
+      },
+      {
+        "requirement": "python-docx==1.2.0",
+        "recorded_versions": [
+          "1.2.0"
+        ]
+      },
+      {
+        "requirement": "defusedxml==0.7.1",
+        "recorded_versions": [
+          "0.7.1"
+        ]
+      },
+      {
+        "requirement": "et-xmlfile==2.0.0",
+        "recorded_versions": [
+          "2.0.0"
+        ]
+      },
+      {
+        "requirement": "lxml==6.1.3",
+        "recorded_versions": [
+          "6.1.3"
+        ]
+      },
+      {
+        "requirement": "typing_extensions==4.16.0",
+        "recorded_versions": [
+          "4.16.0"
+        ]
+      }
+    ],
+    "backend/requirements-workbench.txt": [
+      {
+        "requirement": "langgraph==1.2.19",
+        "recorded_versions": [
+          "1.2.19"
+        ]
+      },
+      {
+        "requirement": "langchain-core==1.7.3",
+        "recorded_versions": [
+          "1.7.3"
+        ]
+      },
+      {
+        "requirement": "langgraph-checkpoint==4.3.1",
+        "recorded_versions": [
+          "4.3.1"
+        ]
+      },
+      {
+        "requirement": "langgraph-prebuilt==1.1.1",
+        "recorded_versions": [
+          "1.1.1"
+        ]
+      },
+      {
+        "requirement": "langgraph-sdk==0.4.11",
+        "recorded_versions": [
+          "0.4.11"
+        ]
+      },
+      {
+        "requirement": "xxhash==4.0.2",
+        "recorded_versions": [
+          "4.0.2"
+        ]
+      },
+      {
+        "requirement": "jsonpatch==1.38",
+        "recorded_versions": [
+          "1.38"
+        ]
+      },
+      {
+        "requirement": "langchain-protocol==0.0.20",
+        "recorded_versions": [
+          "0.0.20"
+        ]
+      },
+      {
+        "requirement": "langsmith==0.14.16",
+        "recorded_versions": [
+          "0.14.16"
+        ]
+      },
+      {
+        "requirement": "orjson==3.13.0",
+        "recorded_versions": [
+          "3.13.0"
+        ]
+      },
+      {
+        "requirement": "ormsgpack==1.13.0",
+        "recorded_versions": [
+          "1.13.0"
+        ]
+      },
+      {
+        "requirement": "tenacity==9.2.1",
+        "recorded_versions": [
+          "9.2.1"
+        ]
+      },
+      {
+        "requirement": "uuid_utils==0.19.0",
+        "recorded_versions": [
+          "0.19.0"
+        ]
+      },
+      {
+        "requirement": "websockets==17.4",
+        "recorded_versions": [
+          "17.4"
+        ]
+      },
+      {
+        "requirement": "distro==1.9.0",
+        "recorded_versions": [
+          "1.9.0"
+        ]
+      },
+      {
+        "requirement": "httpx2==2.16.0",
+        "recorded_versions": [
+          "2.16.0"
+        ]
+      },
+      {
+        "requirement": "httpcore2==2.16.0",
+        "recorded_versions": [
+          "2.16.0"
+        ]
+      },
+      {
+        "requirement": "jsonpointer==3.6",
+        "recorded_versions": [
+          "3.6"
+        ]
+      },
+      {
+        "requirement": "requests-toolbelt==1.0.0",
+        "recorded_versions": [
+          "1.0.0"
+        ]
+      },
+      {
+        "requirement": "zstandard==0.25.0",
+        "recorded_versions": [
+          "0.25.0"
+        ]
+      },
+      {
+        "requirement": "sniffio==1.3.1",
+        "recorded_versions": [
+          "1.3.1"
+        ]
+      },
+      {
+        "requirement": "truststore==0.10.5",
+        "recorded_versions": [
+          "0.10.5"
+        ]
+      }
+    ],
+    "backend/requirements.txt": [
+      {
+        "requirement": "fastapi>=0.115.0",
+        "recorded_versions": [
+          "0.115.14",
+          "0.162.0"
+        ]
+      },
+      {
+        "requirement": "uvicorn[standard]>=0.30.0",
+        "recorded_versions": [
+          "0.34.3",
+          "0.54.0"
+        ]
+      },
+      {
+        "requirement": "pydantic>=2.8.0",
+        "recorded_versions": [
+          "2.14.2"
+        ]
+      },
+      {
+        "requirement": "PyYAML>=6.0.2",
+        "recorded_versions": [
+          "6.0.3"
+        ]
+      }
+    ],
+    "scripts/local_model/requirements-mlx.lock.txt": [
+      {
+        "requirement": "annotated-doc==0.0.5",
+        "recorded_versions": [
+          "0.0.5"
+        ]
+      },
+      {
+        "requirement": "anyio==4.15.1",
+        "recorded_versions": [
+          "4.15.1"
+        ]
+      },
+      {
+        "requirement": "click==8.5.0",
+        "recorded_versions": [
+          "8.5.0"
+        ]
+      },
+      {
+        "requirement": "filelock==4.2.6",
+        "recorded_versions": [
+          "4.2.6"
+        ]
+      },
+      {
+        "requirement": "fsspec==2026.9.0",
+        "recorded_versions": [
+          "2026.9.0"
+        ]
+      },
+      {
+        "requirement": "h11==0.16.0",
+        "recorded_versions": [
+          "0.16.0"
+        ]
+      },
+      {
+        "requirement": "hf-xet==1.8.0",
+        "recorded_versions": [
+          "1.8.0"
+        ]
+      },
+      {
+        "requirement": "httpcore2==2.16.0",
+        "recorded_versions": [
+          "2.16.0"
+        ]
+      },
+      {
+        "requirement": "httpx2==2.16.0",
+        "recorded_versions": [
+          "2.16.0"
+        ]
+      },
+      {
+        "requirement": "huggingface_hub==2.4.0",
+        "recorded_versions": [
+          "2.4.0"
+        ]
+      },
+      {
+        "requirement": "idna==3.20",
+        "recorded_versions": [
+          "3.20"
+        ]
+      },
+      {
+        "requirement": "Jinja2==3.1.6",
+        "recorded_versions": [
+          "3.1.6"
+        ]
+      },
+      {
+        "requirement": "markdown-it-py==4.2.0",
+        "recorded_versions": [
+          "4.2.0"
+        ]
+      },
+      {
+        "requirement": "MarkupSafe==3.0.4",
+        "recorded_versions": [
+          "3.0.4"
+        ]
+      },
+      {
+        "requirement": "mdurl==0.1.2",
+        "recorded_versions": [
+          "0.1.2"
+        ]
+      },
+      {
+        "requirement": "mlx==0.32.2",
+        "recorded_versions": [
+          "0.32.2"
+        ]
+      },
+      {
+        "requirement": "mlx-lm==0.32.2",
+        "recorded_versions": [
+          "0.32.2"
+        ]
+      },
+      {
+        "requirement": "mlx-metal==0.32.2",
+        "recorded_versions": [
+          "0.32.2"
+        ]
+      },
+      {
+        "requirement": "numpy==2.5.4",
+        "recorded_versions": [
+          "2.5.4"
+        ]
+      },
+      {
+        "requirement": "packaging==26.3",
+        "recorded_versions": [
+          "26.3"
+        ]
+      },
+      {
+        "requirement": "protobuf==7.36.2",
+        "recorded_versions": [
+          "7.36.2"
+        ]
+      },
+      {
+        "requirement": "Pygments==2.21.0",
+        "recorded_versions": [
+          "2.21.0"
+        ]
+      },
+      {
+        "requirement": "PyYAML==6.0.3",
+        "recorded_versions": [
+          "6.0.3"
+        ]
+      },
+      {
+        "requirement": "regex==2026.9.29",
+        "recorded_versions": [
+          "2026.9.29"
+        ]
+      },
+      {
+        "requirement": "rich==15.0.0",
+        "recorded_versions": [
+          "15.0.0"
+        ]
+      },
+      {
+        "requirement": "safetensors==0.8.0",
+        "recorded_versions": [
+          "0.8.0"
+        ]
+      },
+      {
+        "requirement": "sentencepiece==0.2.2",
+        "recorded_versions": [
+          "0.2.2"
+        ]
+      },
+      {
+        "requirement": "shellingham==1.5.4",
+        "recorded_versions": [
+          "1.5.4"
+        ]
+      },
+      {
+        "requirement": "tokenizers==0.23.3",
+        "recorded_versions": [
+          "0.23.3"
+        ]
+      },
+      {
+        "requirement": "tqdm==4.70.1",
+        "recorded_versions": [
+          "4.70.1"
+        ]
+      },
+      {
+        "requirement": "transformers==5.22.1",
+        "recorded_versions": [
+          "5.22.1"
+        ]
+      },
+      {
+        "requirement": "truststore==0.10.5",
+        "recorded_versions": [
+          "0.10.5"
+        ]
+      },
+      {
+        "requirement": "typer==0.27.3",
+        "recorded_versions": [
+          "0.27.3"
+        ]
+      },
+      {
+        "requirement": "typing_extensions==4.16.0",
+        "recorded_versions": [
+          "4.16.0"
+        ]
+      }
+    ],
+    "scripts/local_model/requirements-vision.lock.txt": [
+      {
+        "requirement": "annotated-doc==0.0.5",
+        "recorded_versions": [
+          "0.0.5"
+        ]
+      },
+      {
+        "requirement": "annotated-types==0.8.0",
+        "recorded_versions": [
+          "0.8.0"
+        ]
+      },
+      {
+        "requirement": "anyio==4.16.0",
+        "recorded_versions": [
+          "4.16.0"
+        ]
+      },
+      {
+        "requirement": "certifi==2026.10.23",
+        "recorded_versions": [
+          "2026.10.23"
+        ]
+      },
+      {
+        "requirement": "cffi==2.1.1",
+        "recorded_versions": [
+          "2.1.1"
+        ]
+      },
+      {
+        "requirement": "charset-normalizer==3.5.2",
+        "recorded_versions": [
+          "3.5.2"
+        ]
+      },
+      {
+        "requirement": "click==8.5.0",
+        "recorded_versions": [
+          "8.5.0"
+        ]
+      },
+      {
+        "requirement": "fastapi==0.162.0",
+        "recorded_versions": [
+          "0.162.0"
+        ]
+      },
+      {
+        "requirement": "filelock==4.2.6",
+        "recorded_versions": [
+          "4.2.6"
+        ]
+      },
+      {
+        "requirement": "fsspec==2026.9.0",
+        "recorded_versions": [
+          "2026.9.0"
+        ]
+      },
+      {
+        "requirement": "h11==0.16.0",
+        "recorded_versions": [
+          "0.16.0"
+        ]
+      },
+      {
+        "requirement": "hf-xet==1.8.0",
+        "recorded_versions": [
+          "1.8.0"
+        ]
+      },
+      {
+        "requirement": "httpcore2==2.16.0",
+        "recorded_versions": [
+          "2.16.0"
+        ]
+      },
+      {
+        "requirement": "httpx2==2.16.0",
+        "recorded_versions": [
+          "2.16.0"
+        ]
+      },
+      {
+        "requirement": "huggingface_hub==2.4.0",
+        "recorded_versions": [
+          "2.4.0"
+        ]
+      },
+      {
+        "requirement": "idna==3.20",
+        "recorded_versions": [
+          "3.20"
+        ]
+      },
+      {
+        "requirement": "Jinja2==3.1.6",
+        "recorded_versions": [
+          "3.1.6"
+        ]
+      },
+      {
+        "requirement": "llguidance==1.9.1",
+        "recorded_versions": [
+          "1.9.1"
+        ]
+      },
+      {
+        "requirement": "markdown-it-py==4.2.0",
+        "recorded_versions": [
+          "4.2.0"
+        ]
+      },
+      {
+        "requirement": "MarkupSafe==3.0.4",
+        "recorded_versions": [
+          "3.0.4"
+        ]
+      },
+      {
+        "requirement": "mdurl==0.1.2",
+        "recorded_versions": [
+          "0.1.2"
+        ]
+      },
+      {
+        "requirement": "miniaudio==1.71",
+        "recorded_versions": [
+          "1.71"
+        ]
+      },
+      {
+        "requirement": "mlx==0.32.2",
+        "recorded_versions": [
+          "0.32.2"
+        ]
+      },
+      {
+        "requirement": "mlx-audio==0.5.9",
+        "recorded_versions": [
+          "0.5.9"
+        ]
+      },
+      {
+        "requirement": "mlx-metal==0.32.2",
+        "recorded_versions": [
+          "0.32.2"
+        ]
+      },
+      {
+        "requirement": "mlx-vlm==0.7.0",
+        "recorded_versions": [
+          "0.7.0"
+        ]
+      },
+      {
+        "requirement": "mpmath==1.3.0",
+        "recorded_versions": [
+          "1.3.0"
+        ]
+      },
+      {
+        "requirement": "networkx==3.7",
+        "recorded_versions": [
+          "3.7"
+        ]
+      },
+      {
+        "requirement": "numpy==2.5.4",
+        "recorded_versions": [
+          "2.5.4"
+        ]
+      },
+      {
+        "requirement": "opencv-python==5.0.0.93",
+        "recorded_versions": [
+          "5.0.0.93"
+        ]
+      },
+      {
+        "requirement": "opentelemetry-api==1.45.2",
+        "recorded_versions": [
+          "1.45.2"
+        ]
+      },
+      {
+        "requirement": "packaging==26.3",
+        "recorded_versions": [
+          "26.3"
+        ]
+      },
+      {
+        "requirement": "pillow==13.0.0",
+        "recorded_versions": [
+          "13.0.0"
+        ]
+      },
+      {
+        "requirement": "pycparser==3.12",
+        "recorded_versions": [
+          "3.12"
+        ]
+      },
+      {
+        "requirement": "pydantic==2.14.2",
+        "recorded_versions": [
+          "2.14.2"
+        ]
+      },
+      {
+        "requirement": "pydantic_core==2.50.2",
+        "recorded_versions": [
+          "2.50.2"
+        ]
+      },
+      {
+        "requirement": "Pygments==2.21.0",
+        "recorded_versions": [
+          "2.21.0"
+        ]
+      },
+      {
+        "requirement": "python-multipart==0.0.33",
+        "recorded_versions": [
+          "0.0.33"
+        ]
+      },
+      {
+        "requirement": "PyYAML==6.0.3",
+        "recorded_versions": [
+          "6.0.3"
+        ]
+      },
+      {
+        "requirement": "regex==2026.9.29",
+        "recorded_versions": [
+          "2026.9.29"
+        ]
+      },
+      {
+        "requirement": "requests==2.34.2",
+        "recorded_versions": [
+          "2.34.2"
+        ]
+      },
+      {
+        "requirement": "rich==15.0.0",
+        "recorded_versions": [
+          "15.0.0"
+        ]
+      },
+      {
+        "requirement": "safetensors==0.8.0",
+        "recorded_versions": [
+          "0.8.0"
+        ]
+      },
+      {
+        "requirement": "scipy==1.18.1",
+        "recorded_versions": [
+          "1.18.1"
+        ]
+      },
+      {
+        "requirement": "sentencepiece==0.2.2",
+        "recorded_versions": [
+          "0.2.2"
+        ]
+      },
+      {
+        "requirement": "setuptools==84.2.1",
+        "recorded_versions": [
+          "84.2.1"
+        ]
+      },
+      {
+        "requirement": "shellingham==1.5.4",
+        "recorded_versions": [
+          "1.5.4"
+        ]
+      },
+      {
+        "requirement": "sounddevice==0.5.6",
+        "recorded_versions": [
+          "0.5.6"
+        ]
+      },
+      {
+        "requirement": "starlette==1.10.0",
+        "recorded_versions": [
+          "1.10.0"
+        ]
+      },
+      {
+        "requirement": "sympy==1.14.0",
+        "recorded_versions": [
+          "1.14.0"
+        ]
+      },
+      {
+        "requirement": "tokenizers==0.23.3",
+        "recorded_versions": [
+          "0.23.3"
+        ]
+      },
+      {
+        "requirement": "torch==2.10.0",
+        "recorded_versions": [
+          "2.10.0"
+        ]
+      },
+      {
+        "requirement": "torchvision==0.25.0",
+        "recorded_versions": [
+          "0.25.0"
+        ]
+      },
+      {
+        "requirement": "tqdm==4.70.1",
+        "recorded_versions": [
+          "4.70.1"
+        ]
+      },
+      {
+        "requirement": "transformers==5.22.1",
+        "recorded_versions": [
+          "5.22.1"
+        ]
+      },
+      {
+        "requirement": "truststore==0.10.5",
+        "recorded_versions": [
+          "0.10.5"
+        ]
+      },
+      {
+        "requirement": "typer==0.27.3",
+        "recorded_versions": [
+          "0.27.3"
+        ]
+      },
+      {
+        "requirement": "typing-inspection==0.4.4",
+        "recorded_versions": [
+          "0.4.4"
+        ]
+      },
+      {
+        "requirement": "typing_extensions==4.16.0",
+        "recorded_versions": [
+          "4.16.0"
+        ]
+      },
+      {
+        "requirement": "urllib3==2.8.0",
+        "recorded_versions": [
+          "2.8.0"
+        ]
+      },
+      {
+        "requirement": "uvicorn==0.54.0",
+        "recorded_versions": [
+          "0.54.0"
+        ]
+      },
+      {
+        "requirement": "websockets==17.4",
+        "recorded_versions": [
+          "17.4"
+        ]
+      }
+    ],
+    "scripts/requirements-local-retrieval.txt": [
+      {
+        "requirement": "annotated-types==0.8.0",
+        "recorded_versions": [
+          "0.8.0"
+        ]
+      },
+      {
+        "requirement": "anyio==4.15.1",
+        "recorded_versions": [
+          "4.15.1"
+        ]
+      },
+      {
+        "requirement": "certifi==2026.10.23",
+        "recorded_versions": [
+          "2026.10.23"
+        ]
+      },
+      {
+        "requirement": "charset-normalizer==3.5.2",
+        "recorded_versions": [
+          "3.5.2"
+        ]
+      },
+      {
+        "requirement": "click==8.5.0",
+        "recorded_versions": [
+          "8.5.0"
+        ]
+      },
+      {
+        "requirement": "fastapi==0.115.14",
+        "recorded_versions": [
+          "0.115.14"
+        ]
+      },
+      {
+        "requirement": "filelock==4.2.6",
+        "recorded_versions": [
+          "4.2.6"
+        ]
+      },
+      {
+        "requirement": "fsspec==2026.9.0",
+        "recorded_versions": [
+          "2026.9.0"
+        ]
+      },
+      {
+        "requirement": "h11==0.16.0",
+        "recorded_versions": [
+          "0.16.0"
+        ]
+      },
+      {
+        "requirement": "hf-xet==1.8.0",
+        "recorded_versions": [
+          "1.8.0"
+        ]
+      },
+      {
+        "requirement": "huggingface_hub==0.36.2",
+        "recorded_versions": [
+          "0.36.2"
+        ]
+      },
+      {
+        "requirement": "idna==3.20",
+        "recorded_versions": [
+          "3.20"
+        ]
+      },
+      {
+        "requirement": "Jinja2==3.1.6",
+        "recorded_versions": [
+          "3.1.6"
+        ]
+      },
+      {
+        "requirement": "MarkupSafe==3.0.4",
+        "recorded_versions": [
+          "3.0.4"
+        ]
+      },
+      {
+        "requirement": "mpmath==1.3.0",
+        "recorded_versions": [
+          "1.3.0"
+        ]
+      },
+      {
+        "requirement": "networkx==3.7",
+        "recorded_versions": [
+          "3.7"
+        ]
+      },
+      {
+        "requirement": "numpy==2.5.4",
+        "recorded_versions": [
+          "2.5.4"
+        ]
+      },
+      {
+        "requirement": "packaging==26.3",
+        "recorded_versions": [
+          "26.3"
+        ]
+      },
+      {
+        "requirement": "pydantic==2.14.2",
+        "recorded_versions": [
+          "2.14.2"
+        ]
+      },
+      {
+        "requirement": "pydantic_core==2.50.2",
+        "recorded_versions": [
+          "2.50.2"
+        ]
+      },
+      {
+        "requirement": "PyYAML==6.0.3",
+        "recorded_versions": [
+          "6.0.3"
+        ]
+      },
+      {
+        "requirement": "regex==2026.9.29",
+        "recorded_versions": [
+          "2026.9.29"
+        ]
+      },
+      {
+        "requirement": "requests==2.34.2",
+        "recorded_versions": [
+          "2.34.2"
+        ]
+      },
+      {
+        "requirement": "safetensors==0.8.0",
+        "recorded_versions": [
+          "0.8.0"
+        ]
+      },
+      {
+        "requirement": "setuptools==84.2.1",
+        "recorded_versions": [
+          "84.2.1"
+        ]
+      },
+      {
+        "requirement": "starlette==0.46.2",
+        "recorded_versions": [
+          "0.46.2"
+        ]
+      },
+      {
+        "requirement": "sympy==1.14.0",
+        "recorded_versions": [
+          "1.14.0"
+        ]
+      },
+      {
+        "requirement": "tokenizers==0.22.2",
+        "recorded_versions": [
+          "0.22.2"
+        ]
+      },
+      {
+        "requirement": "torch==2.10.0",
+        "recorded_versions": [
+          "2.10.0"
+        ]
+      },
+      {
+        "requirement": "tqdm==4.70.1",
+        "recorded_versions": [
+          "4.70.1"
+        ]
+      },
+      {
+        "requirement": "transformers==4.57.6",
+        "recorded_versions": [
+          "4.57.6"
+        ]
+      },
+      {
+        "requirement": "typing-inspection==0.4.4",
+        "recorded_versions": [
+          "0.4.4"
+        ]
+      },
+      {
+        "requirement": "typing_extensions==4.16.0",
+        "recorded_versions": [
+          "4.16.0"
+        ]
+      },
+      {
+        "requirement": "urllib3==2.8.0",
+        "recorded_versions": [
+          "2.8.0"
+        ]
+      },
+      {
+        "requirement": "uvicorn==0.34.3",
+        "recorded_versions": [
+          "0.34.3"
+        ]
+      }
+    ]
+  },
+  "python_distributions": [
+    {
+      "name": "annotated-doc",
+      "version": "0.0.5",
+      "license_metadata": "MIT",
+      "project_urls": [
+        "Homepage, https://github.com/fastapi/annotated-doc",
+        "Documentation, https://github.com/fastapi/annotated-doc",
+        "Repository, https://github.com/fastapi/annotated-doc",
+        "Issues, https://github.com/fastapi/annotated-doc/issues",
+        "Changelog, https://github.com/fastapi/annotated-doc/release-notes.md"
+      ],
+      "homepage": null,
+      "source": "installed distribution metadata; packages not bundled"
+    },
+    {
+      "name": "annotated-types",
+      "version": "0.8.0",
+      "license_metadata": "MIT",
+      "project_urls": [
+        "Homepage, https://github.com/annotated-types/annotated-types",
+        "Source, https://github.com/annotated-types/annotated-types",
+        "Changelog, https://github.com/annotated-types/annotated-types/releases"
+      ],
+      "homepage": null,
+      "source": "installed distribution metadata; packages not bundled"
+    },
+    {
+      "name": "anyio",
+      "version": "4.15.1",
+      "license_metadata": "MIT",
+      "project_urls": [
+        "Documentation, https://anyio.readthedocs.io/en/latest/",
+        "Changelog, https://anyio.readthedocs.io/en/stable/versionhistory.html",
+        "Source code, https://github.com/agronholm/anyio",
+        "Issue tracker, https://github.com/agronholm/anyio/issues"
+      ],
+      "homepage": null,
+      "source": "installed distribution metadata; packages not bundled"
+    },
+    {
+      "name": "anyio",
+      "version": "4.16.0",
+      "license_metadata": "MIT",
+      "project_urls": [
+        "Documentation, https://anyio.readthedocs.io/en/latest/",
+        "Changelog, https://anyio.readthedocs.io/en/stable/versionhistory.html",
+        "Source code, https://github.com/agronholm/anyio",
+        "Issue tracker, https://github.com/agronholm/anyio/issues"
+      ],
+      "homepage": null,
+      "source": "installed distribution metadata; packages not bundled"
+    },
+    {
+      "name": "certifi",
+      "version": "2026.10.23",
+      "license_metadata": "MPL-2.0",
+      "project_urls": [
+        "Source, https://github.com/certifi/python-certifi"
+      ],
+      "homepage": "https://github.com/certifi/python-certifi",
+      "source": "installed distribution metadata; packages not bundled"
+    },
+    {
+      "name": "cffi",
+      "version": "2.1.1",
+      "license_metadata": "MIT-0",
+      "project_urls": [
+        "Documentation, https://cffi.readthedocs.io/",
+        "Changelog, https://cffi.readthedocs.io/en/latest/whatsnew.html",
+        "Download, https://github.com/python-cffi/cffi/releases",
+        "Contact, https://groups.google.com/forum/#!forum/python-cffi",
+        "Source Code, https://github.com/python-cffi/cffi",
+        "Issue Tracker, https://github.com/python-cffi/cffi/issues"
+      ],
+      "homepage": null,
+      "source": "installed distribution metadata; packages not bundled"
+    },
+    {
+      "name": "charset-normalizer",
+      "version": "3.5.2",
+      "license_metadata": "MIT",
+      "project_urls": [
+        "Changelog, https://github.com/jawah/charset_normalizer/blob/master/CHANGELOG.md",
+        "Documentation, https://charset-normalizer.readthedocs.io/",
+        "Code, https://github.com/jawah/charset_normalizer",
+        "Issue tracker, https://github.com/jawah/charset_normalizer/issues"
+      ],
+      "homepage": null,
+      "source": "installed distribution metadata; packages not bundled"
+    },
+    {
+      "name": "click",
+      "version": "8.5.0",
+      "license_metadata": "BSD-3-Clause",
+      "project_urls": [
+        "Changes, https://click.palletsprojects.com/page/changes/",
+        "Chat, https://discord.gg/pallets",
+        "Documentation, https://click.palletsprojects.com/",
+        "Donate, https://palletsprojects.com/donate",
+        "Source, https://github.com/pallets/click/"
+      ],
+      "homepage": null,
+      "source": "installed distribution metadata; packages not bundled"
+    },
+    {
+      "name": "defusedxml",
+      "version": "0.7.1",
+      "license_metadata": "PSFL",
+      "project_urls": [],
+      "homepage": "https://github.com/tiran/defusedxml",
+      "source": "installed distribution metadata; packages not bundled"
+    },
+    {
+      "name": "distro",
+      "version": "1.9.0",
+      "license_metadata": "Apache License, Version 2.0",
+      "project_urls": [],
+      "homepage": "https://github.com/python-distro/distro",
+      "source": "installed distribution metadata; packages not bundled"
+    },
+    {
+      "name": "et_xmlfile",
+      "version": "2.0.0",
+      "license_metadata": "MIT",
+      "project_urls": [
+        "Documentation, https://openpyxl.pages.heptapod.net/et_xmlfile/",
+        "Source, https://foss.heptapod.net/openpyxl/et_xmlfile",
+        "Tracker, https://foss.heptapod.net/openpyxl/et_xmfile/-/issues"
+      ],
+      "homepage": "https://foss.heptapod.net/openpyxl/et_xmlfile",
+      "source": "installed distribution metadata; packages not bundled"
+    },
+    {
+      "name": "fastapi",
+      "version": "0.115.14",
+      "license_metadata": "License :: OSI Approved :: MIT License",
+      "project_urls": [
+        "Homepage, https://github.com/fastapi/fastapi",
+        "Documentation, https://fastapi.tiangolo.com/",
+        "Repository, https://github.com/fastapi/fastapi",
+        "Issues, https://github.com/fastapi/fastapi/issues",
+        "Changelog, https://fastapi.tiangolo.com/release-notes/"
+      ],
+      "homepage": null,
+      "source": "installed distribution metadata; packages not bundled"
+    },
+    {
+      "name": "fastapi",
+      "version": "0.162.0",
+      "license_metadata": "MIT",
+      "project_urls": [
+        "Homepage, https://github.com/fastapi/fastapi",
+        "Documentation, https://fastapi.tiangolo.com/",
+        "Repository, https://github.com/fastapi/fastapi",
+        "Issues, https://github.com/fastapi/fastapi/issues",
+        "Changelog, https://fastapi.tiangolo.com/release-notes/"
+      ],
+      "homepage": null,
+      "source": "installed distribution metadata; packages not bundled"
+    },
+    {
+      "name": "filelock",
+      "version": "4.2.6",
+      "license_metadata": "MIT",
+      "project_urls": [
+        "Changelog, https://py-filelock.readthedocs.io/en/latest/changelog.html",
+        "Documentation, https://py-filelock.readthedocs.io",
+        "Homepage, https://github.com/tox-dev/filelock",
+        "Source, https://github.com/tox-dev/filelock",
+        "Tracker, https://github.com/tox-dev/filelock/issues"
+      ],
+      "homepage": null,
+      "source": "installed distribution metadata; packages not bundled"
+    },
+    {
+      "name": "fsspec",
+      "version": "2026.9.0",
+      "license_metadata": "BSD-3-Clause",
+      "project_urls": [
+        "Changelog, https://filesystem-spec.readthedocs.io/en/latest/changelog.html",
+        "Documentation, https://filesystem-spec.readthedocs.io/en/latest/",
+        "Homepage, https://github.com/fsspec/filesystem_spec"
+      ],
+      "homepage": null,
+      "source": "installed distribution metadata; packages not bundled"
+    },
+    {
+      "name": "h11",
+      "version": "0.16.0",
+      "license_metadata": "MIT",
+      "project_urls": [],
+      "homepage": "https://github.com/python-hyper/h11",
+      "source": "installed distribution metadata; packages not bundled"
+    },
+    {
+      "name": "hf-xet",
+      "version": "1.8.0",
+      "license_metadata": "Apache-2.0",
+      "project_urls": [
+        "Documentation, https://huggingface.co/docs/hub/xet/index",
+        "Homepage, https://github.com/huggingface/xet-core",
+        "Issues, https://github.com/huggingface/xet-core/issues",
+        "Repository, https://github.com/huggingface/xet-core.git"
+      ],
+      "homepage": null,
+      "source": "installed distribution metadata; packages not bundled"
+    },
+    {
+      "name": "httpcore2",
+      "version": "2.16.0",
+      "license_metadata": "BSD-3-Clause",
+      "project_urls": [
+        "Changelog, https://github.com/pydantic/httpx2/blob/main/src/httpcore2/CHANGELOG.md",
+        "Homepage, https://github.com/pydantic/httpx2",
+        "Source, https://github.com/pydantic/httpx2/blob/main/src/httpcore2"
+      ],
+      "homepage": null,
+      "source": "installed distribution metadata; packages not bundled"
+    },
+    {
+      "name": "httpx",
+      "version": "0.28.1",
+      "license_metadata": "BSD-3-Clause",
+      "project_urls": [
+        "Changelog, https://github.com/encode/httpx/blob/master/CHANGELOG.md",
+        "Documentation, https://www.python-httpx.org",
+        "Homepage, https://github.com/encode/httpx",
+        "Source, https://github.com/encode/httpx"
+      ],
+      "homepage": null,
+      "source": "installed distribution metadata; packages not bundled"
+    },
+    {
+      "name": "httpx2",
+      "version": "2.16.0",
+      "license_metadata": "BSD-3-Clause",
+      "project_urls": [
+        "Changelog, https://github.com/pydantic/httpx2/blob/main/src/httpx2/CHANGELOG.md",
+        "Homepage, https://github.com/pydantic/httpx2",
+        "Source, https://github.com/pydantic/httpx2"
+      ],
+      "homepage": null,
+      "source": "installed distribution metadata; packages not bundled"
+    },
+    {
+      "name": "huggingface_hub",
+      "version": "0.36.2",
+      "license_metadata": "Apache",
+      "project_urls": [],
+      "homepage": "https://github.com/huggingface/huggingface_hub",
+      "source": "installed distribution metadata; packages not bundled"
+    },
+    {
+      "name": "huggingface_hub",
+      "version": "2.4.0",
+      "license_metadata": "Apache-2.0",
+      "project_urls": [],
+      "homepage": "https://github.com/huggingface/huggingface_hub",
+      "source": "installed distribution metadata; packages not bundled"
+    },
+    {
+      "name": "idna",
+      "version": "3.20",
+      "license_metadata": "BSD-3-Clause",
+      "project_urls": [
+        "Changelog, https://github.com/kjd/idna/blob/master/HISTORY.md",
+        "Issue tracker, https://github.com/kjd/idna/issues",
+        "Source, https://github.com/kjd/idna"
+      ],
+      "homepage": null,
+      "source": "installed distribution metadata; packages not bundled"
+    },
+    {
+      "name": "Jinja2",
+      "version": "3.1.6",
+      "license_metadata": "License :: OSI Approved :: BSD License",
+      "project_urls": [
+        "Changes, https://jinja.palletsprojects.com/changes/",
+        "Chat, https://discord.gg/pallets",
+        "Documentation, https://jinja.palletsprojects.com/",
+        "Donate, https://palletsprojects.com/donate",
+        "Source, https://github.com/pallets/jinja/"
+      ],
+      "homepage": null,
+      "source": "installed distribution metadata; packages not bundled"
+    },
+    {
+      "name": "jsonpatch",
+      "version": "1.38",
+      "license_metadata": "BSD-3-Clause",
+      "project_urls": [
+        "Website, https://github.com/stefankoegl/python-json-patch",
+        "Repository, https://github.com/stefankoegl/python-json-patch.git",
+        "Documentation, https://python-json-patch.readthedocs.org/",
+        "PyPI, https://pypi.org/pypi/jsonpatch",
+        "Tests, https://github.com/stefankoegl/python-json-patch/actions",
+        "Test Coverage, https://coveralls.io/github/stefankoegl/python-json-patch"
+      ],
+      "homepage": "https://github.com/stefankoegl/python-json-patch",
+      "source": "installed distribution metadata; packages not bundled"
+    },
+    {
+      "name": "jsonpointer",
+      "version": "3.6",
+      "license_metadata": "Modified BSD License",
+      "project_urls": [],
+      "homepage": "https://github.com/stefankoegl/python-json-pointer",
+      "source": "installed distribution metadata; packages not bundled"
+    },
+    {
+      "name": "langchain-core",
+      "version": "1.7.3",
+      "license_metadata": "MIT",
+      "project_urls": [
+        "Homepage, https://docs.langchain.com/",
+        "Documentation, https://reference.langchain.com/python/langchain_core/",
+        "Repository, https://github.com/langchain-ai/langchain",
+        "Issues, https://github.com/langchain-ai/langchain/issues",
+        "Changelog, https://github.com/langchain-ai/langchain/releases?q=%22langchain-core%3D%3D1%22",
+        "Twitter, https://x.com/langchain_oss",
+        "Slack, https://www.langchain.com/join-community",
+        "Reddit, https://www.reddit.com/r/LangChain/"
+      ],
+      "homepage": null,
+      "source": "installed distribution metadata; packages not bundled"
+    },
+    {
+      "name": "langchain-protocol",
+      "version": "0.0.20",
+      "license_metadata": "MIT",
+      "project_urls": [
+        "Homepage, https://github.com/langchain-ai/agent-protocol/tree/main/streaming",
+        "Repository, https://github.com/langchain-ai/agent-protocol",
+        "Issues, https://github.com/langchain-ai/agent-protocol/issues"
+      ],
+      "homepage": null,
+      "source": "installed distribution metadata; packages not bundled"
+    },
+    {
+      "name": "langgraph",
+      "version": "1.2.19",
+      "license_metadata": "MIT",
+      "project_urls": [
+        "Homepage, https://docs.langchain.com/oss/python/langgraph/overview",
+        "Documentation, https://reference.langchain.com/python/langgraph/",
+        "Source, https://github.com/langchain-ai/langgraph/tree/main/libs/langgraph",
+        "Changelog, https://github.com/langchain-ai/langgraph/releases",
+        "Twitter, https://x.com/langchain_oss",
+        "Slack, https://www.langchain.com/join-community",
+        "Reddit, https://www.reddit.com/r/LangChain/"
+      ],
+      "homepage": null,
+      "source": "installed distribution metadata; packages not bundled"
+    },
+    {
+      "name": "langgraph-checkpoint",
+      "version": "4.3.1",
+      "license_metadata": "MIT",
+      "project_urls": [
+        "Source, https://github.com/langchain-ai/langgraph/tree/main/libs/checkpoint",
+        "Twitter, https://x.com/langchain_oss",
+        "Slack, https://www.langchain.com/join-community",
+        "Reddit, https://www.reddit.com/r/LangChain/"
+      ],
+      "homepage": null,
+      "source": "installed distribution metadata; packages not bundled"
+    },
+    {
+      "name": "langgraph-prebuilt",
+      "version": "1.1.1",
+      "license_metadata": "MIT",
+      "project_urls": [
+        "Source, https://github.com/langchain-ai/langgraph/tree/main/libs/prebuilt",
+        "Twitter, https://x.com/langchain_oss",
+        "Slack, https://www.langchain.com/join-community",
+        "Reddit, https://www.reddit.com/r/LangChain/"
+      ],
+      "homepage": null,
+      "source": "installed distribution metadata; packages not bundled"
+    },
+    {
+      "name": "langgraph-sdk",
+      "version": "0.4.11",
+      "license_metadata": "MIT",
+      "project_urls": [
+        "Source, https://github.com/langchain-ai/langgraph/tree/main/libs/sdk-py",
+        "Twitter, https://x.com/langchain_oss",
+        "Slack, https://www.langchain.com/join-community",
+        "Reddit, https://www.reddit.com/r/LangChain/"
+      ],
+      "homepage": null,
+      "source": "installed distribution metadata; packages not bundled"
+    },
+    {
+      "name": "langsmith",
+      "version": "0.14.16",
+      "license_metadata": "MIT",
+      "project_urls": [
+        "Homepage, https://github.com/langchain-ai/langsmith-python",
+        "Repository, https://github.com/langchain-ai/langsmith-python"
+      ],
+      "homepage": null,
+      "source": "installed distribution metadata; packages not bundled"
+    },
+    {
+      "name": "llguidance",
+      "version": "1.9.1",
+      "license_metadata": "MIT",
+      "project_urls": [
+        "issue_tracker, https://github.com/microsoft/llguidance/issues",
+        "repository, https://github.com/microsoft/llguidance"
+      ],
+      "homepage": null,
+      "source": "installed distribution metadata; packages not bundled"
+    },
+    {
+      "name": "lxml",
+      "version": "6.1.3",
+      "license_metadata": "BSD-3-Clause",
+      "project_urls": [
+        "Source, https://github.com/lxml/lxml",
+        "Bug Tracker, https://bugs.launchpad.net/lxml"
+      ],
+      "homepage": "https://lxml.de/",
+      "source": "installed distribution metadata; packages not bundled"
+    },
+    {
+      "name": "markdown-it-py",
+      "version": "4.2.0",
+      "license_metadata": "License :: OSI Approved :: MIT License",
+      "project_urls": [
+        "Documentation, https://markdown-it-py.readthedocs.io",
+        "Homepage, https://github.com/executablebooks/markdown-it-py"
+      ],
+      "homepage": null,
+      "source": "installed distribution metadata; packages not bundled"
+    },
+    {
+      "name": "MarkupSafe",
+      "version": "3.0.4",
+      "license_metadata": "BSD-3-Clause",
+      "project_urls": [
+        "Donate, https://palletsprojects.com/donate",
+        "Documentation, https://markupsafe.palletsprojects.com/",
+        "Changes, https://markupsafe.palletsprojects.com/page/changes/",
+        "Source, https://github.com/pallets/markupsafe/",
+        "Chat, https://discord.gg/pallets"
+      ],
+      "homepage": null,
+      "source": "installed distribution metadata; packages not bundled"
+    },
+    {
+      "name": "mdurl",
+      "version": "0.1.2",
+      "license_metadata": "License :: OSI Approved :: MIT License",
+      "project_urls": [
+        "Homepage, https://github.com/executablebooks/mdurl"
+      ],
+      "homepage": null,
+      "source": "installed distribution metadata; packages not bundled"
+    },
+    {
+      "name": "miniaudio",
+      "version": "1.71",
+      "license_metadata": "MIT",
+      "project_urls": [
+        "Homepage, https://github.com/irmen/pyminiaudio"
+      ],
+      "homepage": null,
+      "source": "installed distribution metadata; packages not bundled"
+    },
+    {
+      "name": "mlx",
+      "version": "0.32.2",
+      "license_metadata": "MIT",
+      "project_urls": [],
+      "homepage": "https://github.com/ml-explore/mlx",
+      "source": "installed distribution metadata; packages not bundled"
+    },
+    {
+      "name": "mlx-audio",
+      "version": "0.5.9",
+      "license_metadata": "MIT",
+      "project_urls": [
+        "Homepage, https://github.com/Blaizzy/mlx-audio",
+        "Repository, https://github.com/Blaizzy/mlx-audio"
+      ],
+      "homepage": null,
+      "source": "installed distribution metadata; packages not bundled"
+    },
+    {
+      "name": "mlx-lm",
+      "version": "0.32.2",
+      "license_metadata": "MIT",
+      "project_urls": [
+        "Homepage, https://github.com/ml-explore/mlx-lm",
+        "Repository, https://github.com/ml-explore/mlx-lm",
+        "Issues, https://github.com/ml-explore/mlx-lm/issues"
+      ],
+      "homepage": null,
+      "source": "installed distribution metadata; packages not bundled"
+    },
+    {
+      "name": "mlx-metal",
+      "version": "0.32.2",
+      "license_metadata": "MIT",
+      "project_urls": [],
+      "homepage": "https://github.com/ml-explore/mlx",
+      "source": "installed distribution metadata; packages not bundled"
+    },
+    {
+      "name": "mlx-vlm",
+      "version": "0.7.0",
+      "license_metadata": "MIT",
+      "project_urls": [
+        "Homepage, https://github.com/Blaizzy/mlx-vlm",
+        "Repository, https://github.com/Blaizzy/mlx-vlm",
+        "Issues, https://github.com/Blaizzy/mlx-vlm/issues"
+      ],
+      "homepage": null,
+      "source": "installed distribution metadata; packages not bundled"
+    },
+    {
+      "name": "mpmath",
+      "version": "1.3.0",
+      "license_metadata": "BSD",
+      "project_urls": [
+        "Source, https://github.com/fredrik-johansson/mpmath",
+        "Tracker, https://github.com/fredrik-johansson/mpmath/issues",
+        "Documentation, http://mpmath.org/doc/current/"
+      ],
+      "homepage": "http://mpmath.org/",
+      "source": "installed distribution metadata; packages not bundled"
+    },
+    {
+      "name": "networkx",
+      "version": "3.7",
+      "license_metadata": "BSD-3-Clause",
+      "project_urls": [
+        "Homepage, https://networkx.org/",
+        "Bug Tracker, https://github.com/networkx/networkx/issues",
+        "Documentation, https://networkx.org/documentation/stable/",
+        "Source Code, https://github.com/networkx/networkx"
+      ],
+      "homepage": null,
+      "source": "installed distribution metadata; packages not bundled"
+    },
+    {
+      "name": "numpy",
+      "version": "2.5.4",
+      "license_metadata": "BSD-3-Clause AND 0BSD AND MIT AND Zlib AND CC0-1.0",
+      "project_urls": [
+        "homepage, https://numpy.org",
+        "documentation, https://numpy.org/doc/",
+        "source, https://github.com/numpy/numpy",
+        "download, https://pypi.org/project/numpy/#files",
+        "tracker, https://github.com/numpy/numpy/issues",
+        "release notes, https://numpy.org/doc/stable/release"
+      ],
+      "homepage": null,
+      "source": "installed distribution metadata; packages not bundled"
+    },
+    {
+      "name": "opencv-python",
+      "version": "5.0.0.93",
+      "license_metadata": "Apache 2.0",
+      "project_urls": [],
+      "homepage": "https://github.com/opencv/opencv-python",
+      "source": "installed distribution metadata; packages not bundled"
+    },
+    {
+      "name": "openpyxl",
+      "version": "3.1.5",
+      "license_metadata": "MIT",
+      "project_urls": [
+        "Documentation, https://openpyxl.readthedocs.io/en/stable/",
+        "Source, https://foss.heptapod.net/openpyxl/openpyxl",
+        "Tracker, https://foss.heptapod.net/openpyxl/openpyxl/-/issues"
+      ],
+      "homepage": "https://openpyxl.readthedocs.io",
+      "source": "installed distribution metadata; packages not bundled"
+    },
+    {
+      "name": "opentelemetry-api",
+      "version": "1.45.2",
+      "license_metadata": "Apache-2.0",
+      "project_urls": [
+        "Homepage, https://github.com/open-telemetry/opentelemetry-python/tree/main/opentelemetry-api",
+        "Repository, https://github.com/open-telemetry/opentelemetry-python"
+      ],
+      "homepage": null,
+      "source": "installed distribution metadata; packages not bundled"
+    },
+    {
+      "name": "orjson",
+      "version": "3.13.0",
+      "license_metadata": "MPL-2.0 AND (Apache-2.0 OR MIT)",
+      "project_urls": [
+        "changelog, https://github.com/ijl/orjson/blob/master/CHANGELOG.md",
+        "documentation, https://github.com/ijl/orjson",
+        "source, https://github.com/ijl/orjson"
+      ],
+      "homepage": null,
+      "source": "installed distribution metadata; packages not bundled"
+    },
+    {
+      "name": "ormsgpack",
+      "version": "1.13.0",
+      "license_metadata": "Apache-2.0 OR MIT",
+      "project_urls": [
+        "Homepage, https://github.com/ormsgpack/ormsgpack"
+      ],
+      "homepage": null,
+      "source": "installed distribution metadata; packages not bundled"
+    },
+    {
+      "name": "packaging",
+      "version": "26.3",
+      "license_metadata": "Apache-2.0 OR BSD-2-Clause",
+      "project_urls": [
+        "Documentation, https://packaging.pypa.io/",
+        "Source, https://github.com/pypa/packaging"
+      ],
+      "homepage": null,
+      "source": "installed distribution metadata; packages not bundled"
+    },
+    {
+      "name": "pillow",
+      "version": "13.0.0",
+      "license_metadata": "MIT-CMU",
+      "project_urls": [
+        "Release notes, https://pillow.readthedocs.io/en/stable/releasenotes/index.html",
+        "Changelog, https://github.com/python-pillow/Pillow/releases",
+        "Documentation, https://pillow.readthedocs.io",
+        "Funding, https://tidelift.com/lifter/search/pypi/pillow",
+        "Homepage, https://python-pillow.org",
+        "Mastodon, https://fosstodon.org/@pillow",
+        "Security, https://pillow.readthedocs.io/en/stable/handbook/security.html",
+        "Source, https://github.com/python-pillow/Pillow"
+      ],
+      "homepage": null,
+      "source": "installed distribution metadata; packages not bundled"
+    },
+    {
+      "name": "protobuf",
+      "version": "7.36.2",
+      "license_metadata": "3-Clause BSD License",
+      "project_urls": [],
+      "homepage": "https://developers.google.com/protocol-buffers/",
+      "source": "installed distribution metadata; packages not bundled"
+    },
+    {
+      "name": "pycparser",
+      "version": "3.12",
+      "license_metadata": "BSD-3-Clause",
+      "project_urls": [
+        "Homepage, https://github.com/eliben/pycparser"
+      ],
+      "homepage": null,
+      "source": "installed distribution metadata; packages not bundled"
+    },
+    {
+      "name": "pydantic",
+      "version": "2.14.2",
+      "license_metadata": "MIT",
+      "project_urls": [
+        "Homepage, https://github.com/pydantic/pydantic",
+        "Documentation, https://pydantic.dev/docs/validation/latest/get-started/",
+        "Funding, https://github.com/sponsors/samuelcolvin",
+        "Source, https://github.com/pydantic/pydantic",
+        "Changelog, https://pydantic.dev/docs/validation/latest/get-started/changelog/"
+      ],
+      "homepage": null,
+      "source": "installed distribution metadata; packages not bundled"
+    },
+    {
+      "name": "pydantic_core",
+      "version": "2.50.2",
+      "license_metadata": "MIT",
+      "project_urls": [
+        "Funding, https://github.com/sponsors/samuelcolvin",
+        "Homepage, https://github.com/pydantic",
+        "Source, https://github.com/pydantic/pydantic/tree/main/pydantic-core"
+      ],
+      "homepage": "https://github.com/pydantic/pydantic",
+      "source": "installed distribution metadata; packages not bundled"
+    },
+    {
+      "name": "Pygments",
+      "version": "2.21.0",
+      "license_metadata": "BSD-2-Clause",
+      "project_urls": [
+        "Homepage, https://pygments.org",
+        "Documentation, https://pygments.org/docs",
+        "Source, https://github.com/pygments/pygments",
+        "Bug Tracker, https://github.com/pygments/pygments/issues",
+        "Changelog, https://github.com/pygments/pygments/blob/master/CHANGES"
+      ],
+      "homepage": null,
+      "source": "installed distribution metadata; packages not bundled"
+    },
+    {
+      "name": "PyMuPDF",
+      "version": "1.26.7",
+      "license_metadata": "Dual Licensed - GNU AFFERO GPL 3.0 or Artifex Commercial License",
+      "project_urls": [
+        "Documentation, https://pymupdf.readthedocs.io/",
+        "Source, https://github.com/pymupdf/pymupdf",
+        "Tracker, https://github.com/pymupdf/PyMuPDF/issues",
+        "Changelog, https://pymupdf.readthedocs.io/en/latest/changes.html"
+      ],
+      "homepage": null,
+      "source": "installed distribution metadata; packages not bundled"
+    },
+    {
+      "name": "python-docx",
+      "version": "1.2.0",
+      "license_metadata": "MIT",
+      "project_urls": [
+        "Changelog, https://github.com/python-openxml/python-docx/blob/master/HISTORY.rst",
+        "Documentation, https://python-docx.readthedocs.org/en/latest/",
+        "Homepage, https://github.com/python-openxml/python-docx",
+        "Repository, https://github.com/python-openxml/python-docx"
+      ],
+      "homepage": null,
+      "source": "installed distribution metadata; packages not bundled"
+    },
+    {
+      "name": "python-multipart",
+      "version": "0.0.33",
+      "license_metadata": "Apache-2.0",
+      "project_urls": [
+        "Homepage, https://github.com/Kludex/python-multipart",
+        "Documentation, https://kludex.github.io/python-multipart/",
+        "Changelog, https://github.com/Kludex/python-multipart/blob/master/CHANGELOG.md",
+        "Source, https://github.com/Kludex/python-multipart"
+      ],
+      "homepage": null,
+      "source": "installed distribution metadata; packages not bundled"
+    },
+    {
+      "name": "PyYAML",
+      "version": "6.0.3",
+      "license_metadata": "MIT",
+      "project_urls": [
+        "Bug Tracker, https://github.com/yaml/pyyaml/issues",
+        "CI, https://github.com/yaml/pyyaml/actions",
+        "Documentation, https://pyyaml.org/wiki/PyYAMLDocumentation",
+        "Mailing lists, http://lists.sourceforge.net/lists/listinfo/yaml-core",
+        "Source Code, https://github.com/yaml/pyyaml"
+      ],
+      "homepage": "https://pyyaml.org/",
+      "source": "installed distribution metadata; packages not bundled"
+    },
+    {
+      "name": "regex",
+      "version": "2026.9.29",
+      "license_metadata": "Apache-2.0 AND CNRI-Python",
+      "project_urls": [
+        "Homepage, https://github.com/mrabarnett/mrab-regex"
+      ],
+      "homepage": null,
+      "source": "installed distribution metadata; packages not bundled"
+    },
+    {
+      "name": "requests",
+      "version": "2.34.2",
+      "license_metadata": "Apache-2.0",
+      "project_urls": [
+        "Documentation, https://requests.readthedocs.io",
+        "Source, https://github.com/psf/requests"
+      ],
+      "homepage": null,
+      "source": "installed distribution metadata; packages not bundled"
+    },
+    {
+      "name": "requests-toolbelt",
+      "version": "1.0.0",
+      "license_metadata": "Apache 2.0",
+      "project_urls": [
+        "Changelog, https://github.com/requests/toolbelt/blob/master/HISTORY.rst",
+        "Source, https://github.com/requests/toolbelt"
+      ],
+      "homepage": "https://toolbelt.readthedocs.io/",
+      "source": "installed distribution metadata; packages not bundled"
+    },
+    {
+      "name": "rich",
+      "version": "15.0.0",
+      "license_metadata": "MIT",
+      "project_urls": [
+        "Documentation, https://rich.readthedocs.io/en/latest/",
+        "Homepage, https://github.com/Textualize/rich"
+      ],
+      "homepage": null,
+      "source": "installed distribution metadata; packages not bundled"
+    },
+    {
+      "name": "safetensors",
+      "version": "0.8.0",
+      "license_metadata": "License :: OSI Approved :: Apache Software License",
+      "project_urls": [
+        "Homepage, https://github.com/huggingface/safetensors",
+        "Source, https://github.com/huggingface/safetensors"
+      ],
+      "homepage": null,
+      "source": "installed distribution metadata; packages not bundled"
+    },
+    {
+      "name": "scipy",
+      "version": "1.18.1",
+      "license_metadata": "Copyright (c) 2001-2002 Enthought, Inc. 2003, SciPy Developers. (full text in distribution metadata)",
+      "project_urls": [
+        "homepage, https://scipy.org/",
+        "documentation, https://docs.scipy.org/doc/scipy/",
+        "source, https://github.com/scipy/scipy",
+        "download, https://github.com/scipy/scipy/releases",
+        "tracker, https://github.com/scipy/scipy/issues"
+      ],
+      "homepage": null,
+      "source": "installed distribution metadata; packages not bundled"
+    },
+    {
+      "name": "sentencepiece",
+      "version": "0.2.2",
+      "license_metadata": "Apache-2.0",
+      "project_urls": [
+        "Homepage, https://github.com/google/sentencepiece"
+      ],
+      "homepage": null,
+      "source": "installed distribution metadata; packages not bundled"
+    },
+    {
+      "name": "setuptools",
+      "version": "84.2.1",
+      "license_metadata": "MIT",
+      "project_urls": [
+        "Source, https://github.com/pypa/setuptools",
+        "Documentation, https://setuptools.pypa.io/",
+        "Changelog, https://setuptools.pypa.io/en/stable/history.html"
+      ],
+      "homepage": null,
+      "source": "installed distribution metadata; packages not bundled"
+    },
+    {
+      "name": "shellingham",
+      "version": "1.5.4",
+      "license_metadata": "ISC License",
+      "project_urls": [],
+      "homepage": "https://github.com/sarugaku/shellingham",
+      "source": "installed distribution metadata; packages not bundled"
+    },
+    {
+      "name": "sniffio",
+      "version": "1.3.1",
+      "license_metadata": "MIT OR Apache-2.0",
+      "project_urls": [
+        "Homepage, https://github.com/python-trio/sniffio",
+        "Documentation, https://sniffio.readthedocs.io/",
+        "Changelog, https://sniffio.readthedocs.io/en/latest/history.html"
+      ],
+      "homepage": null,
+      "source": "installed distribution metadata; packages not bundled"
+    },
+    {
+      "name": "sounddevice",
+      "version": "0.5.6",
+      "license_metadata": "MIT",
+      "project_urls": [
+        "Documentation, https://python-sounddevice.readthedocs.io/",
+        "Repository, https://github.com/spatialaudio/python-sounddevice/",
+        "Issues, https://github.com/spatialaudio/python-sounddevice/issues"
+      ],
+      "homepage": null,
+      "source": "installed distribution metadata; packages not bundled"
+    },
+    {
+      "name": "starlette",
+      "version": "0.46.2",
+      "license_metadata": "BSD-3-Clause",
+      "project_urls": [
+        "Homepage, https://github.com/encode/starlette",
+        "Documentation, https://www.starlette.io/",
+        "Changelog, https://www.starlette.io/release-notes/",
+        "Funding, https://github.com/sponsors/encode",
+        "Source, https://github.com/encode/starlette"
+      ],
+      "homepage": null,
+      "source": "installed distribution metadata; packages not bundled"
+    },
+    {
+      "name": "starlette",
+      "version": "1.10.0",
+      "license_metadata": "BSD-3-Clause",
+      "project_urls": [
+        "Homepage, https://github.com/Kludex/starlette",
+        "Documentation, https://starlette.dev/",
+        "Changelog, https://starlette.dev/release-notes/",
+        "Funding, https://github.com/sponsors/Kludex",
+        "Source, https://github.com/Kludex/starlette"
+      ],
+      "homepage": null,
+      "source": "installed distribution metadata; packages not bundled"
+    },
+    {
+      "name": "sympy",
+      "version": "1.14.0",
+      "license_metadata": "BSD",
+      "project_urls": [
+        "Source, https://github.com/sympy/sympy"
+      ],
+      "homepage": "https://sympy.org",
+      "source": "installed distribution metadata; packages not bundled"
+    },
+    {
+      "name": "tenacity",
+      "version": "9.2.1",
+      "license_metadata": "Apache-2.0",
+      "project_urls": [
+        "Homepage, https://github.com/jd/tenacity",
+        "Documentation, https://tenacity.readthedocs.io",
+        "Source, https://github.com/jd/tenacity",
+        "Issues, https://github.com/jd/tenacity/issues",
+        "Changelog, https://tenacity.readthedocs.io/en/latest/changelog.html"
+      ],
+      "homepage": null,
+      "source": "installed distribution metadata; packages not bundled"
+    },
+    {
+      "name": "tokenizers",
+      "version": "0.22.2",
+      "license_metadata": "License :: OSI Approved :: Apache Software License",
+      "project_urls": [
+        "Homepage, https://github.com/huggingface/tokenizers",
+        "Source, https://github.com/huggingface/tokenizers"
+      ],
+      "homepage": null,
+      "source": "installed distribution metadata; packages not bundled"
+    },
+    {
+      "name": "tokenizers",
+      "version": "0.23.3",
+      "license_metadata": "License :: OSI Approved :: Apache Software License",
+      "project_urls": [
+        "Homepage, https://github.com/huggingface/tokenizers",
+        "Source, https://github.com/huggingface/tokenizers"
+      ],
+      "homepage": null,
+      "source": "installed distribution metadata; packages not bundled"
+    },
+    {
+      "name": "torch",
+      "version": "2.10.0",
+      "license_metadata": "BSD-3-Clause",
+      "project_urls": [
+        "Homepage, https://pytorch.org",
+        "Repository, https://github.com/pytorch/pytorch",
+        "Documentation, https://pytorch.org/docs",
+        "Issue Tracker, https://github.com/pytorch/pytorch/issues",
+        "Forum, https://discuss.pytorch.org"
+      ],
+      "homepage": null,
+      "source": "installed distribution metadata; packages not bundled"
+    },
+    {
+      "name": "torchvision",
+      "version": "0.25.0",
+      "license_metadata": "BSD",
+      "project_urls": [],
+      "homepage": "https://github.com/pytorch/vision",
+      "source": "installed distribution metadata; packages not bundled"
+    },
+    {
+      "name": "tqdm",
+      "version": "4.70.1",
+      "license_metadata": "MPL-2.0 AND MIT",
+      "project_urls": [
+        "homepage, https://tqdm.github.io",
+        "repository, https://github.com/tqdm/tqdm",
+        "changelog, https://tqdm.github.io/releases",
+        "wiki, https://github.com/tqdm/tqdm/wiki"
+      ],
+      "homepage": null,
+      "source": "installed distribution metadata; packages not bundled"
+    },
+    {
+      "name": "transformers",
+      "version": "4.57.6",
+      "license_metadata": "Apache 2.0 License",
+      "project_urls": [],
+      "homepage": "https://github.com/huggingface/transformers",
+      "source": "installed distribution metadata; packages not bundled"
+    },
+    {
+      "name": "transformers",
+      "version": "5.22.1",
+      "license_metadata": "Apache 2.0 License",
+      "project_urls": [],
+      "homepage": "https://github.com/huggingface/transformers",
+      "source": "installed distribution metadata; packages not bundled"
+    },
+    {
+      "name": "truststore",
+      "version": "0.10.5",
+      "license_metadata": "MIT",
+      "project_urls": [
+        "Documentation, https://truststore.readthedocs.io",
+        "Source, https://github.com/sethmlarson/truststore"
+      ],
+      "homepage": null,
+      "source": "installed distribution metadata; packages not bundled"
+    },
+    {
+      "name": "typer",
+      "version": "0.27.3",
+      "license_metadata": "MIT",
+      "project_urls": [
+        "Homepage, https://github.com/fastapi/typer",
+        "Documentation, https://typer.tiangolo.com",
+        "Repository, https://github.com/fastapi/typer",
+        "Issues, https://github.com/fastapi/typer/issues",
+        "Changelog, https://typer.tiangolo.com/release-notes/"
+      ],
+      "homepage": null,
+      "source": "installed distribution metadata; packages not bundled"
+    },
+    {
+      "name": "typing-inspection",
+      "version": "0.4.4",
+      "license_metadata": "MIT",
+      "project_urls": [
+        "Homepage, https://github.com/pydantic/typing-inspection",
+        "Documentation, https://pydantic.github.io/typing-inspection/dev/",
+        "Source, https://github.com/pydantic/typing-inspection",
+        "Changelog, https://github.com/pydantic/typing-inspection/blob/main/HISTORY.md"
+      ],
+      "homepage": null,
+      "source": "installed distribution metadata; packages not bundled"
+    },
+    {
+      "name": "typing_extensions",
+      "version": "4.16.0",
+      "license_metadata": "PSF-2.0",
+      "project_urls": [
+        "Bug Tracker, https://github.com/python/typing_extensions/issues",
+        "Changes, https://github.com/python/typing_extensions/blob/main/CHANGELOG.md",
+        "Documentation, https://typing-extensions.readthedocs.io/",
+        "Home, https://github.com/python/typing_extensions",
+        "Q & A, https://github.com/python/typing/discussions",
+        "Repository, https://github.com/python/typing_extensions"
+      ],
+      "homepage": null,
+      "source": "installed distribution metadata; packages not bundled"
+    },
+    {
+      "name": "urllib3",
+      "version": "2.8.0",
+      "license_metadata": "MIT",
+      "project_urls": [
+        "Changelog, https://github.com/urllib3/urllib3/blob/main/CHANGES.rst",
+        "Documentation, https://urllib3.readthedocs.io",
+        "Code, https://github.com/urllib3/urllib3",
+        "Issue tracker, https://github.com/urllib3/urllib3/issues",
+        "Security policy, https://urllib3.readthedocs.io/en/latest/security.html"
+      ],
+      "homepage": null,
+      "source": "installed distribution metadata; packages not bundled"
+    },
+    {
+      "name": "uuid_utils",
+      "version": "0.19.0",
+      "license_metadata": "BSD-3-Clause",
+      "project_urls": [
+        "Documentation, https://github.com/aminalaee/uuid-utils",
+        "Issues, https://github.com/aminalaee/uuid-utils/issues",
+        "Source, https://github.com/aminalaee/uuid-utils"
+      ],
+      "homepage": null,
+      "source": "installed distribution metadata; packages not bundled"
+    },
+    {
+      "name": "uvicorn",
+      "version": "0.34.3",
+      "license_metadata": "BSD-3-Clause",
+      "project_urls": [
+        "Changelog, https://www.uvicorn.org/release-notes",
+        "Funding, https://github.com/sponsors/encode",
+        "Homepage, https://www.uvicorn.org/",
+        "Source, https://github.com/encode/uvicorn"
+      ],
+      "homepage": null,
+      "source": "installed distribution metadata; packages not bundled"
+    },
+    {
+      "name": "uvicorn",
+      "version": "0.54.0",
+      "license_metadata": "BSD-3-Clause",
+      "project_urls": [
+        "Changelog, https://uvicorn.dev/release-notes",
+        "Funding, https://github.com/sponsors/Kludex",
+        "Homepage, https://uvicorn.dev/",
+        "Source, https://github.com/Kludex/uvicorn"
+      ],
+      "homepage": null,
+      "source": "installed distribution metadata; packages not bundled"
+    },
+    {
+      "name": "websockets",
+      "version": "17.4",
+      "license_metadata": "BSD-3-Clause",
+      "project_urls": [
+        "Homepage, https://github.com/python-websockets/websockets",
+        "Changelog, https://websockets.readthedocs.io/en/stable/project/changelog.html",
+        "Documentation, https://websockets.readthedocs.io/",
+        "Funding, https://tidelift.com/subscription/pkg/pypi-websockets?utm_source=pypi-websockets&utm_medium=referral&utm_campaign=readme",
+        "Tracker, https://github.com/python-websockets/websockets/issues"
+      ],
+      "homepage": null,
+      "source": "installed distribution metadata; packages not bundled"
+    },
+    {
+      "name": "xxhash",
+      "version": "4.0.2",
+      "license_metadata": "BSD-2-Clause",
+      "project_urls": [],
+      "homepage": "https://github.com/ifduyue/python-xxhash",
+      "source": "installed distribution metadata; packages not bundled"
+    },
+    {
+      "name": "zstandard",
+      "version": "0.25.0",
+      "license_metadata": "BSD-3-Clause",
+      "project_urls": [
+        "Homepage, https://github.com/indygreg/python-zstandard",
+        "Documentation, https://python-zstandard.readthedocs.io/en/latest/"
+      ],
+      "homepage": null,
+      "source": "installed distribution metadata; packages not bundled"
+    }
+  ],
+  "python_metadata_unavailable": [],
+  "npm_packages": [
+    {
+      "package_path": "node_modules/@babel/helper-string-parser",
+      "name": "@babel/helper-string-parser",
+      "version": "7.29.7",
+      "license": "MIT",
+      "dev": false,
+      "optional": false,
+      "resolved": null,
+      "integrity": null
+    },
+    {
+      "package_path": "node_modules/@babel/helper-validator-identifier",
+      "name": "@babel/helper-validator-identifier",
+      "version": "7.29.7",
+      "license": "MIT",
+      "dev": false,
+      "optional": false,
+      "resolved": null,
+      "integrity": null
+    },
+    {
+      "package_path": "node_modules/@babel/parser",
+      "name": "@babel/parser",
+      "version": "7.29.7",
+      "license": "MIT",
+      "dev": false,
+      "optional": false,
+      "resolved": null,
+      "integrity": null
+    },
+    {
+      "package_path": "node_modules/@babel/types",
+      "name": "@babel/types",
+      "version": "7.29.7",
+      "license": "MIT",
+      "dev": false,
+      "optional": false,
+      "resolved": null,
+      "integrity": null
+    },
+    {
+      "package_path": "node_modules/@element-plus/icons-vue",
+      "name": "@element-plus/icons-vue",
+      "version": "2.3.2",
+      "license": "MIT",
+      "dev": false,
+      "optional": false,
+      "resolved": "https://registry.npmjs.org/@element-plus/icons-vue/-/icons-vue-2.3.2.tgz",
+      "integrity": "sha512-OzIuTaIfC8QXEPmJvB4Y4kw34rSXdCJzxcD1kFStBvr8bK6X1zQAYDo0CNMjojnfTqRQCJ0I7prlErcoRiET2A=="
+    },
+    {
+      "package_path": "node_modules/@esbuild/aix-ppc64",
+      "name": "@esbuild/aix-ppc64",
+      "version": "0.27.7",
+      "license": "MIT",
+      "dev": false,
+      "optional": true,
+      "resolved": "https://registry.npmmirror.com/@esbuild/aix-ppc64/-/aix-ppc64-0.27.7.tgz",
+      "integrity": "sha512-EKX3Qwmhz1eMdEJokhALr0YiD0lhQNwDqkPYyPhiSwKrh7/4KRjQc04sZ8db+5DVVnZ1LmbNDI1uAMPEUBnQPg=="
+    },
+    {
+      "package_path": "node_modules/@esbuild/android-arm",
+      "name": "@esbuild/android-arm",
+      "version": "0.27.7",
+      "license": "MIT",
+      "dev": false,
+      "optional": true,
+      "resolved": "https://registry.npmmirror.com/@esbuild/android-arm/-/android-arm-0.27.7.tgz",
+      "integrity": "sha512-jbPXvB4Yj2yBV7HUfE2KHe4GJX51QplCN1pGbYjvsyCZbQmies29EoJbkEc+vYuU5o45AfQn37vZlyXy4YJ8RQ=="
+    },
+    {
+      "package_path": "node_modules/@esbuild/android-arm64",
+      "name": "@esbuild/android-arm64",
+      "version": "0.27.7",
+      "license": "MIT",
+      "dev": false,
+      "optional": true,
+      "resolved": "https://registry.npmmirror.com/@esbuild/android-arm64/-/android-arm64-0.27.7.tgz",
+      "integrity": "sha512-62dPZHpIXzvChfvfLJow3q5dDtiNMkwiRzPylSCfriLvZeq0a1bWChrGx/BbUbPwOrsWKMn8idSllklzBy+dgQ=="
+    },
+    {
+      "package_path": "node_modules/@esbuild/android-x64",
+      "name": "@esbuild/android-x64",
+      "version": "0.27.7",
+      "license": "MIT",
+      "dev": false,
+      "optional": true,
+      "resolved": "https://registry.npmmirror.com/@esbuild/android-x64/-/android-x64-0.27.7.tgz",
+      "integrity": "sha512-x5VpMODneVDb70PYV2VQOmIUUiBtY3D3mPBG8NxVk5CogneYhkR7MmM3yR/uMdITLrC1ml/NV1rj4bMJuy9MCg=="
+    },
+    {
+      "package_path": "node_modules/@esbuild/darwin-arm64",
+      "name": "@esbuild/darwin-arm64",
+      "version": "0.27.7",
+      "license": "MIT",
+      "dev": false,
+      "optional": true,
+      "resolved": "https://registry.npmmirror.com/@esbuild/darwin-arm64/-/darwin-arm64-0.27.7.tgz",
+      "integrity": "sha512-5lckdqeuBPlKUwvoCXIgI2D9/ABmPq3Rdp7IfL70393YgaASt7tbju3Ac+ePVi3KDH6N2RqePfHnXkaDtY9fkw=="
+    },
+    {
+      "package_path": "node_modules/@esbuild/darwin-x64",
+      "name": "@esbuild/darwin-x64",
+      "version": "0.27.7",
+      "license": "MIT",
+      "dev": false,
+      "optional": true,
+      "resolved": "https://registry.npmmirror.com/@esbuild/darwin-x64/-/darwin-x64-0.27.7.tgz",
+      "integrity": "sha512-rYnXrKcXuT7Z+WL5K980jVFdvVKhCHhUwid+dDYQpH+qu+TefcomiMAJpIiC2EM3Rjtq0sO3StMV/+3w3MyyqQ=="
+    },
+    {
+      "package_path": "node_modules/@esbuild/freebsd-arm64",
+      "name": "@esbuild/freebsd-arm64",
+      "version": "0.27.7",
+      "license": "MIT",
+      "dev": false,
+      "optional": true,
+      "resolved": "https://registry.npmmirror.com/@esbuild/freebsd-arm64/-/freebsd-arm64-0.27.7.tgz",
+      "integrity": "sha512-B48PqeCsEgOtzME2GbNM2roU29AMTuOIN91dsMO30t+Ydis3z/3Ngoj5hhnsOSSwNzS+6JppqWsuhTp6E82l2w=="
+    },
+    {
+      "package_path": "node_modules/@esbuild/freebsd-x64",
+      "name": "@esbuild/freebsd-x64",
+      "version": "0.27.7",
+      "license": "MIT",
+      "dev": false,
+      "optional": true,
+      "resolved": "https://registry.npmmirror.com/@esbuild/freebsd-x64/-/freebsd-x64-0.27.7.tgz",
+      "integrity": "sha512-jOBDK5XEjA4m5IJK3bpAQF9/Lelu/Z9ZcdhTRLf4cajlB+8VEhFFRjWgfy3M1O4rO2GQ/b2dLwCUGpiF/eATNQ=="
+    },
+    {
+      "package_path": "node_modules/@esbuild/linux-arm",
+      "name": "@esbuild/linux-arm",
+      "version": "0.27.7",
+      "license": "MIT",
+      "dev": false,
+      "optional": true,
+      "resolved": "https://registry.npmmirror.com/@esbuild/linux-arm/-/linux-arm-0.27.7.tgz",
+      "integrity": "sha512-RkT/YXYBTSULo3+af8Ib0ykH8u2MBh57o7q/DAs3lTJlyVQkgQvlrPTnjIzzRPQyavxtPtfg0EopvDyIt0j1rA=="
+    },
+    {
+      "package_path": "node_modules/@esbuild/linux-arm64",
+      "name": "@esbuild/linux-arm64",
+      "version": "0.27.7",
+      "license": "MIT",
+      "dev": false,
+      "optional": true,
+      "resolved": "https://registry.npmmirror.com/@esbuild/linux-arm64/-/linux-arm64-0.27.7.tgz",
+      "integrity": "sha512-RZPHBoxXuNnPQO9rvjh5jdkRmVizktkT7TCDkDmQ0W2SwHInKCAV95GRuvdSvA7w4VMwfCjUiPwDi0ZO6Nfe9A=="
+    },
+    {
+      "package_path": "node_modules/@esbuild/linux-ia32",
+      "name": "@esbuild/linux-ia32",
+      "version": "0.27.7",
+      "license": "MIT",
+      "dev": false,
+      "optional": true,
+      "resolved": "https://registry.npmmirror.com/@esbuild/linux-ia32/-/linux-ia32-0.27.7.tgz",
+      "integrity": "sha512-GA48aKNkyQDbd3KtkplYWT102C5sn/EZTY4XROkxONgruHPU72l+gW+FfF8tf2cFjeHaRbWpOYa/uRBz/Xq1Pg=="
+    },
+    {
+      "package_path": "node_modules/@esbuild/linux-loong64",
+      "name": "@esbuild/linux-loong64",
+      "version": "0.27.7",
+      "license": "MIT",
+      "dev": false,
+      "optional": true,
+      "resolved": "https://registry.npmmirror.com/@esbuild/linux-loong64/-/linux-loong64-0.27.7.tgz",
+      "integrity": "sha512-a4POruNM2oWsD4WKvBSEKGIiWQF8fZOAsycHOt6JBpZ+JN2n2JH9WAv56SOyu9X5IqAjqSIPTaJkqN8F7XOQ5Q=="
+    },
+    {
+      "package_path": "node_modules/@esbuild/linux-mips64el",
+      "name": "@esbuild/linux-mips64el",
+      "version": "0.27.7",
+      "license": "MIT",
+      "dev": false,
+      "optional": true,
+      "resolved": "https://registry.npmmirror.com/@esbuild/linux-mips64el/-/linux-mips64el-0.27.7.tgz",
+      "integrity": "sha512-KabT5I6StirGfIz0FMgl1I+R1H73Gp0ofL9A3nG3i/cYFJzKHhouBV5VWK1CSgKvVaG4q1RNpCTR2LuTVB3fIw=="
+    },
+    {
+      "package_path": "node_modules/@esbuild/linux-ppc64",
+      "name": "@esbuild/linux-ppc64",
+      "version": "0.27.7",
+      "license": "MIT",
+      "dev": false,
+      "optional": true,
+      "resolved": "https://registry.npmmirror.com/@esbuild/linux-ppc64/-/linux-ppc64-0.27.7.tgz",
+      "integrity": "sha512-gRsL4x6wsGHGRqhtI+ifpN/vpOFTQtnbsupUF5R5YTAg+y/lKelYR1hXbnBdzDjGbMYjVJLJTd2OFmMewAgwlQ=="
+    },
+    {
+      "package_path": "node_modules/@esbuild/linux-riscv64",
+      "name": "@esbuild/linux-riscv64",
+      "version": "0.27.7",
+      "license": "MIT",
+      "dev": false,
+      "optional": true,
+      "resolved": "https://registry.npmmirror.com/@esbuild/linux-riscv64/-/linux-riscv64-0.27.7.tgz",
+      "integrity": "sha512-hL25LbxO1QOngGzu2U5xeXtxXcW+/GvMN3ejANqXkxZ/opySAZMrc+9LY/WyjAan41unrR3YrmtTsUpwT66InQ=="
+    },
+    {
+      "package_path": "node_modules/@esbuild/linux-s390x",
+      "name": "@esbuild/linux-s390x",
+      "version": "0.27.7",
+      "license": "MIT",
+      "dev": false,
+      "optional": true,
+      "resolved": "https://registry.npmmirror.com/@esbuild/linux-s390x/-/linux-s390x-0.27.7.tgz",
+      "integrity": "sha512-2k8go8Ycu1Kb46vEelhu1vqEP+UeRVj2zY1pSuPdgvbd5ykAw82Lrro28vXUrRmzEsUV0NzCf54yARIK8r0fdw=="
+    },
+    {
+      "package_path": "node_modules/@esbuild/linux-x64",
+      "name": "@esbuild/linux-x64",
+      "version": "0.27.7",
+      "license": "MIT",
+      "dev": false,
+      "optional": true,
+      "resolved": null,
+      "integrity": null
+    },
+    {
+      "package_path": "node_modules/@esbuild/netbsd-arm64",
+      "name": "@esbuild/netbsd-arm64",
+      "version": "0.27.7",
+      "license": "MIT",
+      "dev": false,
+      "optional": true,
+      "resolved": "https://registry.npmmirror.com/@esbuild/netbsd-arm64/-/netbsd-arm64-0.27.7.tgz",
+      "integrity": "sha512-b6pqtrQdigZBwZxAn1UpazEisvwaIDvdbMbmrly7cDTMFnw/+3lVxxCTGOrkPVnsYIosJJXAsILG9XcQS+Yu6w=="
+    },
+    {
+      "package_path": "node_modules/@esbuild/netbsd-x64",
+      "name": "@esbuild/netbsd-x64",
+      "version": "0.27.7",
+      "license": "MIT",
+      "dev": false,
+      "optional": true,
+      "resolved": "https://registry.npmmirror.com/@esbuild/netbsd-x64/-/netbsd-x64-0.27.7.tgz",
+      "integrity": "sha512-OfatkLojr6U+WN5EDYuoQhtM+1xco+/6FSzJJnuWiUw5eVcicbyK3dq5EeV/QHT1uy6GoDhGbFpprUiHUYggrw=="
+    },
+    {
+      "package_path": "node_modules/@esbuild/openbsd-arm64",
+      "name": "@esbuild/openbsd-arm64",
+      "version": "0.27.7",
+      "license": "MIT",
+      "dev": false,
+      "optional": true,
+      "resolved": "https://registry.npmmirror.com/@esbuild/openbsd-arm64/-/openbsd-arm64-0.27.7.tgz",
+      "integrity": "sha512-AFuojMQTxAz75Fo8idVcqoQWEHIXFRbOc1TrVcFSgCZtQfSdc1RXgB3tjOn/krRHENUB4j00bfGjyl2mJrU37A=="
+    },
+    {
+      "package_path": "node_modules/@esbuild/openbsd-x64",
+      "name": "@esbuild/openbsd-x64",
+      "version": "0.27.7",
+      "license": "MIT",
+      "dev": false,
+      "optional": true,
+      "resolved": "https://registry.npmmirror.com/@esbuild/openbsd-x64/-/openbsd-x64-0.27.7.tgz",
+      "integrity": "sha512-+A1NJmfM8WNDv5CLVQYJ5PshuRm/4cI6WMZRg1by1GwPIQPCTs1GLEUHwiiQGT5zDdyLiRM/l1G0Pv54gvtKIg=="
+    },
+    {
+      "package_path": "node_modules/@esbuild/openharmony-arm64",
+      "name": "@esbuild/openharmony-arm64",
+      "version": "0.27.7",
+      "license": "MIT",
+      "dev": false,
+      "optional": true,
+      "resolved": "https://registry.npmmirror.com/@esbuild/openharmony-arm64/-/openharmony-arm64-0.27.7.tgz",
+      "integrity": "sha512-+KrvYb/C8zA9CU/g0sR6w2RBw7IGc5J2BPnc3dYc5VJxHCSF1yNMxTV5LQ7GuKteQXZtspjFbiuW5/dOj7H4Yw=="
+    },
+    {
+      "package_path": "node_modules/@esbuild/sunos-x64",
+      "name": "@esbuild/sunos-x64",
+      "version": "0.27.7",
+      "license": "MIT",
+      "dev": false,
+      "optional": true,
+      "resolved": "https://registry.npmmirror.com/@esbuild/sunos-x64/-/sunos-x64-0.27.7.tgz",
+      "integrity": "sha512-ikktIhFBzQNt/QDyOL580ti9+5mL/YZeUPKU2ivGtGjdTYoqz6jObj6nOMfhASpS4GU4Q/Clh1QtxWAvcYKamA=="
+    },
+    {
+      "package_path": "node_modules/@esbuild/win32-arm64",
+      "name": "@esbuild/win32-arm64",
+      "version": "0.27.7",
+      "license": "MIT",
+      "dev": false,
+      "optional": true,
+      "resolved": "https://registry.npmmirror.com/@esbuild/win32-arm64/-/win32-arm64-0.27.7.tgz",
+      "integrity": "sha512-7yRhbHvPqSpRUV7Q20VuDwbjW5kIMwTHpptuUzV+AA46kiPze5Z7qgt6CLCK3pWFrHeNfDd1VKgyP4O+ng17CA=="
+    },
+    {
+      "package_path": "node_modules/@esbuild/win32-ia32",
+      "name": "@esbuild/win32-ia32",
+      "version": "0.27.7",
+      "license": "MIT",
+      "dev": false,
+      "optional": true,
+      "resolved": "https://registry.npmmirror.com/@esbuild/win32-ia32/-/win32-ia32-0.27.7.tgz",
+      "integrity": "sha512-SmwKXe6VHIyZYbBLJrhOoCJRB/Z1tckzmgTLfFYOfpMAx63BJEaL9ExI8x7v0oAO3Zh6D/Oi1gVxEYr5oUCFhw=="
+    },
+    {
+      "package_path": "node_modules/@esbuild/win32-x64",
+      "name": "@esbuild/win32-x64",
+      "version": "0.27.7",
+      "license": "MIT",
+      "dev": false,
+      "optional": true,
+      "resolved": "https://registry.npmmirror.com/@esbuild/win32-x64/-/win32-x64-0.27.7.tgz",
+      "integrity": "sha512-56hiAJPhwQ1R4i+21FVF7V8kSD5zZTdHcVuRFMW0hn753vVfQN8xlx4uOPT4xoGH0Z/oVATuR82AiqSTDIpaHg=="
+    },
+    {
+      "package_path": "node_modules/@jridgewell/sourcemap-codec",
+      "name": "@jridgewell/sourcemap-codec",
+      "version": "1.5.5",
+      "license": "MIT",
+      "dev": false,
+      "optional": false,
+      "resolved": null,
+      "integrity": null
+    },
+    {
+      "package_path": "node_modules/@rollup/rollup-android-arm-eabi",
+      "name": "@rollup/rollup-android-arm-eabi",
+      "version": "4.61.1",
+      "license": "MIT",
+      "dev": false,
+      "optional": true,
+      "resolved": "https://registry.npmmirror.com/@rollup/rollup-android-arm-eabi/-/rollup-android-arm-eabi-4.61.1.tgz",
+      "integrity": "sha512-JnBB8MdXj45cajvTuO5FmPlvFVJRQgvrz1uSEl3NwqFnReAPGwb8EanbGi4z2nRaqLzjJSv5/JmycoTKlRZxHA=="
+    },
+    {
+      "package_path": "node_modules/@rollup/rollup-android-arm64",
+      "name": "@rollup/rollup-android-arm64",
+      "version": "4.61.1",
+      "license": "MIT",
+      "dev": false,
+      "optional": true,
+      "resolved": "https://registry.npmmirror.com/@rollup/rollup-android-arm64/-/rollup-android-arm64-4.61.1.tgz",
+      "integrity": "sha512-Jx2g7iSjw4AOT0HDPHM9RV3GNjRXwybWtSFZiZAYUTjUwjVrYIwq3kBf+LnhqJlzXFAqTAh2F7IGI+O568exPw=="
+    },
+    {
+      "package_path": "node_modules/@rollup/rollup-darwin-arm64",
+      "name": "@rollup/rollup-darwin-arm64",
+      "version": "4.61.1",
+      "license": "MIT",
+      "dev": false,
+      "optional": true,
+      "resolved": "https://registry.npmmirror.com/@rollup/rollup-darwin-arm64/-/rollup-darwin-arm64-4.61.1.tgz",
+      "integrity": "sha512-0F1L/Z3Eqv8mT2n3dCpeO8GcTvHvVqkP5/t6DMsn0KzhYVcg+s7Ncl5DS8qjKYEeio6Az0Gt6nyBORay5qIlCA=="
+    },
+    {
+      "package_path": "node_modules/@rollup/rollup-darwin-x64",
+      "name": "@rollup/rollup-darwin-x64",
+      "version": "4.61.1",
+      "license": "MIT",
+      "dev": false,
+      "optional": true,
+      "resolved": "https://registry.npmmirror.com/@rollup/rollup-darwin-x64/-/rollup-darwin-x64-4.61.1.tgz",
+      "integrity": "sha512-qLttcH871ujY4YcVfUSShhOw+CsoTatYz8gRbHO7Bb92QH059/P0y5do1KMs41fY0BpD2x4AJH/gID0zFiqVKQ=="
+    },
+    {
+      "package_path": "node_modules/@rollup/rollup-freebsd-arm64",
+      "name": "@rollup/rollup-freebsd-arm64",
+      "version": "4.61.1",
+      "license": "MIT",
+      "dev": false,
+      "optional": true,
+      "resolved": "https://registry.npmmirror.com/@rollup/rollup-freebsd-arm64/-/rollup-freebsd-arm64-4.61.1.tgz",
+      "integrity": "sha512-fUI4RapGE0Oh3mb8mgfvC1O2nU1RpDZUKnDQm3xB1Ipg7C2wTs5Kstz7G2uWK99a8S2yTMq8/P4uycwNa0nJyw=="
+    },
+    {
+      "package_path": "node_modules/@rollup/rollup-freebsd-x64",
+      "name": "@rollup/rollup-freebsd-x64",
+      "version": "4.61.1",
+      "license": "MIT",
+      "dev": false,
+      "optional": true,
+      "resolved": "https://registry.npmmirror.com/@rollup/rollup-freebsd-x64/-/rollup-freebsd-x64-4.61.1.tgz",
+      "integrity": "sha512-H5YrdvJaDtI/U9/emrD4b++xkvp3y/JvOe4rizHbxvkyMfRS/CiRYdji+Pl8D0brEaNFWUh1drQxgAGIl6Xudw=="
+    },
+    {
+      "package_path": "node_modules/@rollup/rollup-linux-arm-gnueabihf",
+      "name": "@rollup/rollup-linux-arm-gnueabihf",
+      "version": "4.61.1",
+      "license": "MIT",
+      "dev": false,
+      "optional": true,
+      "resolved": "https://registry.npmmirror.com/@rollup/rollup-linux-arm-gnueabihf/-/rollup-linux-arm-gnueabihf-4.61.1.tgz",
+      "integrity": "sha512-Q8CBCCQtDFrYtXoeUXSrnFXKOnyUhx6bz+SkL6A0E7V8kAiCJ5pamq1WtbfpVGhR5TSpXY6ak3avmDc5fHTyJA=="
+    },
+    {
+      "package_path": "node_modules/@rollup/rollup-linux-arm-musleabihf",
+      "name": "@rollup/rollup-linux-arm-musleabihf",
+      "version": "4.61.1",
+      "license": "MIT",
+      "dev": false,
+      "optional": true,
+      "resolved": "https://registry.npmmirror.com/@rollup/rollup-linux-arm-musleabihf/-/rollup-linux-arm-musleabihf-4.61.1.tgz",
+      "integrity": "sha512-nwnhk1581l0FBVellGcVCAT0Oi06onEA3WB53sf01VO3I0UPBkMH9sXONYME2K0ovXcNayJfNtHfm6mpJElatQ=="
+    },
+    {
+      "package_path": "node_modules/@rollup/rollup-linux-arm64-gnu",
+      "name": "@rollup/rollup-linux-arm64-gnu",
+      "version": "4.61.1",
+      "license": "MIT",
+      "dev": false,
+      "optional": true,
+      "resolved": "https://registry.npmmirror.com/@rollup/rollup-linux-arm64-gnu/-/rollup-linux-arm64-gnu-4.61.1.tgz",
+      "integrity": "sha512-x5Xr49hwt3hdW75UOZm3395YwwzPyauktslv29KpWL/T+vVAzoT3azLcTWv0eMciBNrx+DYjH4paehHoLpPvpg=="
+    },
+    {
+      "package_path": "node_modules/@rollup/rollup-linux-arm64-musl",
+      "name": "@rollup/rollup-linux-arm64-musl",
+      "version": "4.61.1",
+      "license": "MIT",
+      "dev": false,
+      "optional": true,
+      "resolved": "https://registry.npmmirror.com/@rollup/rollup-linux-arm64-musl/-/rollup-linux-arm64-musl-4.61.1.tgz",
+      "integrity": "sha512-unMS3H73DpaoPyyEVPjGKleM/s0mkmsauTENpw4INQY8y4+IuLNjkueQ5QCtC0D3N38Y38yhAU8OoZ20S2Tm6w=="
+    },
+    {
+      "package_path": "node_modules/@rollup/rollup-linux-loong64-gnu",
+      "name": "@rollup/rollup-linux-loong64-gnu",
+      "version": "4.61.1",
+      "license": "MIT",
+      "dev": false,
+      "optional": true,
+      "resolved": "https://registry.npmmirror.com/@rollup/rollup-linux-loong64-gnu/-/rollup-linux-loong64-gnu-4.61.1.tgz",
+      "integrity": "sha512-zNZzGRnAhwjFEYmvphJRV5XaQGjs62cCmeYYHUT//NbvEnHauw+I85nGG+SiVg5ld4GX8D1IbKIX+ozITQnhMQ=="
+    },
+    {
+      "package_path": "node_modules/@rollup/rollup-linux-loong64-musl",
+      "name": "@rollup/rollup-linux-loong64-musl",
+      "version": "4.61.1",
+      "license": "MIT",
+      "dev": false,
+      "optional": true,
+      "resolved": "https://registry.npmmirror.com/@rollup/rollup-linux-loong64-musl/-/rollup-linux-loong64-musl-4.61.1.tgz",
+      "integrity": "sha512-LdpWGL8X209B2SIvWjqlc8VZgM6PKfontSerGepuldQmHYrAOtnMCXeJkxXGbC+PPZVOuu5czJo7fNV6aeW8rQ=="
+    },
+    {
+      "package_path": "node_modules/@rollup/rollup-linux-ppc64-gnu",
+      "name": "@rollup/rollup-linux-ppc64-gnu",
+      "version": "4.61.1",
+      "license": "MIT",
+      "dev": false,
+      "optional": true,
+      "resolved": "https://registry.npmmirror.com/@rollup/rollup-linux-ppc64-gnu/-/rollup-linux-ppc64-gnu-4.61.1.tgz",
+      "integrity": "sha512-EC5kTtNaNGOmbMGqar8dvJy6y/hg99GAwjfBz++pxZhQATXGcRjd6c5en5wcbru0vkRmiMGsQKdMJOOf6sza4g=="
+    },
+    {
+      "package_path": "node_modules/@rollup/rollup-linux-ppc64-musl",
+      "name": "@rollup/rollup-linux-ppc64-musl",
+      "version": "4.61.1",
+      "license": "MIT",
+      "dev": false,
+      "optional": true,
+      "resolved": "https://registry.npmmirror.com/@rollup/rollup-linux-ppc64-musl/-/rollup-linux-ppc64-musl-4.61.1.tgz",
+      "integrity": "sha512-8hiwp6D4acEcNK78I4rP0/XtS1sknWIAMJBPdR4l6zUtyTm5KiTDr5bXmWt4foY7nAN7AThDHgkLIEZOWKbzWw=="
+    },
+    {
+      "package_path": "node_modules/@rollup/rollup-linux-riscv64-gnu",
+      "name": "@rollup/rollup-linux-riscv64-gnu",
+      "version": "4.61.1",
+      "license": "MIT",
+      "dev": false,
+      "optional": true,
+      "resolved": "https://registry.npmmirror.com/@rollup/rollup-linux-riscv64-gnu/-/rollup-linux-riscv64-gnu-4.61.1.tgz",
+      "integrity": "sha512-10dh/h/BqA7DuMPWSxkR8uks18FRwnwOEqr5zOTEl+NOwP/OMzKX8OFR/Of9xxDA7D5qef1Nzar5WDD2kCCr1g=="
+    },
+    {
+      "package_path": "node_modules/@rollup/rollup-linux-riscv64-musl",
+      "name": "@rollup/rollup-linux-riscv64-musl",
+      "version": "4.61.1",
+      "license": "MIT",
+      "dev": false,
+      "optional": true,
+      "resolved": "https://registry.npmmirror.com/@rollup/rollup-linux-riscv64-musl/-/rollup-linux-riscv64-musl-4.61.1.tgz",
+      "integrity": "sha512-YKJ5lg35DP17gcAOggnihe+APw9HLyj1Xn7gsmGumBJAUDa6NGXNixJzmkWLhcK9TOuuyQjdamzvJefkO7qHZQ=="
+    },
+    {
+      "package_path": "node_modules/@rollup/rollup-linux-s390x-gnu",
+      "name": "@rollup/rollup-linux-s390x-gnu",
+      "version": "4.61.1",
+      "license": "MIT",
+      "dev": false,
+      "optional": true,
+      "resolved": "https://registry.npmmirror.com/@rollup/rollup-linux-s390x-gnu/-/rollup-linux-s390x-gnu-4.61.1.tgz",
+      "integrity": "sha512-Mlil5G2Jj6a7B3LWGctg+XPL9vdXYuzCtNXfxOQ0nPjc2m6ueUktocPGH9bnAM0bNRKb/bAWTujUU7IJQdQA+g=="
+    },
+    {
+      "package_path": "node_modules/@rollup/rollup-linux-x64-gnu",
+      "name": "@rollup/rollup-linux-x64-gnu",
+      "version": "4.61.1",
+      "license": "MIT",
+      "dev": false,
+      "optional": true,
+      "resolved": null,
+      "integrity": null
+    },
+    {
+      "package_path": "node_modules/@rollup/rollup-linux-x64-musl",
+      "name": "@rollup/rollup-linux-x64-musl",
+      "version": "4.61.1",
+      "license": "MIT",
+      "dev": false,
+      "optional": true,
+      "resolved": "https://registry.npmmirror.com/@rollup/rollup-linux-x64-musl/-/rollup-linux-x64-musl-4.61.1.tgz",
+      "integrity": "sha512-qy5pBvZbqNFheBz61R1rzsezjm0J7O2oNGoWtGoY89SZYLUfxAJTBAqDChqAIdB4rCiIbi9nF7yZ83GnNiLwSw=="
+    },
+    {
+      "package_path": "node_modules/@rollup/rollup-openbsd-x64",
+      "name": "@rollup/rollup-openbsd-x64",
+      "version": "4.61.1",
+      "license": "MIT",
+      "dev": false,
+      "optional": true,
+      "resolved": "https://registry.npmmirror.com/@rollup/rollup-openbsd-x64/-/rollup-openbsd-x64-4.61.1.tgz",
+      "integrity": "sha512-E83TXjI4zm0+5f2qO+UOudaCYIhYwpJ5jq6YCZNIZ+6CbfhKrkAGezeiASBL9ElxAxFsRS9ZhESv8mfnj6TKeg=="
+    },
+    {
+      "package_path": "node_modules/@rollup/rollup-openharmony-arm64",
+      "name": "@rollup/rollup-openharmony-arm64",
+      "version": "4.61.1",
+      "license": "MIT",
+      "dev": false,
+      "optional": true,
+      "resolved": "https://registry.npmmirror.com/@rollup/rollup-openharmony-arm64/-/rollup-openharmony-arm64-4.61.1.tgz",
+      "integrity": "sha512-fbWnKqVkjrJN38vNe3ahkbk6iejS/3b0Nt7EEtPpE6RBacZcGXNKbzfHN3GUUlXOPghUg0j6XUGrtjX9z1sIvA=="
+    },
+    {
+      "package_path": "node_modules/@rollup/rollup-win32-arm64-msvc",
+      "name": "@rollup/rollup-win32-arm64-msvc",
+      "version": "4.61.1",
+      "license": "MIT",
+      "dev": false,
+      "optional": true,
+      "resolved": "https://registry.npmmirror.com/@rollup/rollup-win32-arm64-msvc/-/rollup-win32-arm64-msvc-4.61.1.tgz",
+      "integrity": "sha512-ArMl38iVAbk0New1ogihQNY6iphLi4ZaRsa037gUzv5yeKPY8TD3Dmy4x2RNC1VztU/uqm+G+/RwFrSka3Oy2g=="
+    },
+    {
+      "package_path": "node_modules/@rollup/rollup-win32-ia32-msvc",
+      "name": "@rollup/rollup-win32-ia32-msvc",
+      "version": "4.61.1",
+      "license": "MIT",
+      "dev": false,
+      "optional": true,
+      "resolved": "https://registry.npmmirror.com/@rollup/rollup-win32-ia32-msvc/-/rollup-win32-ia32-msvc-4.61.1.tgz",
+      "integrity": "sha512-0mYtjHS9ucAbcATycCNK9IGBk/cCe/ma7EmSLGZdsxnOA8cjRIyU04wDpVAD9NiOfLUR9KTxdiO53uOkherqjQ=="
+    },
+    {
+      "package_path": "node_modules/@rollup/rollup-win32-x64-gnu",
+      "name": "@rollup/rollup-win32-x64-gnu",
+      "version": "4.61.1",
+      "license": "MIT",
+      "dev": false,
+      "optional": true,
+      "resolved": "https://registry.npmmirror.com/@rollup/rollup-win32-x64-gnu/-/rollup-win32-x64-gnu-4.61.1.tgz",
+      "integrity": "sha512-gK1iCEPfpoSG9wfBihXxvBMi8ZfcWffYkEsC/Eih+iFENTaewvNcrEQ69lIOWYO5pePHKLHHO7nq5AILGO/HQQ=="
+    },
+    {
+      "package_path": "node_modules/@rollup/rollup-win32-x64-msvc",
+      "name": "@rollup/rollup-win32-x64-msvc",
+      "version": "4.61.1",
+      "license": "MIT",
+      "dev": false,
+      "optional": true,
+      "resolved": "https://registry.npmmirror.com/@rollup/rollup-win32-x64-msvc/-/rollup-win32-x64-msvc-4.61.1.tgz",
+      "integrity": "sha512-X+zaP2x+j4RXGfbp/seSoRHWnPxzApilDszisZxbYH5C/jTxFhCtDNdPGZb9lJyYPs24wGxruPF7Y+sIXt9Gzw=="
+    },
+    {
+      "package_path": "node_modules/@types/estree",
+      "name": "@types/estree",
+      "version": "1.0.9",
+      "license": "MIT",
+      "dev": false,
+      "optional": false,
+      "resolved": null,
+      "integrity": null
+    },
+    {
+      "package_path": "node_modules/@vitejs/plugin-vue",
+      "name": "@vitejs/plugin-vue",
+      "version": "6.0.7",
+      "license": "MIT",
+      "dev": false,
+      "optional": false,
+      "resolved": "https://registry.npmmirror.com/@vitejs/plugin-vue/-/plugin-vue-6.0.7.tgz",
+      "integrity": "sha512-km+p+XdSz9Sxm5rqUbqcSfZYaAniKxWBj1KURl+Jr7UaPvvX7BmaWMdP69I5rrFDeQGyxAG7NXdc57vz+snhWg=="
+    },
+    {
+      "package_path": "node_modules/@vitejs/plugin-vue/node_modules/@rolldown/pluginutils",
+      "name": "@rolldown/pluginutils",
+      "version": "1.0.1",
+      "license": "MIT",
+      "dev": false,
+      "optional": false,
+      "resolved": "https://registry.npmmirror.com/@rolldown/pluginutils/-/pluginutils-1.0.1.tgz",
+      "integrity": "sha512-2j9bGt5Jh8hj+vPtgzPtl72j0yRxHAyumoo6TNfAjsLB04UtpSvPbPcDcBMxz7n+9CYB0c1GxQFxYRg2jimqGw=="
+    },
+    {
+      "package_path": "node_modules/@vue/compiler-core",
+      "name": "@vue/compiler-core",
+      "version": "3.5.38",
+      "license": "MIT",
+      "dev": false,
+      "optional": false,
+      "resolved": "https://registry.npmmirror.com/@vue/compiler-core/-/compiler-core-3.5.38.tgz",
+      "integrity": "sha512-s99aGxWYig9ErHbct27KXEGhrBYlRI6c4MwAgXErOAbX9xiW37/uMa+XUDO69zLz83dng8UUZ70CTOJrLrYrEQ=="
+    },
+    {
+      "package_path": "node_modules/@vue/compiler-core/node_modules/entities",
+      "name": "entities",
+      "version": "7.0.1",
+      "license": "BSD-2-Clause",
+      "dev": false,
+      "optional": false,
+      "resolved": "https://registry.npmmirror.com/entities/-/entities-7.0.1.tgz",
+      "integrity": "sha512-TWrgLOFUQTH994YUyl1yT4uyavY5nNB5muff+RtWaqNVCAK408b5ZnnbNAUEWLTCpum9w6arT70i1XdQ4UeOPA=="
+    },
+    {
+      "package_path": "node_modules/@vue/compiler-dom",
+      "name": "@vue/compiler-dom",
+      "version": "3.5.38",
+      "license": "MIT",
+      "dev": false,
+      "optional": false,
+      "resolved": "https://registry.npmmirror.com/@vue/compiler-dom/-/compiler-dom-3.5.38.tgz",
+      "integrity": "sha512-JTqp25l8aFfJYF7/KmsXZjAxJz7T+SjmTJLoXVjHtc2BrSgSiW2n9Aem/cWq1OPe68A8JL06B3eVdhlP0H4TVw=="
+    },
+    {
+      "package_path": "node_modules/@vue/compiler-sfc",
+      "name": "@vue/compiler-sfc",
+      "version": "3.5.38",
+      "license": "MIT",
+      "dev": false,
+      "optional": false,
+      "resolved": "https://registry.npmmirror.com/@vue/compiler-sfc/-/compiler-sfc-3.5.38.tgz",
+      "integrity": "sha512-DuA2GiZawSEW442iw/9+Fkol8hTgb4Ke5KkhmSry65QA7YuyMbIdy8p0XZRMvNwJdgRz307W8g1CSzdvS4nuNg=="
+    },
+    {
+      "package_path": "node_modules/@vue/compiler-ssr",
+      "name": "@vue/compiler-ssr",
+      "version": "3.5.38",
+      "license": "MIT",
+      "dev": false,
+      "optional": false,
+      "resolved": "https://registry.npmmirror.com/@vue/compiler-ssr/-/compiler-ssr-3.5.38.tgz",
+      "integrity": "sha512-7s+W5Gc42FGxZMcuwl8H5B29T8BJPMdBT7KHFE+BbAuZ/iTEdTtv7z2XiMjiaUUw4w3ZcCEdHs36RuYJ2VA7bA=="
+    },
+    {
+      "package_path": "node_modules/@vue/reactivity",
+      "name": "@vue/reactivity",
+      "version": "3.5.38",
+      "license": "MIT",
+      "dev": false,
+      "optional": false,
+      "resolved": "https://registry.npmmirror.com/@vue/reactivity/-/reactivity-3.5.38.tgz",
+      "integrity": "sha512-pG6LV/NDNRbKizcUjFFLAfjaL8mcv4DmR9avNcUw2gDHBzZneuS2TWCmp633ynzxz9YYKNeEPK2I8Wraqy2HUQ=="
+    },
+    {
+      "package_path": "node_modules/@vue/runtime-core",
+      "name": "@vue/runtime-core",
+      "version": "3.5.38",
+      "license": "MIT",
+      "dev": false,
+      "optional": false,
+      "resolved": "https://registry.npmmirror.com/@vue/runtime-core/-/runtime-core-3.5.38.tgz",
+      "integrity": "sha512-iyW8WVfF1CpCXxncZY5Ei6rSd6oZr5DgEom//fUjRBRl56AXPD+s9ATvukRt77ZFTuYlnVA1bxY+dJB94tWVYw=="
+    },
+    {
+      "package_path": "node_modules/@vue/runtime-dom",
+      "name": "@vue/runtime-dom",
+      "version": "3.5.38",
+      "license": "MIT",
+      "dev": false,
+      "optional": false,
+      "resolved": "https://registry.npmmirror.com/@vue/runtime-dom/-/runtime-dom-3.5.38.tgz",
+      "integrity": "sha512-apX2wt9sdfDshS+a2xueFZLVpt0GkRJZSoPmrW/SA4yzXTznhfcMVW59gr7h4YQeY0vJhdJkk2rsIDwgfFgC5A=="
+    },
+    {
+      "package_path": "node_modules/@vue/server-renderer",
+      "name": "@vue/server-renderer",
+      "version": "3.5.38",
+      "license": "MIT",
+      "dev": false,
+      "optional": false,
+      "resolved": "https://registry.npmmirror.com/@vue/server-renderer/-/server-renderer-3.5.38.tgz",
+      "integrity": "sha512-vue8vbf2QlV4quHqzwmJy6dWfmRhP1J8l4wtZg60CL6VoKqcPY2oe7may3+1d9qfpedjK5PRLFqd5k3Isj9mUw=="
+    },
+    {
+      "package_path": "node_modules/@vue/shared",
+      "name": "@vue/shared",
+      "version": "3.5.38",
+      "license": "MIT",
+      "dev": false,
+      "optional": false,
+      "resolved": "https://registry.npmmirror.com/@vue/shared/-/shared-3.5.38.tgz",
+      "integrity": "sha512-FTW0AFZNaK5/mOqvGBwVfUlNLU38TiQn4+DQgIFUnrBBJQ1crMJ82yeGQLV5jyKFsO8yRukpbuP7x+nRbH6aug=="
+    },
+    {
+      "package_path": "node_modules/csstype",
+      "name": "csstype",
+      "version": "3.2.3",
+      "license": "MIT",
+      "dev": false,
+      "optional": false,
+      "resolved": null,
+      "integrity": null
+    },
+    {
+      "package_path": "node_modules/esbuild",
+      "name": "esbuild",
+      "version": "0.27.7",
+      "license": "MIT",
+      "dev": false,
+      "optional": false,
+      "resolved": null,
+      "integrity": null
+    },
+    {
+      "package_path": "node_modules/estree-walker",
+      "name": "estree-walker",
+      "version": "2.0.2",
+      "license": "MIT",
+      "dev": false,
+      "optional": false,
+      "resolved": "https://registry.npmmirror.com/estree-walker/-/estree-walker-2.0.2.tgz",
+      "integrity": "sha512-Rfkk/Mp/DL7JVje3u18FxFujQlTNR2q6QfMSMB7AvCBx91NGj/ba3kCfza0f6dVDbw7YlRf/nDrn7pQrCCyQ/w=="
+    },
+    {
+      "package_path": "node_modules/fdir",
+      "name": "fdir",
+      "version": "6.5.0",
+      "license": "MIT",
+      "dev": false,
+      "optional": false,
+      "resolved": null,
+      "integrity": null
+    },
+    {
+      "package_path": "node_modules/fsevents",
+      "name": "fsevents",
+      "version": "2.3.3",
+      "license": "MIT",
+      "dev": false,
+      "optional": true,
+      "resolved": "https://registry.npmmirror.com/fsevents/-/fsevents-2.3.3.tgz",
+      "integrity": "sha512-5xoDfX+fL7faATnagmWPpbFtwh/R77WmMMqqHGS65C3vvB0YHrgF+B1YmZ3441tMj5n63k0212XNoJwzlhffQw=="
+    },
+    {
+      "package_path": "node_modules/magic-string",
+      "name": "magic-string",
+      "version": "0.30.21",
+      "license": "MIT",
+      "dev": false,
+      "optional": false,
+      "resolved": null,
+      "integrity": null
+    },
+    {
+      "package_path": "node_modules/picocolors",
+      "name": "picocolors",
+      "version": "1.1.1",
+      "license": "ISC",
+      "dev": false,
+      "optional": false,
+      "resolved": null,
+      "integrity": null
+    },
+    {
+      "package_path": "node_modules/postcss",
+      "name": "postcss",
+      "version": "8.5.15",
+      "license": "MIT",
+      "dev": false,
+      "optional": false,
+      "resolved": null,
+      "integrity": null
+    },
+    {
+      "package_path": "node_modules/postcss/node_modules/nanoid",
+      "name": "nanoid",
+      "version": "3.3.12",
+      "license": "MIT",
+      "dev": false,
+      "optional": false,
+      "resolved": null,
+      "integrity": null
+    },
+    {
+      "package_path": "node_modules/rollup",
+      "name": "rollup",
+      "version": "4.61.1",
+      "license": "MIT",
+      "dev": false,
+      "optional": false,
+      "resolved": null,
+      "integrity": null
+    },
+    {
+      "package_path": "node_modules/source-map-js",
+      "name": "source-map-js",
+      "version": "1.2.1",
+      "license": "BSD-3-Clause",
+      "dev": false,
+      "optional": false,
+      "resolved": null,
+      "integrity": null
+    },
+    {
+      "package_path": "node_modules/tinyglobby",
+      "name": "tinyglobby",
+      "version": "0.2.17",
+      "license": "MIT",
+      "dev": false,
+      "optional": false,
+      "resolved": null,
+      "integrity": null
+    },
+    {
+      "package_path": "node_modules/tinyglobby/node_modules/picomatch",
+      "name": "picomatch",
+      "version": "4.0.4",
+      "license": "MIT",
+      "dev": false,
+      "optional": false,
+      "resolved": null,
+      "integrity": null
+    },
+    {
+      "package_path": "node_modules/vite",
+      "name": "vite",
+      "version": "7.3.5",
+      "license": "MIT",
+      "dev": false,
+      "optional": false,
+      "resolved": null,
+      "integrity": null
+    },
+    {
+      "package_path": "node_modules/vite/node_modules/picomatch",
+      "name": "picomatch",
+      "version": "4.0.4",
+      "license": "MIT",
+      "dev": false,
+      "optional": false,
+      "resolved": null,
+      "integrity": null
+    },
+    {
+      "package_path": "node_modules/vue",
+      "name": "vue",
+      "version": "3.5.38",
+      "license": "MIT",
+      "dev": false,
+      "optional": false,
+      "resolved": "https://registry.npmmirror.com/vue/-/vue-3.5.38.tgz",
+      "integrity": "sha512-vAMKHfImQlYSy0C+PBue4s3ERZ2xGKfgZg5GXAsLInq1dyh2H78ILVP5sK0KPFPVW4kv+OGCIvBEondcjpZp7A=="
+    }
+  ],
+  "metadata_is_not_a_license_compatibility_opinion": true
+}

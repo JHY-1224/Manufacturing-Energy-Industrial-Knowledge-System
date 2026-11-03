@@ -1,1 +1,1 @@
-"""FastAPI backend package for Vernova RAG."""
+"""制造能源工业知识库系统的 FastAPI 后端。"""

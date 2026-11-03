@@ -1,4 +1,4 @@
-# Sample Energy RAG Experiment Report
+# 制造能源工业知识库系统 · 示例评估报告
 
 ## Recommended baseline
 

@@ -9,7 +9,8 @@ try:
     import uvicorn
     from fastapi import FastAPI, HTTPException, Query, Request
     from fastapi.middleware.cors import CORSMiddleware
-    from pydantic import BaseModel
+    from pydantic import BaseModel, Field
+    from typing import Literal
 except ModuleNotFoundError as exc:
     missing = exc.name or "fastapi"
     print(f"Missing Python package: {missing}")
@@ -19,29 +20,31 @@ except ModuleNotFoundError as exc:
 
 
 class ChatRequest(BaseModel):
-    question: str
+    runtime_mode: Literal["offline", "configured"] = "offline"
+    question: str = Field(min_length=1, max_length=16000)
     scenario: str = "wind_oam"
 
 
 class ProcessDocumentRequest(BaseModel):
     chunk_mode: str = "parent_child"
-    chunk_size: int = 700
-    chunk_overlap: int = 120
+    chunk_size: int = Field(default=700, ge=200, le=16000)
+    chunk_overlap: int = Field(default=120, ge=0, le=8000)
     embedding_model: str = "bge-large-zh-v1.5"
     retrieval_mode: str = "hybrid_rerank"
-    vector_top_k: int = 20
-    final_top_k: int = 5
+    vector_top_k: int = Field(default=20, ge=1, le=100)
+    final_top_k: int = Field(default=5, ge=1, le=100)
     enable_rerank: bool = True
     rerank_model: str = "bge-reranker-v2-m3"
 
 
 class RetrievalRequest(BaseModel):
-    query: str
-    mode: str = "hybrid_rerank"
+    query: str = Field(min_length=1, max_length=16000)
+    runtime_mode: Literal["offline", "configured"] = "offline"
+    mode: Literal["hybrid_rerank", "hybrid", "bm25", "vector", "parent_child", "parent_child_hybrid", "summary", "rag_fusion"] = "hybrid_rerank"
     domain: str = "all"
     doc_type: str = "all"
-    vector_top_k: int = 20
-    final_top_k: int = 5
+    vector_top_k: int = Field(default=20, ge=1, le=100)
+    final_top_k: int = Field(default=5, ge=1, le=100)
     enable_rerank: bool = True
 
 
@@ -526,71 +529,39 @@ def score_chunk(query: str, chunk: dict, mode: str, enable_rerank: bool) -> dict
 
 
 def run_retrieval(payload: RetrievalRequest) -> dict:
-    items = CHUNKS
+    from app.core.models import QueryRequest, QueryOptions
+    from app.core.engine import DOMAIN_NAMES
+    filters = {}
     if payload.domain != "all":
-        items = [item for item in items if item["domain"] == payload.domain]
+        filters["domain"] = DOMAIN_NAMES.get(payload.domain, payload.domain)
     if payload.doc_type != "all":
-        items = [item for item in items if item["doc_type"] == payload.doc_type]
-    scored = [score_chunk(payload.query, item, payload.mode, payload.enable_rerank) for item in items]
-    sort_key = "rerank_score" if payload.enable_rerank and "rerank" in payload.mode else "score"
-    ranked = sorted(scored, key=lambda item: item.get(sort_key, 0), reverse=True)[: payload.final_top_k]
-    return {
-        "query": payload.query,
-        "mode": payload.mode,
-        "items": [
-            {**item, "rank": index + 1, "citation_id": f"cite-{index + 1:03d}"}
-            for index, item in enumerate(ranked)
-        ],
-        "citationChain": ["QueryEngine", "Retriever", "NodeWithScore", "Source Node", "Document", "Metadata"],
-    }
+        filters["doc_type"] = payload.doc_type
+    mode = "hybrid" if payload.mode == "hybrid_rerank" else payload.mode
+    trace = knowledge_service().engine.query(QueryRequest(question=payload.query, options=QueryOptions(
+        runtime_mode=payload.runtime_mode, retrieval_mode=mode, top_k=payload.vector_top_k, final_top_k=payload.final_top_k,
+        rerank=payload.enable_rerank, metadata_filter=filters, metadata_router=False, query_transformation=False)))
+    return {"query": payload.query, "mode": payload.mode, "trace_id": trace.trace_id,
+        "items": [{"chunk_id": hit.chunk_id, "document_id": hit.doc_id, "chunk_content": hit.content,
+                   "source_file": hit.metadata.get("source", ""), "domain": hit.metadata.get("domain", ""),
+                   "doc_type": hit.metadata.get("doc_type", ""), "variables": hit.metadata.get("variables", []),
+                   "score": hit.score, "rerank_score": hit.rerank_score, "rank": hit.final_rank,
+                   "citation_id": hit.chunk_id, "metadata": hit.metadata} for hit in trace.reranked_docs],
+        "citationChain": ["QueryTrace", "Chunk", "Document", "Revision"], "runtime": trace.runtime}
+
+
+def knowledge_service():
+    from app.api.dependencies import service, bootstrap_legacy_chunks
+    bootstrap_legacy_chunks(CHUNKS)
+    return service
 
 
 def build_state() -> dict:
-    return {
-        "domains": DOMAINS,
-        "overview": {
-            "kpis": [
-                {"label": "知识条目", "value": len(KNOWLEDGE_ENTRIES), "delta": "Demo 知识资产"},
-                {"label": "入库文档", "value": len(DOCUMENTS), "delta": "支持本地上传"},
-                {"label": "Chunk 数量", "value": len(CHUNKS), "delta": "实时切分生成"},
-                {"label": "Metadata 标签", "value": len(METADATA_TAGS), "delta": "体系完整"},
-                {"label": "已索引 Chunk", "value": len([item for item in CHUNKS if item.get("vector_index_status") == "indexed"]), "delta": "VectorStoreIndex ready"},
-                {"label": "评估样本", "value": 125, "delta": "+5 本周新增"},
-                {"label": "Context Precision", "value": 0.81, "delta": "+0.03 vs 上周"},
-                {"label": "Faithfulness", "value": 0.87, "delta": "+0.02 vs 上周"},
-            ],
-            "pipelineStatus": [
-                ["Document Parse", "Active"],
-                ["Chunking", "Active"],
-                ["Embedding", "Configurable"],
-                ["Vector DB", "Milvus / Chroma / FAISS / Qdrant"],
-                ["BM25", "Enabled"],
-                ["RRF Fusion", "Enabled"],
-                ["Rerank", "Enabled"],
-                ["RAGAS Eval", "Enabled"],
-            ],
-            "recentDocumentJobs": VECTOR_CONFIG["jobs"],
-            "recentTests": [
-                {"question": "AccY 超限一般可能对应哪些风机振动问题？", "score": 0.91, "time": "2026-06-12 15:20"},
-                {"question": "lag_96 在负荷预测中代表什么？", "score": 0.86, "time": "2026-06-11 19:00"},
-                {"question": "SOC 和 SOH 有什么区别？", "score": 0.88, "time": "2026-06-10 10:45"},
-            ],
-        },
-        "knowledge": KNOWLEDGE_ENTRIES,
-        "documents": DOCUMENTS,
-        "chunks": CHUNKS,
-        "metadata": METADATA_TAGS,
-        "vectorConfig": VECTOR_CONFIG,
-        "evaluation": EVALUATION,
-        "runtime": RUNTIME,
-        "reports": REPORTS,
-        "uploadDir": str(UPLOAD_DIR),
-    }
+    return knowledge_service().state(DOMAINS, RUNTIME)
 
 
 app = FastAPI(
-    title="Energy O&M RAG System API",
-    description="FastAPI backend for a Windows-friendly Energy O&M RAG management platform demo.",
+    title="制造能源工业知识库系统 API",
+    description="面向制造业，兼顾能源与电气领域的知识库管理与检索 API；当前保留能源示例及离线回退实现。",
     version="1.0.0",
 )
 
@@ -605,7 +576,7 @@ app.add_middleware(
 
 @app.get("/")
 def root():
-    return {"name": "Energy O&M RAG System API", "status": "ok", "docs": "http://127.0.0.1:8000/docs"}
+    return {"name": "制造能源工业知识库系统 API", "status": "ok", "docs": "http://127.0.0.1:8000/docs"}
 
 
 @app.get("/api/health")
@@ -626,7 +597,7 @@ def overview():
 @app.get("/api/knowledge")
 def knowledge(domain: str | None = None, status: str | None = None, q: str = Query(default="")):
     q_lower = q.lower().strip()
-    data = KNOWLEDGE_ENTRIES
+    data = build_state()["knowledge"]
     if domain:
         data = [item for item in data if item["domain"] == domain]
     if status:
@@ -637,8 +608,14 @@ def knowledge(domain: str | None = None, status: str | None = None, q: str = Que
 
 
 @app.get("/api/documents")
-def documents():
-    return {"items": DOCUMENTS}
+def documents(page:int|None=None,page_size:int=Query(default=50,ge=1,le=100)):
+    service=knowledge_service()
+    if page is None:return {"items":service.documents()}
+    from app.storage.workbench_read import WorkbenchReadStore
+    if page<1:raise HTTPException(422,'Invalid page')
+    result=WorkbenchReadStore(service.store).documents(page,page_size)
+    result['items']=[service.document_view(d) for d in result['items']]
+    return result
 
 
 @app.post("/api/documents/upload")
@@ -648,117 +625,72 @@ async def upload_document(
     domain: str = Query(default="wind_oam"),
     doc_type: str = Query(default="general"),
 ):
-    ensure_upload_dir()
-    content = await request.body()
-    if not content:
-        raise HTTPException(status_code=400, detail="Uploaded file is empty")
-    stored_name = f"{datetime.now().strftime('%Y%m%d%H%M%S')}_{uuid4().hex[:8]}_{safe_filename(filename)}"
-    stored_path = UPLOAD_DIR / stored_name
-    stored_path.write_bytes(content)
-    parsed_text = preview_text_from_bytes(content, filename)
-    document_id = f"doc_upload_{uuid4().hex[:10]}"
-    document = {
-        "document_id": document_id,
-        "title": Path(filename).stem or filename,
-        "domain": domain,
-        "doc_type": doc_type,
-        "file_type": infer_file_type(filename),
-        "file_size": format_size(len(content)),
-        "version": "v1.0",
-        "status": "uploaded",
-        "chunk_count": 0,
-        "embedding_status": "pending",
-        "vector_index_status": "pending",
-        "created_at": now_text(),
-        "updated_at": now_text(),
-        "progress": 18,
-        "stored_filename": stored_name,
-        "local_path": str(stored_path),
-        "parsed_text": parsed_text,
-    }
-    DOCUMENTS.insert(0, document)
-    return {"document": document, "state": deepcopy(build_state())}
+    parts, size = [], 0
+    async for part in request.stream():
+        size += len(part)
+        if size > 64 * 1024 * 1024:
+            raise HTTPException(status_code=413, detail="Document exceeds 64 MiB")
+        parts.append(part)
+    try:
+        document = knowledge_service().upload(filename, b"".join(parts), domain, doc_type)
+    except ValueError as exc:
+        raise HTTPException(status_code=422, detail=str(exc)) from exc
+    return {"document": document, "state": build_state()}
 
 
 @app.post("/api/documents/{document_id}/process")
 def process_document(document_id: str, payload: ProcessDocumentRequest):
-    document = find_document(document_id)
-    global CHUNKS
-    CHUNKS = [item for item in CHUNKS if item["document_id"] != document_id]
-    generated_chunks = build_chunks_for_document(document, payload)
-    CHUNKS = generated_chunks + CHUNKS
-    from app.api.dependencies import sync_legacy_document
-
-    sync_legacy_document(document_id, generated_chunks)
-    document.update(
-        {
-            "status": "indexed",
-            "chunk_count": len(generated_chunks),
-            "embedding_status": "embedded",
-            "vector_index_status": "indexed",
-            "updated_at": now_text(),
-            "progress": 100,
-            "chunk_mode": payload.chunk_mode,
-            "embedding_model": payload.embedding_model,
-            "retrieval_mode": payload.retrieval_mode,
-            "rerank_model": payload.rerank_model if payload.enable_rerank else "disabled",
-        }
-    )
-    VECTOR_CONFIG["jobs"].insert(
-        0,
-        {
-            "job_id": f"job-{uuid4().hex[:8]}",
-            "document_id": document_id,
-            "step": "parse -> chunk -> embed -> index -> publish",
-            "progress": 100,
-            "status": "completed",
-            "logs": f"LlamaIndex Document -> TextNode x {len(generated_chunks)} -> VectorStoreIndex",
-            "started_at": now_text(),
-            "finished_at": now_text(),
-        },
-    )
-    return {"document": document, "chunks": generated_chunks, "state": deepcopy(build_state())}
+    from app.storage.knowledge_store import KnowledgeConflictError
+    try:
+        result = knowledge_service().process(document_id, payload)
+    except FileNotFoundError as exc:
+        raise HTTPException(status_code=404, detail=str(exc)) from exc
+    except KnowledgeConflictError as exc:
+        raise HTTPException(status_code=409, detail=str(exc)) from exc
+    except (ValueError, ModuleNotFoundError) as exc:
+        raise HTTPException(status_code=422, detail=str(exc)) from exc
+    return {**result, "state": build_state()}
 
 
 @app.delete("/api/documents/{document_id}")
 def delete_document(document_id: str):
-    document = find_document(document_id)
-    global DOCUMENTS, CHUNKS
-    DOCUMENTS = [item for item in DOCUMENTS if item["document_id"] != document_id]
-    CHUNKS = [item for item in CHUNKS if item["document_id"] != document_id]
-    from app.api.dependencies import engine
-
-    engine.remove_document(document_id)
-    local_path = document.get("local_path")
-    if local_path:
-        path = Path(local_path)
-        if path.is_file() and UPLOAD_DIR in path.resolve().parents:
-            path.unlink()
-    return {"deleted": document_id, "state": deepcopy(build_state())}
+    try:
+        result = knowledge_service().delete(document_id)
+    except FileNotFoundError as exc:
+        raise HTTPException(status_code=404, detail=str(exc)) from exc
+    return {**result, "state": build_state()}
 
 
 @app.get("/api/chunks")
-def chunks():
-    return {"items": CHUNKS}
+def chunks(page:int|None=None,page_size:int=Query(default=50,ge=1,le=100)):
+    service=knowledge_service()
+    if page is None:return {"items":service.chunks()}
+    from app.storage.workbench_read import WorkbenchReadStore
+    from app.core.models import RagChunk
+    if page<1:raise HTTPException(422,'Invalid page')
+    result=WorkbenchReadStore(service.store).chunks(page,page_size)
+    result['items']=[service.chunk_view(RagChunk.model_validate(c)) for c in result['items']]
+    return result
 
 
 @app.get("/api/metadata")
 def metadata():
-    return {"items": METADATA_TAGS}
+    return {"items": knowledge_service().metadata()}
 
 
 @app.get("/api/vector-index")
 def vector_index():
-    return VECTOR_CONFIG
+    return knowledge_service().vector_config()
 
 
 @app.get("/api/evaluations")
 def evaluations():
-    return EVALUATION
+    from app.api.routes_eval import get_metrics_summary
+    return get_metrics_summary()
 
 
 @app.get("/api/retrieval")
-def retrieval(query: str = Query(default="AccY 超限一般可能对应哪些风机振动问题？"), mode: str = "hybrid_rerank"):
+def retrieval(query: str = Query(default="AccY 超限一般可能对应哪些风机振动问题？", min_length=1, max_length=16000), mode: Literal["hybrid_rerank", "hybrid", "bm25", "vector", "parent_child", "parent_child_hybrid", "summary", "rag_fusion"] = "hybrid_rerank"):
     return run_retrieval(RetrievalRequest(query=query, mode=mode))
 
 
@@ -778,36 +710,27 @@ def build_context(payload: RetrievalRequest):
         "query": payload.query,
         "context_text": context_text,
         "sources": result["items"],
-        "runtime": {
-            "framework": "LlamaIndex",
-            "objects": ["Document", "TextNode", "VectorStoreIndex", "BM25Retriever", "QueryFusionRetriever", "Reranker", "QueryEngine"],
-        },
+        "trace_id": result["trace_id"],
+        "runtime": result["runtime"],
     }
 
 
 @app.post("/api/chat")
 def chat(payload: ChatRequest):
-    question = payload.question.strip() or "请说明系统能力"
-    return {
-        "answer": (
-            f"【回答结论】针对「{question}」，建议先从知识域 {payload.scenario} 召回规则、变量定义和案例 Chunk。\n"
-            "【检索依据】系统执行向量检索 + BM25，并用 RRF 融合和 rerank 选出 Top-K 片段。\n"
-            "【相关变量 / 概念】AccY、WindSpeed、GeneratorSpeed、SOC、SOH、lag_96 等按场景过滤。\n"
-            "【业务解释】该回答来自示例知识库，用于展示能源 RAG 管理平台的可追溯链路。\n"
-            "【建议动作】查看命中 Chunk、source_file、domain、doc_type 与 rerank_score。\n"
-            "【人工复核提示】Demo 数据不接入真实生产系统，最终结论需工程师复核。\n"
-            "【引用来源】见 sources。"
-        ),
-        "sources": [
-            {"chunk_id": "chunk_wind_accy_001", "source_file": "wind_variable_dictionary.md", "domain": "wind_oam", "doc_type": "variable_definition", "score": 0.91, "rerank_score": 0.94},
-            {"chunk_id": "chunk_wind_tower_002", "source_file": "wind_fault_rules.pdf", "domain": "wind_oam", "doc_type": "fault_rule", "score": 0.88, "rerank_score": 0.9},
-        ],
-    }
+    from app.core.models import QueryRequest, QueryOptions
+    from app.core.engine import DOMAIN_NAMES
+    trace = knowledge_service().engine.query(QueryRequest(question=payload.question,
+        options=QueryOptions(runtime_mode=payload.runtime_mode, metadata_filter={"domain": DOMAIN_NAMES.get(payload.scenario, payload.scenario)})))
+    return {"answer": trace.answer, "trace_id": trace.trace_id, "runtime": trace.runtime,
+            "sources": [{"chunk_id": hit.chunk_id, "source_file": hit.metadata.get("source"),
+                         "domain": hit.metadata.get("domain"), "doc_type": hit.metadata.get("doc_type"),
+                         "score": hit.score, "rerank_score": hit.rerank_score, "revision_id": hit.metadata.get("revision_id")} for hit in trace.reranked_docs]}
 
 
 @app.get("/api/reports")
 def reports():
-    return {"items": REPORTS}
+    from app.api.routes_eval import list_evaluation_runs
+    return list_evaluation_runs()
 
 
 if __name__ == "__main__":

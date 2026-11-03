@@ -4,6 +4,8 @@ from collections import Counter
 from pathlib import Path
 
 from app.core.models import EnergyRelation, RagChunk
+from app.storage.review_store import available
+from app.knowledge.catalog import base_policy
 
 from .energy_schema import normalize_domain
 from .entity_extractor import EntityExtractor
@@ -23,12 +25,21 @@ class GraphIndexBuilder:
         domain: str | None = None,
         rebuild: bool = True,
         persist: bool = True,
+        knowledge_base_id: str | None = None,
+        review_mode: str = 'reference',
     ) -> dict:
         if rebuild:
             self.store.entities.clear()
             self.store.relations.clear()
         normalized_domain = normalize_domain(domain) if domain else None
         for chunk in chunks:
+            if not available(chunk.metadata, review_mode):
+                continue
+            base = chunk.metadata.get('knowledge_base_id')
+            if knowledge_base_id and base != knowledge_base_id:
+                continue
+            if (chunk.metadata.get('exclusive_to_system') or base_policy(base)) and base != knowledge_base_id:
+                continue
             chunk_domain = normalize_domain(str(chunk.metadata.get("domain", "")))
             if normalized_domain and chunk_domain != normalized_domain:
                 continue

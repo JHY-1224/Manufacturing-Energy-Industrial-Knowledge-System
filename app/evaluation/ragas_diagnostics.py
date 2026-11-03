@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from datetime import datetime
-from statistics import mean
+from math import isfinite
 from typing import Any
 
 
@@ -521,22 +521,33 @@ def _metric_title(key: str) -> str:
     return key
 
 
+def optional_score(value: Any) -> float | None:
+    if value is None or isinstance(value, bool):
+        return None
+    try:
+        score = float(value)
+    except (TypeError, ValueError):
+        return None
+    return round(max(0.0, min(1.0, score)), 4) if isfinite(score) else None
+
+
 def build_metric_cards(runs: list[dict[str, Any]] | None = None) -> list[dict[str, Any]]:
-    run_items = runs or EVALUATION_RUNS
+    run_items = runs or []
     latest = run_items[0] if run_items else {}
     previous = run_items[1] if len(run_items) > 1 else {}
     cards = []
     for metric in METRIC_DEFINITIONS:
         key = metric["key"]
-        current = clamp_score(latest.get(f"avg_{key}", latest.get(key, 0.0)))
-        last = clamp_score(previous.get(f"avg_{key}", previous.get(key, current)))
+        current = optional_score(latest.get(f"avg_{key}", latest.get(key)))
+        last = optional_score(previous.get(f"avg_{key}", previous.get(key)))
+        delta = round(current - last, 4) if current is not None and last is not None else None
         cards.append(
             {
                 **metric,
-                "current_avg": round(current, 4),
-                "previous_avg": round(last, 4),
-                "delta": round(current - last, 4),
-                "trend": "up" if current >= last else "down",
+                "current_avg": current,
+                "previous_avg": last,
+                "delta": delta,
+                "trend": None if delta is None else "up" if delta > 0 else "down" if delta < 0 else "flat",
                 "suggestion_entry": metric["optimization_methods"][0],
             }
         )
@@ -544,7 +555,17 @@ def build_metric_cards(runs: list[dict[str, Any]] | None = None) -> list[dict[st
 
 
 def diagnose_scores(scores: dict[str, Any]) -> dict[str, Any]:
-    normalized = {key: clamp_score(scores.get(key)) for key in RAGAS_METRIC_KEYS}
+    normalized = {key: optional_score(scores.get(key)) for key in RAGAS_METRIC_KEYS}
+    if any(value is None for value in normalized.values()):
+        return {
+            "primary_failure_type": None,
+            "status": "insufficient_data",
+            "root_cause": "核心指标尚未完整测量，不能自动诊断。",
+            "suggestions": [],
+            "triggered_rules": [],
+            "combined_findings": [],
+            "scores": normalized,
+        }
     triggered: list[dict[str, Any]] = []
 
     if normalized["context_recall"] < 0.7:
@@ -653,27 +674,62 @@ def diagnose_sample(metrics: dict[str, Any], reference_context_ids: list[str] | 
     return diagnosis
 
 
-def build_evaluation_summary(extra_runs: list[dict[str, Any]] | None = None) -> dict[str, Any]:
-    runs = (extra_runs or []) + EVALUATION_RUNS
+def build_evaluation_summary(
+    extra_runs: list[dict[str, Any]] | None = None,
+    *,
+    reports: list[dict[str, Any]] | None = None,
+    datasets: list[dict[str, Any]] | None = None,
+    demo: bool = False,
+) -> dict[str, Any]:
+    runs = list(extra_runs or [])
+    known = {item.get("run_id") for item in runs}
+    if demo:
+        runs.extend({**item, "data_source": "demo", "evaluation_mode": "demo"} for item in EVALUATION_RUNS if item["run_id"] not in known)
+    samples = [item for report in (reports or []) for item in report.get("sample_results", [])]
+    failures = [item for report in (reports or []) for item in report.get("failed_cases", [])]
+    if demo:
+        samples.extend({**item, "data_source": "demo", "evaluation_mode": "demo"} for item in SAMPLE_RESULTS)
+        failures.extend({**item, "data_source": "demo", "evaluation_mode": "demo"} for item in SAMPLE_RESULTS if item.get("failure_type"))
+    trend = [
+        {"run_id": run.get("run_id"), "date": run.get("finished_at") or run.get("started_at"), "evaluation_mode": run.get("evaluation_mode", "unspecified"), **{key: optional_score(run.get(f"avg_{key}")) for key in RAGAS_METRIC_KEYS}}
+        for run in reversed(runs)
+    ]
+    comparisons = [
+        {"run_id": run.get("run_id"), "config_name": run.get("experiment") or run.get("retriever_config"), "embedding_model": run.get("embedding_model"), "retrieval_mode": run.get("retrieval_config"), "evaluation_mode": run.get("evaluation_mode", "unspecified"), "avg_latency_ms": run.get("metrics", {}).get("latency_total_ms"), **{key: optional_score(run.get(f"avg_{key}")) for key in RAGAS_METRIC_KEYS}}
+        for run in runs
+    ]
     metric_cards = build_metric_cards(runs)
+    current_mode = runs[0].get("evaluation_mode", "unspecified") if runs else None
+    if current_mode == "offline_proxy":
+        proxy_formulas = {
+            "faithfulness": "上下文与答案的不同词项交集 / 答案不同词项数",
+            "answer_relevancy": "答案与问题的不同词项交集 / 问题不同词项数",
+            "context_precision": "与问题有词项交集的片段数 / 返回片段数（不评价排序）",
+            "context_recall": "上下文覆盖参考答案的不同词项比例；无参考答案时以问题词项代理",
+        }
+        metric_cards = [dict(card, evaluation_mode=current_mode, ragas_definition=card["definition"],
+                             formula=proxy_formulas[card["key"]], definition="离线词项重合代理指标；不验证事实声明、语义或工业正确性。") for card in metric_cards]
     latest_scores = {card["key"]: card["current_avg"] for card in metric_cards}
     return {
         "generated_at": datetime.now().isoformat(timespec="seconds"),
+        "data_source": "real_and_demo" if demo and extra_runs else "demo" if demo else "stored_reports",
+        "evaluation_mode": current_mode,
+        "evaluation_limitation": "offline_proxy 表示词项重合代理评分，不是 LLM/RAGAS 事实评判；历史报告未声明评分方式时保留 unspecified。",
         "metric_cards": metric_cards,
-        "metric_definitions": METRIC_DEFINITIONS,
+        "metric_definitions": metric_cards,
         "failure_types": FAILURE_TYPES,
         "metric_guide": METRIC_GUIDE,
         "energy_scenarios": ENERGY_SCENARIOS,
-        "datasets": EVALUATION_DATASETS,
+        "datasets": list(datasets or []) + ([{**item, "data_source": "demo"} for item in EVALUATION_DATASETS] if demo else []),
         "runs": runs,
-        "sample_results": SAMPLE_RESULTS,
-        "failures": [item for item in SAMPLE_RESULTS if item.get("failure_type")],
-        "trend": METRIC_TRENDS,
-        "config_comparisons": CONFIG_COMPARISONS,
+        "sample_results": samples,
+        "failures": failures,
+        "trend": trend,
+        "config_comparisons": comparisons,
         "automatic_diagnosis": diagnose_scores(latest_scores),
         "metrics": [{"name": card["key"], "value": card["current_avg"], "group": "RAGAS"} for card in metric_cards],
         "averages": {
-            key: round(mean([card["current_avg"] for card in metric_cards if card["key"] == key]), 4)
+            key: next(card["current_avg"] for card in metric_cards if card["key"] == key)
             for key in RAGAS_METRIC_KEYS
         },
     }

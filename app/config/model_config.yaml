@@ -1,4 +1,5 @@
 embeddings:
+  # Legacy names below are offline HashEmbedding aliases, not installed SDK models.
   default: bge-large-zh
   providers:
     - huggingface-local
@@ -15,9 +16,20 @@ vectorstores:
     - pgvector
     - milvus
 rerankers:
-  default: bge-reranker-v2-m3
+  default: score-fallback
   providers:
     - score-fallback
     - bge-reranker-v2-m3
     - qwen-reranker
     - llm-rerank
+runtime:
+  default: offline
+  modes: [offline, configured]
+  configured:
+    embedding_protocol: openai-compatible
+    chat_protocol: openai-compatible
+    rerank_protocol: dashscope-text-rerank
+    configuration: server_environment_only
+    example: .env.example
+    failure_policy: explicit_error_no_offline_fallback
+    cost: unknown_without_pricing

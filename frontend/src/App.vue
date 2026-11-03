@@ -1,11 +1,7 @@
 <script setup>
-import { computed, onMounted, ref } from 'vue';
-import { apiDelete, apiGet, apiPost } from './api';
-import { apiSections, demoState, sdkExamples } from './mock';
-
-function clone(value) {
-  return JSON.parse(JSON.stringify(value));
-}
+import { computed, onMounted, onUnmounted, ref } from 'vue';
+import { apiDelete, apiGet, apiPost, readApiResponse } from './api';
+import { apiSections, createEmptyEvaluation, createEmptyState, sdkExamples } from './mock';
 
 const navItems = [
   { key: 'dashboard', label: '项目总览 Dashboard', icon: '▦' },
@@ -39,8 +35,10 @@ function readRoute() {
 
 const activePage = ref(readRoute());
 const apiOnline = ref(false);
-const apiMessage = ref('后端未连接，当前使用前端内置 Demo 数据');
-const state = ref(clone(demoState));
+const apiMessage = ref('正在连接后端，尚未加载数据');
+const state = ref(createEmptyState());
+const initialized = ref(false);
+const runtimeMode = ref('offline');
 const knowledgeDomain = ref('all');
 const knowledgeStatus = ref('all');
 const chunkDomain = ref('all');
@@ -49,7 +47,9 @@ const selectedFile = ref(null);
 const uploadDomain = ref('wind_oam');
 const uploadDocType = ref('general');
 const uploadMessage = ref('');
-const selectedDocumentId = ref(demoState.documents[0]?.document_id || '');
+const processMessage = ref('');
+const processingDocument = ref(false);
+const selectedDocumentId = ref('');
 const chunkMode = ref('parent_child');
 const chunkSize = ref(700);
 const chunkOverlap = ref(120);
@@ -81,10 +81,23 @@ const useParentRecovery = ref(true);
 const useRagFusion = ref(false);
 const retrievalTrace = ref(null);
 const retrievalRunning = ref(false);
+const retrievalMessage = ref('尚未执行查询');
 const evalRunning = ref(false);
 const evalResult = ref(null);
+const evalMessage = ref('');
+const evalLoading = ref(false);
+const selectedDatasetId = ref('');
+const selectedDataset = ref(null);
+const selectedRunId = ref('');
+const selectedRun = ref(null);
+const runSamples = ref([]);
+const runFailures = ref([]);
+const selectedSampleIndex = ref(0);
+let evaluationLoadId = 0;
+let datasetLoadId = 0;
+let runLoadId = 0;
 const evalSelectedFile = ref(null);
-const evalSetPath = ref('data/eval_sets/energy_rag_eval.jsonl');
+const evalSetPath = ref('');
 const evalUploadMessage = ref('');
 const evalExperimentPreset = ref('current');
 const evalDiagnosisScores = ref({
@@ -93,16 +106,20 @@ const evalDiagnosisScores = ref({
   context_precision: 0.76,
   context_recall: 0.48,
 });
-const evalDiagnosisResult = ref(clone(demoState.evaluation.automatic_diagnosis));
-const graphStatus = ref({
-  entity_count: 0,
-  relation_count: 0,
-  supported_domains: ['wind_oam', 'load_forecast', 'storage_ems'],
-  average_relation_hops: 0,
-  last_updated: null,
-  entity_type_distribution: {},
-  relation_type_distribution: {},
-});
+const evalDiagnosisResult = ref(null);
+const diagnosisMessage = ref('');
+function emptyGraphStatus() {
+  return {
+    entity_count: null,
+    relation_count: null,
+    supported_domains: ['wind_oam', 'load_forecast', 'storage_ems'],
+    average_relation_hops: null,
+    last_updated: null,
+    entity_type_distribution: {},
+    relation_type_distribution: {},
+  };
+}
+const graphStatus = ref(emptyGraphStatus());
 const graphQuery = ref('AccY 超限为什么可能关联塔架共振？');
 const graphMode = ref('hybrid_graph');
 const graphDomain = ref('');
@@ -117,12 +134,10 @@ const graphExamples = [
   'EMS、BMS、PCS 如何协同？',
   'SOC 如何约束储能充放电策略？',
 ];
-const retrievalResult = ref({
-  query: retrievalQuery.value,
-  mode: retrievalMode.value,
-  items: state.value.chunks.map((item, index) => ({ ...item, rank: index + 1, citation_id: `cite-${index + 1}` })),
-  citationChain: ['回答', '引用 Chunk', '源文档', '知识域', 'metadata'],
-});
+function emptyRetrievalResult() {
+  return { query: '', mode: '', items: [], citationChain: [] };
+}
+const retrievalResult = ref(emptyRetrievalResult());
 
 const currentNav = computed(() => navItems.find((item) => item.key === activePage.value) || navItems[0]);
 const domains = computed(() => state.value.domains);
@@ -130,6 +145,8 @@ const overview = computed(() => state.value.overview);
 const vectorConfig = computed(() => state.value.vectorConfig);
 const runtime = computed(() => state.value.runtime);
 const evaluation = computed(() => state.value.evaluation);
+const demoDocumentCount = computed(() => state.value.demo_records ?? state.value.seed_demo_records
+  ?? state.value.documents.filter((item) => item.data_source === 'demo').length);
 const ragasMetricKeys = ['faithfulness', 'answer_relevancy', 'context_precision', 'context_recall'];
 const ragasMetricLabels = {
   faithfulness: 'Faithfulness 忠实度',
@@ -145,8 +162,8 @@ const ragasMetricCards = computed(() => {
       key: metric.name,
       title: ragasMetricLabels[metric.name] || metric.name,
       current_avg: metric.value,
-      previous_avg: metric.value,
-      delta: 0,
+      previous_avg: null,
+      delta: null,
       definition: 'RAGAS-compatible 离线评估指标。',
       low_score_signals: ['需要结合失败样本进一步定位。'],
       optimization_methods: ['检查检索配置与生成约束。'],
@@ -154,9 +171,9 @@ const ragasMetricCards = computed(() => {
 });
 const evaluationDatasets = computed(() => evaluation.value?.datasets || []);
 const evaluationRuns = computed(() => evaluation.value?.runs || []);
-const evaluationFailures = computed(() => evaluation.value?.failures || []);
-const evaluationSampleResults = computed(() => evaluation.value?.sample_results || []);
-const primarySampleResult = computed(() => evaluationSampleResults.value[0] || null);
+const evaluationFailures = computed(() => runFailures.value);
+const evaluationSampleResults = computed(() => runSamples.value);
+const primarySampleResult = computed(() => evaluationSampleResults.value[selectedSampleIndex.value] || null);
 const selectedDocument = computed(() =>
   state.value.documents.find((item) => item.document_id === selectedDocumentId.value) || state.value.documents[0],
 );
@@ -180,11 +197,8 @@ const filteredChunks = computed(() =>
 );
 
 function setPage(key) {
-  activePage.value = key;
   window.location.hash = `#/${key}`;
   window.scrollTo({ top: 0, behavior: 'smooth' });
-  if (key === 'graph') loadGraphStatus();
-  if (key === 'ragas') loadEvaluationCenter();
 }
 
 function domainName(key) {
@@ -249,8 +263,7 @@ async function uploadDocument() {
       headers: { 'Content-Type': selectedFile.value.type || 'application/octet-stream' },
       body: selectedFile.value,
     });
-    if (!response.ok) throw new Error(`Request failed: ${response.status}`);
-    const result = await response.json();
+    const result = await readApiResponse(response);
     updateStateFromResponse(result);
     selectedDocumentId.value = result.document.document_id;
     uploadMessage.value = `已上传：${result.document.title}，本地路径 ${result.document.local_path}`;
@@ -263,10 +276,13 @@ async function uploadDocument() {
 }
 
 async function processSelectedDocument() {
+  if (processingDocument.value) return;
   if (!selectedDocument.value) {
-    uploadMessage.value = '请先选择要处理的文档。';
+    processMessage.value = '请先选择要处理的文档。';
     return;
   }
+  processingDocument.value = true;
+  processMessage.value = '正在处理文档…';
   const payload = {
     chunk_mode: chunkMode.value,
     chunk_size: Number(chunkSize.value),
@@ -281,12 +297,13 @@ async function processSelectedDocument() {
   try {
     const result = await apiPost(`/api/documents/${selectedDocument.value.document_id}/process`, payload);
     updateStateFromResponse(result);
-    uploadMessage.value = `已完成：${result.document.title} -> ${result.chunks.length} 个 LlamaIndex TextNode。`;
+    processMessage.value = `已完成：${result.document.title} → ${result.chunks.length} 个 Chunk（离线索引）。`;
     apiOnline.value = true;
     apiMessage.value = 'FastAPI 后端已连接';
   } catch (error) {
-    uploadMessage.value = `处理失败：${error.message}`;
-    apiOnline.value = false;
+    processMessage.value = `处理失败：${error.message}`;
+  } finally {
+    processingDocument.value = false;
   }
 }
 
@@ -316,19 +333,22 @@ async function loadBackendData() {
     updateStateFromResponse(backendState);
     apiOnline.value = true;
     apiMessage.value = 'FastAPI 后端已连接';
-  } catch {
-    try {
-      await apiGet('/api/health');
-      apiOnline.value = true;
-      apiMessage.value = 'FastAPI 后端已连接，重启后端后可加载完整 /api/state 数据';
-    } catch {
-      apiOnline.value = false;
-      apiMessage.value = '后端未连接，当前使用前端内置 Demo 数据';
-    }
+  } catch (error) {
+    state.value = createEmptyState();
+    apiOnline.value = false;
+    apiMessage.value = `后端数据加载失败：${error.message}；当前没有已加载记录`;
   }
 }
 
 async function runRetrieval() {
+  if (retrievalRunning.value) return;
+  retrievalTrace.value = null;
+  retrievalResult.value = emptyRetrievalResult();
+  if (!retrievalQuery.value.trim()) {
+    retrievalMessage.value = '请输入检索问题。';
+    return;
+  }
+  retrievalMessage.value = '正在查询…';
   retrievalRunning.value = true;
   const payload = { question: retrievalQuery.value, options: currentQueryOptions() };
   try {
@@ -353,14 +373,11 @@ async function runRetrieval() {
     };
     apiOnline.value = true;
     apiMessage.value = 'FastAPI 后端已连接';
+    retrievalMessage.value = `查询完成 · ${trace.options?.runtime_mode || runtimeMode.value} 模式 · ${trace.reranked_docs.length} 条结果`;
   } catch (error) {
-    retrievalResult.value = {
-      query: retrievalQuery.value,
-      mode: retrievalMode.value,
-      items: state.value.chunks.map((item, index) => ({ ...item, rank: index + 1, citation_id: `cite-${index + 1}` })),
-      citationChain: ['回答', '引用 Chunk', '源文档', '知识域', 'metadata'],
-    };
-    apiOnline.value = false;
+    retrievalTrace.value = null;
+    retrievalResult.value = emptyRetrievalResult();
+    retrievalMessage.value = `检索失败：${error.message}`;
     apiMessage.value = `v2 检索失败：${error.message}`;
   } finally {
     retrievalRunning.value = false;
@@ -376,6 +393,7 @@ function currentQueryOptions() {
     report_template: '电气工程基础',
   };
   return {
+    runtime_mode: runtimeMode.value,
     embedding: retrievalEmbedding.value,
     vectorstore: retrievalVectorstore.value,
     retrieval_mode: retrievalMode.value === 'hybrid_rerank' ? 'hybrid' : retrievalMode.value,
@@ -405,7 +423,15 @@ function currentQueryOptions() {
 }
 
 async function runBatchEvaluation() {
+  if (evalRunning.value) return;
+  evalResult.value = null;
+  clearRunDetails();
+  if (!evalSetPath.value) {
+    evalMessage.value = '请选择或上传评测集。';
+    return;
+  }
   evalRunning.value = true;
+  evalMessage.value = '正在评测…';
   try {
     evalResult.value = await apiPost('/api/v2/eval/run', {
       eval_set: evalSetPath.value,
@@ -414,8 +440,12 @@ async function runBatchEvaluation() {
     });
     apiOnline.value = true;
     apiMessage.value = '批量评测完成';
-    await loadEvaluationCenter();
+    evalMessage.value = '批量评测完成。';
+    await loadEvaluationCenter(evalResult.value.run_id);
   } catch (error) {
+    evalResult.value = null;
+    clearRunDetails();
+    evalMessage.value = `批量评测失败：${error.message}`;
     apiMessage.value = `批量评测失败：${error.message}`;
   } finally {
     evalRunning.value = false;
@@ -423,7 +453,17 @@ async function runBatchEvaluation() {
 }
 
 function evaluationQueryOptions() {
-  const options = currentQueryOptions();
+  if (evalExperimentPreset.value === 'current') return currentQueryOptions();
+  const options = {
+    runtime_mode: runtimeMode.value,
+    embedding: 'bge-large-zh', vectorstore: 'chroma', retrieval_mode: 'vector',
+    top_k: 20, final_top_k: 5, vector_weight: 0.7, bm25_weight: 0.3,
+    query_rewrite: false, query_expansion: false, query_transformation: false,
+    metadata_router: false, multi_query: false, hyde: false,
+    rerank: false, reranker_model: 'score-fallback',
+    compression: false, compression_mode: 'auto', deduplicate: false,
+    document_filter: false, parent_recovery: false, rag_fusion: false, metadata_filter: {},
+  };
   const presets = {
     vector_bge: {
       retrieval_mode: 'vector',
@@ -458,7 +498,7 @@ function evaluationQueryOptions() {
       compression: true,
     },
   };
-  return evalExperimentPreset.value === 'current' ? options : { ...options, ...presets[evalExperimentPreset.value] };
+  return { ...options, ...presets[evalExperimentPreset.value] };
 }
 
 function handleEvalFileChange(event) {
@@ -476,13 +516,11 @@ async function uploadEvalSet() {
       headers: { 'Content-Type': 'application/x-ndjson' },
       body: evalSelectedFile.value,
     });
-    if (!response.ok) {
-      const payload = await response.json().catch(() => ({}));
-      throw new Error(payload.detail || `Request failed: ${response.status}`);
-    }
-    const result = await response.json();
+    const result = await readApiResponse(response);
     evalSetPath.value = result.eval_set;
+    selectedDatasetId.value = result.dataset_id || result.filename.replace(/\.jsonl$/i, '');
     evalUploadMessage.value = `已载入 ${result.filename}，共 ${result.case_count} 条评测样本。`;
+    await loadEvaluationCenter();
   } catch (error) {
     evalUploadMessage.value = `评测集上传失败：${error.message}`;
   }
@@ -493,34 +531,102 @@ function mergeEvaluationSummary(summary) {
   state.value = {
     ...state.value,
     evaluation: {
-      ...state.value.evaluation,
+      ...createEmptyEvaluation(),
       ...summary,
     },
   };
-  if (summary.automatic_diagnosis) {
-    evalDiagnosisResult.value = summary.automatic_diagnosis;
+}
+
+function clearRunDetails() {
+  runLoadId += 1;
+  selectedRun.value = null;
+  selectedRunId.value = '';
+  runSamples.value = [];
+  runFailures.value = [];
+  selectedSampleIndex.value = 0;
+}
+
+async function selectEvaluationDataset(datasetId) {
+  const loadId = ++datasetLoadId;
+  selectedDatasetId.value = datasetId;
+  selectedDataset.value = null;
+  evalSetPath.value = '';
+  if (!datasetId) return;
+  try {
+    const dataset = await apiGet(`/api/v1/evaluation/datasets/${encodeURIComponent(datasetId)}`);
+    if (loadId !== datasetLoadId) return;
+    selectedDataset.value = dataset;
+    evalSetPath.value = dataset.eval_set || '';
+  } catch (error) {
+    if (loadId === datasetLoadId) evalMessage.value = `数据集加载失败：${error.message}`;
   }
 }
 
-async function loadEvaluationCenter() {
+async function selectEvaluationRun(runId) {
+  clearRunDetails();
+  const loadId = runLoadId;
+  selectedRunId.value = runId;
+  if (!runId) return;
   try {
-    const summary = await apiGet('/api/v1/evaluation/metrics/summary');
-    mergeEvaluationSummary(summary);
+    const base = `/api/v1/evaluation/runs/${encodeURIComponent(runId)}`;
+    const [run, samples, failures] = await Promise.all([
+      apiGet(base), apiGet(`${base}/samples`), apiGet(`${base}/failures`),
+    ]);
+    if (loadId !== runLoadId) return;
+    selectedRun.value = run;
+    runSamples.value = samples.items || [];
+    runFailures.value = failures.items || [];
+  } catch (error) {
+    if (loadId !== runLoadId) return;
+    clearRunDetails();
+    evalMessage.value = `运行详情加载失败：${error.message}`;
+  }
+}
+
+async function loadEvaluationCenter(preferredRunId) {
+  const loadId = ++evaluationLoadId;
+  evalLoading.value = true;
+  try {
+    const [summary, datasets, runs] = await Promise.all([
+      apiGet('/api/v1/evaluation/metrics/summary'),
+      apiGet('/api/v1/evaluation/datasets'),
+      apiGet('/api/v1/evaluation/runs'),
+    ]);
+    if (loadId !== evaluationLoadId) return;
+    mergeEvaluationSummary({ ...summary, datasets: datasets.items || [], runs: runs.items || [] });
     apiOnline.value = true;
     apiMessage.value = 'RAGAS 评估中心已连接';
-  } catch {
-    mergeEvaluationSummary(state.value.evaluation);
+    const datasetId = evaluationDatasets.value.some((item) => item.dataset_id === selectedDatasetId.value)
+      ? selectedDatasetId.value : evaluationDatasets.value[0]?.dataset_id || '';
+    const candidateRunId = preferredRunId || selectedRunId.value;
+    const runId = evaluationRuns.value.some((item) => item.run_id === candidateRunId)
+      ? candidateRunId : evaluationRuns.value[0]?.run_id || '';
+    await Promise.all([selectEvaluationDataset(datasetId), selectEvaluationRun(runId)]);
+  } catch (error) {
+    if (loadId !== evaluationLoadId) return;
+    evalResult.value = null;
+    mergeEvaluationSummary(createEmptyEvaluation());
+    datasetLoadId += 1;
+    selectedDatasetId.value = '';
+    selectedDataset.value = null;
+    evalSetPath.value = '';
+    clearRunDetails();
+    evalMessage.value = `评估中心加载失败：${error.message}`;
+  } finally {
+    if (loadId === evaluationLoadId) evalLoading.value = false;
   }
 }
 
 function clampScore(value) {
+  if (value === null || value === undefined || value === '') return null;
   const numeric = Number(value);
-  if (!Number.isFinite(numeric)) return 0;
+  if (!Number.isFinite(numeric)) return null;
   return Math.max(0, Math.min(1, numeric));
 }
 
 function formatScore(value) {
-  return clampScore(value).toFixed(2);
+  const numeric = clampScore(value);
+  return numeric === null ? '—' : numeric.toFixed(2);
 }
 
 function scorePercent(value) {
@@ -528,16 +634,17 @@ function scorePercent(value) {
 }
 
 function formatDelta(value) {
-  const numeric = Number(value || 0);
+  if (value === null || value === undefined || value === '' || !Number.isFinite(Number(value))) return '—';
+  const numeric = Number(value);
   return `${numeric >= 0 ? '+' : ''}${numeric.toFixed(2)}`;
 }
 
 function datasetSamples(dataset) {
-  return dataset.samples || [dataset];
+  return dataset.samples || [];
 }
 
 function datasetSampleCount(dataset) {
-  return dataset.sample_count || datasetSamples(dataset).length;
+  return dataset.sample_count ?? datasetSamples(dataset).length;
 }
 
 function firstDatasetSample(dataset) {
@@ -545,62 +652,20 @@ function firstDatasetSample(dataset) {
 }
 
 function sampleMetric(sample, key) {
-  return sample?.metrics?.[key] ?? sample?.[key] ?? '-';
-}
-
-function diagnoseLocally(scores) {
-  const normalized = Object.fromEntries(ragasMetricKeys.map((key) => [key, clampScore(scores[key])]));
-  const triggered = [];
-  if (normalized.context_recall < 0.7) {
-    triggered.push({
-      primary_failure_type: 'retrieval_miss',
-      root_cause: '必要证据召回不足，可能导致模型基于不完整上下文回答。',
-      suggestions: ['提高 top_k', '增加 Query Expansion', '启用 Parent Document Retriever', '检查 metadata filter 是否过窄'],
-    });
-  }
-  if (normalized.context_precision < 0.7) {
-    triggered.push({
-      primary_failure_type: 'bad_ranking',
-      root_cause: '相关 Chunk 排名靠后或 Top-K 混入无关内容。',
-      suggestions: ['启用 Rerank', '加强 Metadata Filter', '调整 BM25 权重', '优化 Chunk 粒度'],
-    });
-  }
-  if (normalized.faithfulness < 0.8) {
-    triggered.push({
-      primary_failure_type: 'hallucination',
-      root_cause: '答案存在 retrieved_contexts 未支持内容。',
-      suggestions: ['加强 Prompt 证据约束', '强制引用来源', '开启无证据拒答', '压缩无关上下文'],
-    });
-  }
-  if (normalized.answer_relevancy < 0.8) {
-    triggered.push({
-      primary_failure_type: 'off_topic',
-      root_cause: '答案与问题匹配度不足，可能偏题或没有正面回答。',
-      suggestions: ['增加 Query Rewrite', '启用 Intent Router', '补充 Few-shot 示例', '使用结构化输出模板'],
-    });
-  }
-  const primary = triggered[0];
-  return primary
-    ? {
-        primary_failure_type: primary.primary_failure_type,
-        root_cause: primary.root_cause,
-        suggestions: [...new Set(triggered.flatMap((item) => item.suggestions))],
-        triggered_rules: triggered,
-      }
-    : {
-        primary_failure_type: null,
-        root_cause: '四个核心指标均处于可接受区间。',
-        suggestions: ['保持当前检索配置', '继续扩充覆盖低频问题的评测样本', '定期观察趋势和失败样本'],
-        triggered_rules: [],
-      };
+  return formatScore(sample?.metrics?.[key] ?? sample?.[key]);
 }
 
 async function runEvaluationDiagnosis() {
+  evalDiagnosisResult.value = null;
+  diagnosisMessage.value = '';
   try {
+    if (ragasMetricKeys.some((key) => clampScore(evalDiagnosisScores.value[key]) === null)) {
+      throw new Error('请填写四个有效分数。');
+    }
     evalDiagnosisResult.value = await apiPost('/api/v1/evaluation/diagnose', evalDiagnosisScores.value);
     apiOnline.value = true;
-  } catch {
-    evalDiagnosisResult.value = diagnoseLocally(evalDiagnosisScores.value);
+  } catch (error) {
+    diagnosisMessage.value = `诊断失败：${error.message}`;
   }
 }
 
@@ -613,11 +678,15 @@ async function loadGraphStatus() {
   try {
     graphStatus.value = await apiGet('/api/v2/graph/status');
   } catch (error) {
+    graphStatus.value = emptyGraphStatus();
+    graphResult.value = null;
     graphMessage.value = `图谱状态加载失败：${error.message}`;
   }
 }
 
 async function buildEnergyGraph() {
+  if (graphBuilding.value || graphRunning.value) return;
+  graphResult.value = null;
   graphBuilding.value = true;
   try {
     const result = await apiPost('/api/v2/graph/build', { domain: graphDomain.value || null, rebuild: true });
@@ -625,12 +694,15 @@ async function buildEnergyGraph() {
     await loadGraphStatus();
   } catch (error) {
     graphMessage.value = `图谱构建失败：${error.message}`;
+    graphStatus.value = emptyGraphStatus();
   } finally {
     graphBuilding.value = false;
   }
 }
 
 async function runGraphQuery() {
+  if (graphRunning.value || graphBuilding.value) return;
+  graphResult.value = null;
   if (!graphQuery.value.trim()) return;
   graphRunning.value = true;
   try {
@@ -649,6 +721,7 @@ async function runGraphQuery() {
     graphMessage.value = `查询完成：${graphResult.value.entities.length} 个实体，${graphResult.value.relations.length} 条关系。`;
     await loadGraphStatus();
   } catch (error) {
+    graphResult.value = null;
     graphMessage.value = `图增强查询失败：${error.message}`;
   } finally {
     graphRunning.value = false;
@@ -663,26 +736,33 @@ function graphEntityName(entityId) {
   return graphResult.value?.entities.find((item) => item.entity_id === entityId)?.name || entityId;
 }
 
-window.addEventListener('hashchange', () => {
-  activePage.value = readRoute();
-  if (activePage.value === 'ragas') loadEvaluationCenter();
-});
+async function loadActivePage() {
+  if (activePage.value === 'graph') await loadGraphStatus();
+  if (activePage.value === 'ragas') await loadEvaluationCenter();
+}
 
-onMounted(() => {
-  loadBackendData();
-  if (activePage.value === 'graph') loadGraphStatus();
-  if (activePage.value === 'ragas') loadEvaluationCenter();
+function onHashChange() {
+  activePage.value = readRoute();
+  if (initialized.value) loadActivePage();
+}
+
+onMounted(async () => {
+  window.addEventListener('hashchange', onHashChange);
+  await loadBackendData();
+  initialized.value = true;
+  await loadActivePage();
 });
+onUnmounted(() => window.removeEventListener('hashchange', onHashChange));
 </script>
 
 <template>
   <div class="app-shell">
     <aside class="sidebar">
       <div class="brand">
-        <div class="brand-mark">EA</div>
+        <div class="brand-mark">工</div>
         <div>
-          <strong>Energy O&M</strong>
-          <span>RAG System</span>
+          <strong>制造能源工业</strong>
+          <span>知识库系统</span>
         </div>
       </div>
       <nav class="nav-list">
@@ -704,7 +784,7 @@ onMounted(() => {
     <section class="workspace">
       <header class="topbar">
         <div class="breadcrumb">
-          <span>Energy O&M</span>
+          <span>制造能源工业知识库系统</span>
           <span>/</span>
           <strong>{{ currentNav.label }}</strong>
         </div>
@@ -715,18 +795,20 @@ onMounted(() => {
       </header>
 
       <main class="content">
+        <p v-if="!apiOnline" class="notice" role="status">后端记录尚未加载；本页不会以示例统计或示例 Chunk 代替查询结果。</p>
+        <p v-if="demoDocumentCount || state.data_source === 'demo'" class="notice" role="status">当前知识库含 {{ demoDocumentCount }} 条内置演示文档；标记为 Demo 的内容用于功能验证，与用户上传资料分开标识。</p>
         <section v-if="activePage === 'dashboard'" class="page-grid">
           <div class="hero-panel">
             <div class="hero-mark">RAG</div>
-            <p>ENERGY O&M RAG SYSTEM</p>
-            <h1>Energy O&M RAG System</h1>
-            <span>面向风电故障诊断、区域负荷预测与储能 EMS 的能源智能运维知识库管理系统</span>
+            <p>MANUFACTURING · ENERGY · ELECTRICAL</p>
+            <h1>制造能源工业知识库系统</h1>
+            <span>以制造业为长期主线，面向传统制造、汽车制造、装备与电子制造、材料行业，兼顾能源与电气知识管理。当前示例覆盖风电、负荷预测、储能 EMS 等能源场景。</span>
             <div class="hero-tags">
               <em>API-first</em>
               <em>LlamaIndex Runtime</em>
               <em>RAGAS Evaluation</em>
               <em>Hybrid Retrieval</em>
-              <em>Energy Domain Knowledge</em>
+              <em>工业知识管理</em>
             </div>
           </div>
 
@@ -741,6 +823,7 @@ onMounted(() => {
           </div>
 
           <div class="section-title">核心指标</div>
+          <p v-if="!overview.kpis.length" class="notice">暂无已加载统计。</p>
           <div class="kpi-grid">
             <article v-for="item in overview.kpis" :key="item.label" class="kpi-card">
               <span>{{ item.label }}</span>
@@ -838,7 +921,7 @@ onMounted(() => {
               </thead>
               <tbody>
                 <tr v-for="entry in filteredKnowledge" :key="entry.id">
-                  <td><strong>{{ entry.title }}</strong></td>
+                  <td><strong>{{ entry.title }}</strong> <span v-if="entry.data_source === 'demo'" class="badge info">Demo</span></td>
                   <td>{{ domainName(entry.domain) }}</td>
                   <td>{{ entry.category }}</td>
                   <td>{{ entry.sourceDoc }}</td>
@@ -895,7 +978,7 @@ onMounted(() => {
               <tbody>
                 <tr v-for="doc in state.documents" :key="doc.document_id">
                   <td class="mono">{{ doc.document_id }}</td>
-                  <td><strong>{{ doc.title }}</strong><br /><small>{{ doc.file_size }}</small></td>
+                  <td><strong>{{ doc.title }}</strong> <span v-if="doc.data_source === 'demo'" class="badge info">Demo</span><br /><small>{{ doc.file_size }}</small></td>
                   <td>{{ doc.domain }}</td>
                   <td>{{ doc.doc_type }}</td>
                   <td>{{ doc.file_type }}</td>
@@ -981,11 +1064,12 @@ onMounted(() => {
                   <option>disabled</option>
                 </select>
               </label>
-              <button class="primary-btn" type="button" @click="processSelectedDocument">切分并发布为知识库 API</button>
+              <button class="primary-btn" type="button" :disabled="processingDocument" @click="processSelectedDocument">{{ processingDocument ? '处理中…' : '切分并发布为知识库 API' }}</button>
             </div>
             <p v-if="selectedDocument" class="notice">
               当前文档：{{ selectedDocument.title }} · {{ selectedDocument.file_type }} · {{ selectedDocument.local_path || selectedDocument.source_file || '内置 Demo 文档' }}
             </p>
+            <p v-if="processMessage" class="notice" role="status">{{ processMessage }}</p>
           </div>
 
           <div class="two-column">
@@ -1023,7 +1107,7 @@ onMounted(() => {
               <tbody>
                 <tr v-for="chunk in filteredChunks" :key="chunk.chunk_id">
                   <td class="mono">{{ chunk.chunk_id }}</td>
-                  <td><strong>{{ chunk.chunk_title }}</strong></td>
+                  <td><strong>{{ chunk.chunk_title }}</strong> <span v-if="chunk.data_source === 'demo' || chunk.metadata?.data_source === 'demo'" class="badge info">Demo</span></td>
                   <td class="preview-cell">
                     <p :class="{ collapsed: expandedChunkId !== chunk.chunk_id }">{{ chunk.chunk_content }}</p>
                     <button class="text-link" type="button" @click="togglePreview(chunk.chunk_id)">
@@ -1045,7 +1129,7 @@ onMounted(() => {
         </section>
 
         <section v-if="activePage === 'metadata'" class="page-grid">
-          <div class="section-title">能源 RAG 知识治理标签体系</div>
+          <div class="section-title">工业知识库 RAG 知识治理标签体系</div>
           <div class="table-wrap">
             <table>
               <thead>
@@ -1113,6 +1197,11 @@ onMounted(() => {
         </section>
 
         <section v-if="activePage === 'retrieval'" class="page-grid">
+          <div class="panel">
+            <label>运行模式 <select v-model="runtimeMode"><option value="offline">offline · 离线验证</option><option value="configured">configured · 按配置执行</option></select></label>
+            <p class="notice">offline 使用本地回退实现，模型选项不代表已加载真实模型；configured 遇到未接入的能力会明确报错。</p>
+            <p class="notice" role="status">{{ retrievalMessage }}</p>
+          </div>
           <div class="toolbar">
             <input v-model="retrievalQuery" placeholder="输入检索问题" />
             <select v-model="retrievalMode">
@@ -1179,6 +1268,7 @@ onMounted(() => {
               <div class="section-title">Query Trace</div>
               <dl class="trace-list">
                 <div><dt>trace_id</dt><dd>{{ retrievalTrace.trace_id }}</dd></div>
+                <div><dt>runtime_mode</dt><dd>{{ retrievalTrace.options?.runtime_mode || '—' }}</dd></div>
                 <div><dt>original</dt><dd>{{ retrievalTrace.original_query }}</dd></div>
                 <div><dt>rewrite</dt><dd>{{ retrievalTrace.rewritten_query }}</dd></div>
                 <div><dt>expanded</dt><dd>{{ retrievalTrace.expanded_queries.join(' | ') }}</dd></div>
@@ -1223,7 +1313,7 @@ onMounted(() => {
                 <tr v-for="item in retrievalResult.items" :key="item.chunk_id">
                   <td class="mono">{{ item.originalRank ?? item.rank }}</td>
                   <td class="mono">{{ item.finalRank ?? item.rank }}</td>
-                  <td class="mono">{{ item.chunk_id }}</td>
+                  <td class="mono">{{ item.chunk_id }} <span v-if="item.metadata?.data_source === 'demo'" class="badge info">Demo</span></td>
                   <td class="mono">{{ item.score }}</td>
                   <td>{{ item.domain }}</td>
                   <td>{{ item.doc_type }}</td>
@@ -1263,17 +1353,17 @@ onMounted(() => {
               <option value="load_forecast">load_forecast</option>
               <option value="storage_ems">storage_ems</option>
             </select>
-            <button class="secondary-btn" type="button" :disabled="graphBuilding" @click="buildEnergyGraph">
+            <button class="secondary-btn" type="button" :disabled="graphBuilding || graphRunning" @click="buildEnergyGraph">
               {{ graphBuilding ? '构建中...' : '构建 / 刷新图谱' }}
             </button>
             <span v-if="graphMessage" class="notice">{{ graphMessage }}</span>
           </div>
 
           <div class="graph-stat-grid">
-            <article><span>实体数量</span><strong>{{ graphStatus.entity_count }}</strong></article>
-            <article><span>关系数量</span><strong>{{ graphStatus.relation_count }}</strong></article>
+            <article><span>实体数量</span><strong>{{ graphStatus.entity_count ?? '—' }}</strong></article>
+            <article><span>关系数量</span><strong>{{ graphStatus.relation_count ?? '—' }}</strong></article>
             <article><span>支持知识域</span><strong>{{ graphStatus.supported_domains?.length || 0 }}</strong></article>
-            <article><span>平均关系跳数</span><strong>{{ graphStatus.average_relation_hops }}</strong></article>
+            <article><span>平均关系跳数</span><strong>{{ graphStatus.average_relation_hops ?? '—' }}</strong></article>
             <article><span>最近更新时间</span><strong class="graph-date">{{ graphStatus.last_updated || '尚未构建' }}</strong></article>
           </div>
 
@@ -1308,7 +1398,7 @@ onMounted(() => {
                 <option value="global_graph">global_graph</option>
                 <option value="hybrid_graph">hybrid_graph</option>
               </select>
-              <button class="primary-btn" type="button" :disabled="graphRunning" @click="runGraphQuery">
+              <button class="primary-btn" type="button" :disabled="graphRunning || graphBuilding" @click="runGraphQuery">
                 {{ graphRunning ? '查询中...' : '执行图增强检索' }}
               </button>
             </div>
@@ -1389,12 +1479,13 @@ onMounted(() => {
               <div class="section-title">RAGAS 评估中心</div>
               <p class="section-subtitle">围绕 Faithfulness、Answer Relevancy、Context Precision、Context Recall 形成检索与生成质量闭环。</p>
             </div>
-            <button class="primary-btn" type="button" :disabled="evalRunning" @click="runBatchEvaluation">
-              {{ evalRunning ? '评测运行中...' : `运行 ${evalSetPath.split('/').pop()}` }}
+            <button class="primary-btn" type="button" :disabled="evalRunning || evalLoading || !evalSetPath" @click="runBatchEvaluation">
+              {{ evalRunning ? '评测运行中...' : evalSetPath ? `运行 ${evalSetPath.split('/').pop()}` : '请选择评测集' }}
             </button>
           </div>
 
           <div class="panel eval-upload-row">
+            <label>运行模式<select v-model="runtimeMode"><option value="offline">offline · 离线验证</option><option value="configured">configured · 按配置执行</option></select></label>
             <label>
               实验配置
               <select v-model="evalExperimentPreset">
@@ -1412,10 +1503,14 @@ onMounted(() => {
             <button class="secondary-btn" type="button" @click="uploadEvalSet">上传并校验</button>
             <code>{{ evalSetPath }}</code>
             <p v-if="evalUploadMessage" class="notice">{{ evalUploadMessage }}</p>
+            <p class="notice">预设使用独立完整参数；只有“当前检索页配置”继承检索页参数。offline 分数来自离线兼容评分器。</p>
+            <p v-if="evalMessage" class="notice" role="status">{{ evalMessage }}</p>
           </div>
 
           <div v-if="evalResult" class="panel">
             <div class="section-title">最新实验：{{ evalResult.experiment }}</div>
+            <p class="notice">运行模式：{{ evalResult.options?.runtime_mode || '—' }} · 评分方式：{{ evalResult.evaluation_mode || '—' }}</p>
+            <p v-if="evalResult.evaluation_limitation" class="notice">{{ evalResult.evaluation_limitation }}</p>
             <div class="metric-grid">
               <div v-for="(value, key) in evalResult.metrics" :key="key"><span>{{ key }}</span><strong>{{ value }}</strong></div>
             </div>
@@ -1476,6 +1571,15 @@ onMounted(() => {
           <div class="two-column">
             <section class="panel">
               <div class="section-title">评估数据集管理</div>
+              <select :value="selectedDatasetId" :disabled="evalLoading || evalRunning" @change="selectEvaluationDataset($event.target.value)">
+                <option value="">请选择数据集</option>
+                <option v-for="dataset in evaluationDatasets" :key="dataset.dataset_id" :value="dataset.dataset_id">{{ dataset.name || dataset.dataset_id }} · {{ datasetSampleCount(dataset) }} samples</option>
+              </select>
+              <p v-if="!evaluationDatasets.length" class="notice">暂无可用数据集，请上传 JSONL。</p>
+              <details v-if="selectedDataset">
+                <summary>所选数据集样本</summary>
+                <pre>{{ JSON.stringify(selectedDataset.samples || [], null, 2) }}</pre>
+              </details>
               <div v-for="dataset in evaluationDatasets" :key="dataset.dataset_id || dataset.eval_id" class="list-row rich">
                 <strong>{{ dataset.name || firstDatasetSample(dataset).question }}</strong>
                 <span>{{ dataset.dataset_id || firstDatasetSample(dataset).eval_id }} · {{ dataset.domain || firstDatasetSample(dataset).domain }} · {{ datasetSampleCount(dataset) }} samples</span>
@@ -1486,9 +1590,17 @@ onMounted(() => {
 
             <section class="panel">
               <div class="section-title">评估运行记录</div>
+              <select :value="selectedRunId" :disabled="evalLoading || evalRunning" @change="selectEvaluationRun($event.target.value)">
+                <option value="">请选择运行记录</option>
+                <option v-for="run in evaluationRuns" :key="run.run_id" :value="run.run_id">{{ run.run_id }}</option>
+              </select>
+              <p v-if="!evaluationRuns.length" class="notice">暂无真实评测运行记录。</p>
+              <div v-if="selectedRun" class="report-actions">
+                <a v-for="(path, format) in selectedRun.report_files" :key="format" :href="reportDownloadUrl(path)">下载 {{ format }}</a>
+              </div>
               <div v-for="run in evaluationRuns" :key="run.run_id" class="list-row rich">
                 <strong>{{ run.run_id }}</strong>
-                <span>{{ run.eval_dataset }} · {{ run.embedding_model }} · {{ run.vector_db }} · top_k={{ run.top_k }}</span>
+                <span>{{ run.eval_dataset }} · {{ run.embedding_model }} · {{ run.vector_db }} · top_k={{ run.top_k }} · {{ run.evaluation_mode || '评分方式未记录' }}</span>
                 <small>{{ run.retriever_config || run.retrieval_config }} · {{ statusLabel(run.status) }} · {{ run.started_at }} → {{ run.finished_at }}</small>
                 <code>F {{ formatScore(run.avg_faithfulness) }} · AR {{ formatScore(run.avg_answer_relevancy) }} · CP {{ formatScore(run.avg_context_precision) }} · CR {{ formatScore(run.avg_context_recall) }}</code>
               </div>
@@ -1497,10 +1609,11 @@ onMounted(() => {
 
           <section v-if="primarySampleResult" class="panel">
             <div class="section-title">单样本评估详情</div>
+            <label>样本<select v-model.number="selectedSampleIndex"><option v-for="(sample, index) in evaluationSampleResults" :key="sample.eval_id || sample.query_id || index" :value="index">{{ index + 1 }} · {{ sample.question || sample.query }}</option></select></label>
             <div class="sample-detail-grid">
               <div>
-                <span class="eyebrow">{{ primarySampleResult.eval_id }}</span>
-                <h3>{{ primarySampleResult.question }}</h3>
+                <span class="eyebrow">{{ primarySampleResult.eval_id || primarySampleResult.query_id }}</span>
+                <h3>{{ primarySampleResult.question || primarySampleResult.query }}</h3>
                 <p><strong>Ground Truth：</strong>{{ primarySampleResult.ground_truth }}</p>
                 <p><strong>Generated Answer：</strong>{{ primarySampleResult.generated_answer || primarySampleResult.answer }}</p>
                 <p><strong>Failure Type：</strong><span :class="primarySampleResult.failure_type ? 'badge danger' : 'badge success'">{{ primarySampleResult.failure_type || 'normal' }}</span></p>
@@ -1531,6 +1644,7 @@ onMounted(() => {
 
           <section class="panel">
             <div class="section-title">失败样本分析</div>
+            <p class="notice">{{ selectedRun ? `当前运行：${selectedRunId}，${evaluationSampleResults.length} 条样本，${evaluationFailures.length} 条失败样本` : '请先选择已完成的运行记录。' }}</p>
             <div class="failure-type-grid">
               <span v-for="item in evaluation.failure_types || []" :key="item.type"><strong>{{ item.type }}</strong><small>{{ item.description }} · {{ item.metric }}</small></span>
             </div>
@@ -1550,13 +1664,13 @@ onMounted(() => {
                   </tr>
                 </thead>
                 <tbody>
-                  <tr v-for="item in evaluationFailures" :key="item.question">
-                    <td>{{ item.question }}</td>
+                  <tr v-for="item in evaluationFailures" :key="item.eval_id || item.query_id || item.question">
+                    <td>{{ item.question || item.query }}</td>
                     <td>{{ item.domain }}</td>
                     <td>{{ item.actual_answer || item.generated_answer }}</td>
                     <td>{{ (item.expected_chunk_ids || item.reference_context_ids || []).join(' / ') }}</td>
                     <td>{{ item.retrieved_chunk_ids?.join(' / ') }}</td>
-                    <td>F {{ item.faithfulness }} / AR {{ item.answer_relevancy }} / CP {{ item.context_precision }} / CR {{ item.context_recall }}</td>
+                    <td>F {{ sampleMetric(item, 'faithfulness') }} / AR {{ sampleMetric(item, 'answer_relevancy') }} / CP {{ sampleMetric(item, 'context_precision') }} / CR {{ sampleMetric(item, 'context_recall') }}</td>
                     <td><span class="badge danger">{{ item.failure_type || item.failed_type }}</span></td>
                     <td>{{ item.root_cause }}</td>
                     <td>{{ item.optimization_suggestion || item.improvement_suggestion }}</td>
@@ -1576,7 +1690,8 @@ onMounted(() => {
                 </label>
                 <button class="secondary-btn" type="button" @click="runEvaluationDiagnosis">诊断</button>
               </div>
-              <div class="diagnosis-result">
+              <p v-if="diagnosisMessage" class="notice" role="status">{{ diagnosisMessage }}</p>
+              <div v-if="evalDiagnosisResult" class="diagnosis-result">
                 <strong>{{ evalDiagnosisResult?.primary_failure_type || 'normal' }}</strong>
                 <p>{{ evalDiagnosisResult?.root_cause }}</p>
                 <ul>
@@ -1654,10 +1769,10 @@ onMounted(() => {
                     <td>{{ item.vector_top_k }}</td>
                     <td>{{ item.bm25_top_k }}</td>
                     <td>{{ item.rerank_enabled ? 'yes' : 'no' }}</td>
-                    <td>{{ item.faithfulness }}</td>
-                    <td>{{ item.answer_relevancy }}</td>
-                    <td>{{ item.context_precision }}</td>
-                    <td>{{ item.context_recall }}</td>
+                    <td>{{ formatScore(item.faithfulness) }}</td>
+                    <td>{{ formatScore(item.answer_relevancy) }}</td>
+                    <td>{{ formatScore(item.context_precision) }}</td>
+                    <td>{{ formatScore(item.context_recall) }}</td>
                     <td>{{ item.avg_latency_ms }}</td>
                   </tr>
                 </tbody>
@@ -1669,13 +1784,13 @@ onMounted(() => {
         <section v-if="activePage === 'open'" class="page-grid">
           <div class="hero-panel compact">
             <p>GITHUB README STYLE</p>
-            <h1>Energy O&M RAG System</h1>
-            <span>面向风电故障诊断、区域负荷预测与储能 EMS 的能源智能运维知识库管理系统。</span>
+            <h1>制造能源工业知识库系统</h1>
+            <span>以制造业为长期主线，面向传统制造、汽车制造、装备与电子制造、材料行业，兼顾能源与电气知识管理。</span>
           </div>
           <div class="two-column">
             <section class="panel">
               <div class="section-title">项目边界</div>
-              <p>本项目聚焦能源领域 RAG 管理平台，不做完整风机诊断生产系统，不做完整储能 EMS 调度系统，不做复杂自动化编排平台。</p>
+              <p>本项目聚焦工业知识管理与 RAG 检索，长期以制造业为主，兼顾能源与电气。当前实现与演示数据仍以能源场景为主，制造业知识内容与专项能力将逐步建设。</p>
               <div class="section-title">核心能力</div>
               <div class="tag-line">
                 <span>知识资产管理</span><span>文档解析</span><span>Chunk 与 Metadata</span><span>LlamaIndex Runtime</span>
@@ -1684,7 +1799,7 @@ onMounted(() => {
             </section>
             <section class="panel">
               <div class="section-title">Demo 数据声明</div>
-              <p>所有数据均为脱敏、示例或公开可替代数据，仅用于能源 AI 应用开发项目展示，不接入真实生产系统，不包含真实 SCADA 数据、真实设备参数或真实运维记录。</p>
+              <p>当前数据均为脱敏、示例或公开可替代的能源场景数据，仅用于工业知识库应用开发展示，不接入真实生产系统，不包含真实 SCADA 数据、真实设备参数或真实运维记录。</p>
             </section>
           </div>
           <div class="panel">

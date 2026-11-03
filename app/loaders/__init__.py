@@ -11,6 +11,8 @@ from .pdf_loader import PdfLoader
 
 def get_loader(path: str | Path) -> BaseLoader:
     suffix = Path(path).suffix.lower()
+    if suffix in {'.png','.jpg','.jpeg','.webp','.tif','.tiff','.bmp','.gif','.avif'}:
+        raise ValueError('Image requires auto/OCR processing')
     if suffix in {".md", ".markdown"}:
         return MarkdownLoader()
     if suffix == ".pdf":

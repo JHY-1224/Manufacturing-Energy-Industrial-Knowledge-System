@@ -1,9 +1,19 @@
-export async function apiGet(path) {
-  const response = await fetch(path);
+export async function readApiResponse(response) {
   if (!response.ok) {
-    throw new Error(`Request failed: ${response.status}`);
+    const payload = await response.json().catch(() => ({}));
+    const detail = payload.detail;
+    const message = typeof detail === 'string'
+      ? detail
+      : Array.isArray(detail)
+        ? detail.map((item) => `${item.loc?.join('.') || 'request'}: ${item.msg || JSON.stringify(item)}`).join('; ')
+        : detail ? JSON.stringify(detail) : `Request failed: ${response.status}`;
+    throw new Error(message);
   }
   return response.json();
+}
+
+export async function apiGet(path) {
+  return readApiResponse(await fetch(path));
 }
 
 export async function apiPost(path, payload) {
@@ -12,16 +22,10 @@ export async function apiPost(path, payload) {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(payload),
   });
-  if (!response.ok) {
-    throw new Error(`Request failed: ${response.status}`);
-  }
-  return response.json();
+  return readApiResponse(response);
 }
 
 export async function apiDelete(path) {
   const response = await fetch(path, { method: 'DELETE' });
-  if (!response.ok) {
-    throw new Error(`Request failed: ${response.status}`);
-  }
-  return response.json();
+  return readApiResponse(response);
 }

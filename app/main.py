@@ -5,6 +5,7 @@ import json
 from pathlib import Path
 
 import uvicorn
+from fastapi.responses import JSONResponse
 
 from app.api.dependencies import bootstrap_legacy_chunks, engine
 from app.api.routes_config import router as config_router
@@ -13,16 +14,29 @@ from app.api.routes_experiment import router as experiment_router
 from app.api.routes_ingest import router as ingest_router
 from app.api.routes_graph_retrieval import router as graph_retrieval_router
 from app.api.routes_query import router as query_router
+from app.api.routes_workbench import router as workbench_router
+from app.api.routes_tasks import router as task_router
 from app.config.loader import load_config
 from app.core.models import IngestRequest, QueryOptions, QueryRequest
 from app.evaluation.eval_dataset import EvalDataset
-from app.evaluation.experiment_runner import ExperimentRunner
+from app.evaluation.experiment_runner import ExperimentRunner, options_for_experiment
 from app.evaluation.report_generator import ReportGenerator
 from backend.main import CHUNKS, app
+from app.runtime import RuntimeAdapterError
+from app.storage.knowledge_store import KnowledgeConflictError
 
 
-if not engine.chunks:
-    bootstrap_legacy_chunks(CHUNKS)
+@app.exception_handler(RuntimeAdapterError)
+async def model_service_error(_request, exc):
+    return JSONResponse(status_code=503, content={"detail": str(exc), "code": exc.code, "stage": exc.stage, "trace_id": getattr(exc, "trace_id", None)})
+
+
+@app.exception_handler(KnowledgeConflictError)
+async def knowledge_conflict(_request, exc):
+    return JSONResponse(status_code=409, content={"detail": str(exc), "trace_id": getattr(exc, "trace_id", None)})
+
+
+bootstrap_legacy_chunks(CHUNKS)
 
 app.include_router(config_router)
 app.include_router(ingest_router)
@@ -31,6 +45,8 @@ app.include_router(eval_router)
 app.include_router(evaluation_router)
 app.include_router(experiment_router)
 app.include_router(graph_retrieval_router)
+app.include_router(workbench_router)
+app.include_router(task_router)
 
 
 def options_from_config(config: dict, override: dict | None = None) -> QueryOptions:
@@ -39,6 +55,7 @@ def options_from_config(config: dict, override: dict | None = None) -> QueryOpti
     post = config.get("post_retrieval", {})
     generation = config.get("generation", {})
     values = {
+        "runtime_mode": config.get("runtime_mode", "offline"),
         "embedding": config.get("embedding", "bge-large-zh"),
         "vectorstore": config.get("vectorstore", "chroma"),
         "retrieval_mode": retrieval.get("mode", "hybrid"),
@@ -66,7 +83,7 @@ def options_from_config(config: dict, override: dict | None = None) -> QueryOpti
 
 
 def run_cli() -> None:
-    parser = argparse.ArgumentParser(description="Configurable Energy O&M RAG System")
+    parser = argparse.ArgumentParser(description="制造能源工业知识库系统 · 可配置 RAG")
     subparsers = parser.add_subparsers(dest="command")
     ingest_parser = subparsers.add_parser("ingest")
     ingest_parser.add_argument("--path", required=False)
@@ -110,7 +127,7 @@ def run_cli() -> None:
     elif args.command == "query":
         result = engine.query(QueryRequest(question=args.question, options=options_from_config(load_config(args.config)))).model_dump()
     elif args.command == "eval":
-        result = ExperimentRunner(engine).run("cli_eval", EvalDataset.load(args.eval_set), options_from_config(load_config(args.config)))
+        result = ExperimentRunner(engine).run("cli_eval", EvalDataset.load(args.eval_set), options_from_config(load_config(args.config)), eval_set=args.eval_set)
     else:
         config = load_config(args.config)
         cases = EvalDataset.load(args.eval_set)
@@ -118,7 +135,7 @@ def run_cli() -> None:
         for experiment in config.get("experiments", []):
             overrides = dict(experiment)
             name = overrides.pop("name")
-            reports.append(ExperimentRunner(engine).run(name, cases, options_from_config(load_config(), overrides)))
+            reports.append(ExperimentRunner(engine).run(name, cases, options_for_experiment(experiment), eval_set=args.eval_set))
         result = {"experiments": reports, "comparison": ReportGenerator().write_comparison(reports)}
     print(json.dumps(result, ensure_ascii=False, indent=2))
 

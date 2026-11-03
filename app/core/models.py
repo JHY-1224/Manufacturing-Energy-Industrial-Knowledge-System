@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from datetime import datetime
-from typing import Any
+from typing import Any, Literal
 from uuid import uuid4
 
 from pydantic import BaseModel, Field
@@ -17,13 +17,15 @@ class RagChunk(BaseModel):
 
 
 class QueryOptions(BaseModel):
+    runtime_mode: Literal["offline", "configured"] = "offline"
     embedding: str = "bge-large-zh"
     vectorstore: str = "chroma"
-    retrieval_mode: str = "hybrid"
-    top_k: int = 10
-    final_top_k: int = 5
-    vector_weight: float = 0.7
-    bm25_weight: float = 0.3
+    retrieval_mode: Literal["vector", "bm25", "hybrid", "parent_child", "parent_child_hybrid", "summary", "rag_fusion"] = "hybrid"
+    top_k: int = Field(default=10, ge=1, le=100)
+    final_top_k: int = Field(default=5, ge=1, le=100)
+    vector_weight: float = Field(default=0.7, ge=0, le=1)
+    bm25_weight: float = Field(default=0.3, ge=0, le=1)
+    fusion_method: Literal["weighted", "rrf"] = "weighted"
     query_rewrite: bool = True
     query_expansion: bool = True
     query_transformation: bool = True
@@ -37,14 +39,20 @@ class QueryOptions(BaseModel):
     deduplicate: bool = True
     document_filter: bool = True
     parent_recovery: bool = True
+    image_context: bool = True
+    review_mode: Literal["reference", "published_only"] = "reference"
+    table_retrieval: bool = False
+    cross_language_query: bool = False
+    evidence_retrieval: bool = False
     rag_fusion: bool = False
-    metadata_filter: dict[str, Any] = Field(default_factory=dict)
+    metadata_filter: dict[str, str | int | float | bool | None] = Field(default_factory=dict)
 
 
 class QueryRequest(BaseModel):
-    question: str
+    question: str = Field(min_length=1, max_length=16000)
     options: QueryOptions = Field(default_factory=QueryOptions)
     conversation_context: str = ""
+    generate_answer: bool = True
 
 
 class RetrievalHit(BaseModel):
@@ -58,6 +66,10 @@ class RetrievalHit(BaseModel):
     rerank_score: float | None = None
     original_rank: int | None = None
     final_rank: int | None = None
+    retrieval_sources: list[str] = Field(default_factory=list)
+    vector_rank: int | None = None
+    bm25_rank: int | None = None
+    fusion_score: float | None = None
 
 
 class QueryTrace(BaseModel):
@@ -75,7 +87,10 @@ class QueryTrace(BaseModel):
     answer: str = ""
     latency_ms: dict[str, float] = Field(default_factory=dict)
     token_usage: dict[str, int] = Field(default_factory=dict)
-    cost: dict[str, float] = Field(default_factory=dict)
+    cost: dict[str, float | None] = Field(default_factory=dict)
+    runtime: dict[str, Any] = Field(default_factory=dict)
+    warnings: list[str] = Field(default_factory=list)
+    corpus_version: int = 0
 
 
 class EvalCase(BaseModel):
@@ -94,13 +109,17 @@ class EvalRunRequest(BaseModel):
 
 
 class IngestRequest(BaseModel):
+    expected_write_version: str | None = None
     path: str
     domain: str = "电气工程基础"
     doc_type: str = "技术资料"
     splitter: str = "recursive"
-    chunk_size: int = 700
-    chunk_overlap: int = 120
+    chunk_size: int = Field(default=700, ge=200, le=16000)
+    chunk_overlap: int = Field(default=120, ge=0, le=8000)
+    document_id: str | None = None
     metadata: dict[str, Any] = Field(default_factory=dict)
+    parser_mode: Literal["native", "auto", "ocr"] = "native"
+    knowledge_base_id: str | None = None
 
 
 class EnergyEntity(BaseModel):
@@ -133,6 +152,8 @@ class GraphRetrievalOptions(BaseModel):
     top_k_relations: int = 10
     include_chunk_context: bool = True
     include_graph_context: bool = True
+    knowledge_base_id: str | None = None
+    review_mode: Literal["reference", "published_only"] = "reference"
 
 
 class GraphRetrievalRequest(BaseModel):

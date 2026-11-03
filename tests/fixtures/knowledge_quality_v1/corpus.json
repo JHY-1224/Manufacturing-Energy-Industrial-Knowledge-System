@@ -1,0 +1,413 @@
+{
+  "data_source": "synthetic_software_test",
+  "records": [
+    {
+      "doc_id": "doc_quality_auto_table",
+      "chunk_id": "chunk_auto_table",
+      "knowledge_base_id": "automotive",
+      "content": "【完全虚构的软件测试资料；禁止用于实际生产】\n<table><tr><td>Field</td><td>Value</td><td>Unit</td><td>Condition</td></tr><tr><td>SYN-AUTO Thickness / 试样厚度</td><td>14</td><td>mm</td><td>A型合成试样</td></tr></table>\n适用限制：仅用于A型合成试样，不适用于现场。当前版本 Q2，旧版本 Q1 已撤回。",
+      "metadata": {
+        "domain": "汽车",
+        "source": "SYN-AUTO-table.md",
+        "evidence_kind": "source_text",
+        "chunk_kind": "technical_table",
+        "protected_structure": true,
+        "table_id": "table_auto"
+      },
+      "review_state": "published"
+    },
+    {
+      "doc_id": "doc_quality_auto_old",
+      "chunk_id": "chunk_auto_old",
+      "knowledge_base_id": "automotive",
+      "content": "【完全虚构的软件测试资料】SYN-AUTO 旧版本 Q1，试样厚度为999 mm。已撤回，不能用于新回答。",
+      "metadata": {
+        "domain": "汽车",
+        "source": "SYN-AUTO-old.md",
+        "evidence_kind": "source_text",
+        "chunk_kind": "old",
+        "protected_structure": false
+      },
+      "review_state": "withdrawn"
+    },
+    {
+      "doc_id": "doc_quality_auto_sop",
+      "chunk_id": "chunk_auto_sop",
+      "knowledge_base_id": "automotive",
+      "content": "【完全虚构的软件测试资料】SYN-AUTO SOP：记录必须关联 Batch-ID 与 Check-ID；先检查来源版本，再核对单位。资料没有提供设备复位步骤或现场控制命令。",
+      "metadata": {
+        "domain": "汽车",
+        "source": "SYN-AUTO-sop.md",
+        "evidence_kind": "source_text",
+        "chunk_kind": "sop",
+        "protected_structure": false
+      }
+    },
+    {
+      "doc_id": "doc_quality_auto_ocr",
+      "chunk_id": "chunk_auto_ocr",
+      "knowledge_base_id": "automotive",
+      "content": "【完全虚构的软件测试图片 OCR，未经人工核验】SYN-AUTO 图上可读标记 VALVE-AUTO，表示文字标签；不能由OCR推断阀门状态或制造缺陷。",
+      "metadata": {
+        "domain": "汽车",
+        "source": "SYN-AUTO-ocr.md",
+        "evidence_kind": "ocr_text",
+        "chunk_kind": "ocr",
+        "protected_structure": false
+      }
+    },
+    {
+      "doc_id": "doc_quality_auto_caption",
+      "chunk_id": "chunk_auto_caption",
+      "knowledge_base_id": "automotive",
+      "content": "【完全虚构的软件测试来源介绍】SYN-AUTO 展示一张工艺参考图。来源介绍未核验，没有视觉语义结论，不能确定划痕、色差或故障根因。",
+      "metadata": {
+        "domain": "汽车",
+        "source": "SYN-AUTO-caption.md",
+        "evidence_kind": "source_caption",
+        "chunk_kind": "caption",
+        "protected_structure": false
+      }
+    },
+    {
+      "doc_id": "doc_quality_equip_table",
+      "chunk_id": "chunk_equip_table",
+      "knowledge_base_id": "high_end_equipment",
+      "content": "【完全虚构的软件测试资料；禁止用于实际生产】\n<table><tr><td>Field</td><td>Value</td><td>Unit</td><td>Condition</td></tr><tr><td>SYN-EQUIP Contact force / 接触力</td><td>17</td><td>N</td><td>E型合成试验台</td></tr></table>\n适用限制：仅用于E型合成试验台，不适用于现场。当前版本 Q2，旧版本 Q1 已撤回。",
+      "metadata": {
+        "domain": "高端装备",
+        "source": "SYN-EQUIP-table.md",
+        "evidence_kind": "source_text",
+        "chunk_kind": "technical_table",
+        "protected_structure": true,
+        "table_id": "table_equip"
+      },
+      "review_state": "published"
+    },
+    {
+      "doc_id": "doc_quality_equip_old",
+      "chunk_id": "chunk_equip_old",
+      "knowledge_base_id": "high_end_equipment",
+      "content": "【完全虚构的软件测试资料】SYN-EQUIP 旧版本 Q1，接触力为999 N。已撤回，不能用于新回答。",
+      "metadata": {
+        "domain": "高端装备",
+        "source": "SYN-EQUIP-old.md",
+        "evidence_kind": "source_text",
+        "chunk_kind": "old",
+        "protected_structure": false
+      },
+      "review_state": "withdrawn"
+    },
+    {
+      "doc_id": "doc_quality_equip_sop",
+      "chunk_id": "chunk_equip_sop",
+      "knowledge_base_id": "high_end_equipment",
+      "content": "【完全虚构的软件测试资料】SYN-EQUIP SOP：记录必须关联 Batch-ID 与 Check-ID；先检查来源版本，再核对单位。资料没有提供设备复位步骤或现场控制命令。",
+      "metadata": {
+        "domain": "高端装备",
+        "source": "SYN-EQUIP-sop.md",
+        "evidence_kind": "source_text",
+        "chunk_kind": "sop",
+        "protected_structure": false
+      }
+    },
+    {
+      "doc_id": "doc_quality_equip_ocr",
+      "chunk_id": "chunk_equip_ocr",
+      "knowledge_base_id": "high_end_equipment",
+      "content": "【完全虚构的软件测试图片 OCR，未经人工核验】SYN-EQUIP 图上可读标记 VALVE-EQUIP，表示文字标签；不能由OCR推断阀门状态或制造缺陷。",
+      "metadata": {
+        "domain": "高端装备",
+        "source": "SYN-EQUIP-ocr.md",
+        "evidence_kind": "ocr_text",
+        "chunk_kind": "ocr",
+        "protected_structure": false
+      }
+    },
+    {
+      "doc_id": "doc_quality_equip_caption",
+      "chunk_id": "chunk_equip_caption",
+      "knowledge_base_id": "high_end_equipment",
+      "content": "【完全虚构的软件测试来源介绍】SYN-EQUIP 展示一张工艺参考图。来源介绍未核验，没有视觉语义结论，不能确定划痕、色差或故障根因。",
+      "metadata": {
+        "domain": "高端装备",
+        "source": "SYN-EQUIP-caption.md",
+        "evidence_kind": "source_caption",
+        "chunk_kind": "caption",
+        "protected_structure": false
+      }
+    },
+    {
+      "doc_id": "doc_quality_elec_table",
+      "chunk_id": "chunk_elec_table",
+      "knowledge_base_id": "electronics",
+      "content": "【完全虚构的软件测试资料；禁止用于实际生产】\n<table><tr><td>Field</td><td>Value</td><td>Unit</td><td>Condition</td></tr><tr><td>SYN-ELEC Floor life / 车间寿命</td><td>19</td><td>hours</td><td>SYN湿敏等级与49% RH</td></tr></table>\n适用限制：仅用于SYN湿敏等级与49% RH，不适用于现场。当前版本 Q2，旧版本 Q1 已撤回。",
+      "metadata": {
+        "domain": "电子",
+        "source": "SYN-ELEC-table.md",
+        "evidence_kind": "source_text",
+        "chunk_kind": "technical_table",
+        "protected_structure": true,
+        "table_id": "table_elec"
+      },
+      "review_state": "published"
+    },
+    {
+      "doc_id": "doc_quality_elec_old",
+      "chunk_id": "chunk_elec_old",
+      "knowledge_base_id": "electronics",
+      "content": "【完全虚构的软件测试资料】SYN-ELEC 旧版本 Q1，车间寿命为999 hours。已撤回，不能用于新回答。",
+      "metadata": {
+        "domain": "电子",
+        "source": "SYN-ELEC-old.md",
+        "evidence_kind": "source_text",
+        "chunk_kind": "old",
+        "protected_structure": false
+      },
+      "review_state": "withdrawn"
+    },
+    {
+      "doc_id": "doc_quality_elec_sop",
+      "chunk_id": "chunk_elec_sop",
+      "knowledge_base_id": "electronics",
+      "content": "【完全虚构的软件测试资料】SYN-ELEC SOP：记录必须关联 Batch-ID 与 Check-ID；先检查来源版本，再核对单位。资料没有提供设备复位步骤或现场控制命令。",
+      "metadata": {
+        "domain": "电子",
+        "source": "SYN-ELEC-sop.md",
+        "evidence_kind": "source_text",
+        "chunk_kind": "sop",
+        "protected_structure": false
+      }
+    },
+    {
+      "doc_id": "doc_quality_elec_ocr",
+      "chunk_id": "chunk_elec_ocr",
+      "knowledge_base_id": "electronics",
+      "content": "【完全虚构的软件测试图片 OCR，未经人工核验】SYN-ELEC 图上可读标记 VALVE-ELEC，表示文字标签；不能由OCR推断阀门状态或制造缺陷。",
+      "metadata": {
+        "domain": "电子",
+        "source": "SYN-ELEC-ocr.md",
+        "evidence_kind": "ocr_text",
+        "chunk_kind": "ocr",
+        "protected_structure": false
+      }
+    },
+    {
+      "doc_id": "doc_quality_elec_caption",
+      "chunk_id": "chunk_elec_caption",
+      "knowledge_base_id": "electronics",
+      "content": "【完全虚构的软件测试来源介绍】SYN-ELEC 展示一张工艺参考图。来源介绍未核验，没有视觉语义结论，不能确定划痕、色差或故障根因。",
+      "metadata": {
+        "domain": "电子",
+        "source": "SYN-ELEC-caption.md",
+        "evidence_kind": "source_caption",
+        "chunk_kind": "caption",
+        "protected_structure": false
+      }
+    },
+    {
+      "doc_id": "doc_quality_consumer_table",
+      "chunk_id": "chunk_consumer_table",
+      "knowledge_base_id": "consumer_goods",
+      "content": "【完全虚构的软件测试资料；禁止用于实际生产】\n<table><tr><td>Field</td><td>Value</td><td>Unit</td><td>Condition</td></tr><tr><td>SYN-CONSUMER Mix time / 混合时间</td><td>23</td><td>min</td><td>C型合成批次</td></tr></table>\n适用限制：仅用于C型合成批次，不适用于现场。当前版本 Q2，旧版本 Q1 已撤回。",
+      "metadata": {
+        "domain": "消费品",
+        "source": "SYN-CONSUMER-table.md",
+        "evidence_kind": "source_text",
+        "chunk_kind": "technical_table",
+        "protected_structure": true,
+        "table_id": "table_consumer"
+      },
+      "review_state": "published"
+    },
+    {
+      "doc_id": "doc_quality_consumer_old",
+      "chunk_id": "chunk_consumer_old",
+      "knowledge_base_id": "consumer_goods",
+      "content": "【完全虚构的软件测试资料】SYN-CONSUMER 旧版本 Q1，混合时间为999 min。已撤回，不能用于新回答。",
+      "metadata": {
+        "domain": "消费品",
+        "source": "SYN-CONSUMER-old.md",
+        "evidence_kind": "source_text",
+        "chunk_kind": "old",
+        "protected_structure": false
+      },
+      "review_state": "withdrawn"
+    },
+    {
+      "doc_id": "doc_quality_consumer_sop",
+      "chunk_id": "chunk_consumer_sop",
+      "knowledge_base_id": "consumer_goods",
+      "content": "【完全虚构的软件测试资料】SYN-CONSUMER SOP：记录必须关联 Batch-ID 与 Check-ID；先检查来源版本，再核对单位。资料没有提供设备复位步骤或现场控制命令。",
+      "metadata": {
+        "domain": "消费品",
+        "source": "SYN-CONSUMER-sop.md",
+        "evidence_kind": "source_text",
+        "chunk_kind": "sop",
+        "protected_structure": false
+      }
+    },
+    {
+      "doc_id": "doc_quality_consumer_ocr",
+      "chunk_id": "chunk_consumer_ocr",
+      "knowledge_base_id": "consumer_goods",
+      "content": "【完全虚构的软件测试图片 OCR，未经人工核验】SYN-CONSUMER 图上可读标记 VALVE-CONSUMER，表示文字标签；不能由OCR推断阀门状态或制造缺陷。",
+      "metadata": {
+        "domain": "消费品",
+        "source": "SYN-CONSUMER-ocr.md",
+        "evidence_kind": "ocr_text",
+        "chunk_kind": "ocr",
+        "protected_structure": false
+      }
+    },
+    {
+      "doc_id": "doc_quality_consumer_caption",
+      "chunk_id": "chunk_consumer_caption",
+      "knowledge_base_id": "consumer_goods",
+      "content": "【完全虚构的软件测试来源介绍】SYN-CONSUMER 展示一张工艺参考图。来源介绍未核验，没有视觉语义结论，不能确定划痕、色差或故障根因。",
+      "metadata": {
+        "domain": "消费品",
+        "source": "SYN-CONSUMER-caption.md",
+        "evidence_kind": "source_caption",
+        "chunk_kind": "caption",
+        "protected_structure": false
+      }
+    },
+    {
+      "doc_id": "doc_quality_material_table",
+      "chunk_id": "chunk_material_table",
+      "knowledge_base_id": "materials",
+      "content": "【完全虚构的软件测试资料；禁止用于实际生产】\n<table><tr><td>Field</td><td>Value</td><td>Unit</td><td>Condition</td></tr><tr><td>SYN-MATERIAL Melting point / 熔点</td><td>127</td><td>°C</td><td>M型虚构材料</td></tr></table>\n适用限制：仅用于M型虚构材料，不适用于现场。当前版本 Q2，旧版本 Q1 已撤回。",
+      "metadata": {
+        "domain": "材料",
+        "source": "SYN-MATERIAL-table.md",
+        "evidence_kind": "source_text",
+        "chunk_kind": "technical_table",
+        "protected_structure": true,
+        "table_id": "table_material"
+      },
+      "review_state": "published"
+    },
+    {
+      "doc_id": "doc_quality_material_old",
+      "chunk_id": "chunk_material_old",
+      "knowledge_base_id": "materials",
+      "content": "【完全虚构的软件测试资料】SYN-MATERIAL 旧版本 Q1，熔点为999 °C。已撤回，不能用于新回答。",
+      "metadata": {
+        "domain": "材料",
+        "source": "SYN-MATERIAL-old.md",
+        "evidence_kind": "source_text",
+        "chunk_kind": "old",
+        "protected_structure": false
+      },
+      "review_state": "withdrawn"
+    },
+    {
+      "doc_id": "doc_quality_material_sop",
+      "chunk_id": "chunk_material_sop",
+      "knowledge_base_id": "materials",
+      "content": "【完全虚构的软件测试资料】SYN-MATERIAL SOP：记录必须关联 Batch-ID 与 Check-ID；先检查来源版本，再核对单位。资料没有提供设备复位步骤或现场控制命令。",
+      "metadata": {
+        "domain": "材料",
+        "source": "SYN-MATERIAL-sop.md",
+        "evidence_kind": "source_text",
+        "chunk_kind": "sop",
+        "protected_structure": false
+      }
+    },
+    {
+      "doc_id": "doc_quality_material_ocr",
+      "chunk_id": "chunk_material_ocr",
+      "knowledge_base_id": "materials",
+      "content": "【完全虚构的软件测试图片 OCR，未经人工核验】SYN-MATERIAL 图上可读标记 VALVE-MATERIAL，表示文字标签；不能由OCR推断阀门状态或制造缺陷。",
+      "metadata": {
+        "domain": "材料",
+        "source": "SYN-MATERIAL-ocr.md",
+        "evidence_kind": "ocr_text",
+        "chunk_kind": "ocr",
+        "protected_structure": false
+      }
+    },
+    {
+      "doc_id": "doc_quality_material_caption",
+      "chunk_id": "chunk_material_caption",
+      "knowledge_base_id": "materials",
+      "content": "【完全虚构的软件测试来源介绍】SYN-MATERIAL 展示一张工艺参考图。来源介绍未核验，没有视觉语义结论，不能确定划痕、色差或故障根因。",
+      "metadata": {
+        "domain": "材料",
+        "source": "SYN-MATERIAL-caption.md",
+        "evidence_kind": "source_caption",
+        "chunk_kind": "caption",
+        "protected_structure": false
+      }
+    },
+    {
+      "doc_id": "doc_quality_energy_table",
+      "chunk_id": "chunk_energy_table",
+      "knowledge_base_id": "energy",
+      "content": "【完全虚构的软件测试资料；禁止用于实际生产】\n<table><tr><td>Field</td><td>Value</td><td>Unit</td><td>Condition</td></tr><tr><td>SYN-ENERGY Power limit / 功率上限</td><td>29</td><td>kW</td><td>G型合成能源试验站</td></tr></table>\n适用限制：仅用于G型合成能源试验站，不适用于现场。当前版本 Q2，旧版本 Q1 已撤回。",
+      "metadata": {
+        "domain": "能源",
+        "source": "SYN-ENERGY-table.md",
+        "evidence_kind": "source_text",
+        "chunk_kind": "technical_table",
+        "protected_structure": true,
+        "table_id": "table_energy"
+      },
+      "review_state": "published"
+    },
+    {
+      "doc_id": "doc_quality_energy_old",
+      "chunk_id": "chunk_energy_old",
+      "knowledge_base_id": "energy",
+      "content": "【完全虚构的软件测试资料】SYN-ENERGY 旧版本 Q1，功率上限为999 kW。已撤回，不能用于新回答。",
+      "metadata": {
+        "domain": "能源",
+        "source": "SYN-ENERGY-old.md",
+        "evidence_kind": "source_text",
+        "chunk_kind": "old",
+        "protected_structure": false
+      },
+      "review_state": "withdrawn"
+    },
+    {
+      "doc_id": "doc_quality_energy_sop",
+      "chunk_id": "chunk_energy_sop",
+      "knowledge_base_id": "energy",
+      "content": "【完全虚构的软件测试资料】SYN-ENERGY SOP：记录必须关联 Batch-ID 与 Check-ID；先检查来源版本，再核对单位。资料没有提供设备复位步骤或现场控制命令。",
+      "metadata": {
+        "domain": "能源",
+        "source": "SYN-ENERGY-sop.md",
+        "evidence_kind": "source_text",
+        "chunk_kind": "sop",
+        "protected_structure": false
+      }
+    },
+    {
+      "doc_id": "doc_quality_energy_ocr",
+      "chunk_id": "chunk_energy_ocr",
+      "knowledge_base_id": "energy",
+      "content": "【完全虚构的软件测试图片 OCR，未经人工核验】SYN-ENERGY 图上可读标记 VALVE-ENERGY，表示文字标签；不能由OCR推断阀门状态或制造缺陷。",
+      "metadata": {
+        "domain": "能源",
+        "source": "SYN-ENERGY-ocr.md",
+        "evidence_kind": "ocr_text",
+        "chunk_kind": "ocr",
+        "protected_structure": false
+      }
+    },
+    {
+      "doc_id": "doc_quality_energy_caption",
+      "chunk_id": "chunk_energy_caption",
+      "knowledge_base_id": "energy",
+      "content": "【完全虚构的软件测试来源介绍】SYN-ENERGY 展示一张工艺参考图。来源介绍未核验，没有视觉语义结论，不能确定划痕、色差或故障根因。",
+      "metadata": {
+        "domain": "能源",
+        "source": "SYN-ENERGY-caption.md",
+        "evidence_kind": "source_caption",
+        "chunk_kind": "caption",
+        "protected_structure": false
+      }
+    }
+  ]
+}

@@ -3,6 +3,7 @@ from __future__ import annotations
 import math
 
 from app.core.models import RagChunk
+from app.indexes.metadata_index import MetadataIndex
 
 
 class ChromaStore:
@@ -17,7 +18,7 @@ class ChromaStore:
     def search(self, query_vector: list[float], top_k: int = 10, metadata_filter: dict | None = None):
         results: list[tuple[RagChunk, float]] = []
         for chunk, vector in self.rows.values():
-            if metadata_filter and any(chunk.metadata.get(key) != value for key, value in metadata_filter.items() if value not in {None, "", "all"}):
+            if metadata_filter and not MetadataIndex.match(chunk.metadata, metadata_filter):
                 continue
             score = sum(left * right for left, right in zip(query_vector, vector))
             score = (score + 1.0) / 2.0

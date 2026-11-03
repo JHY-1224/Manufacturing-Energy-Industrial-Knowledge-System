@@ -19,7 +19,9 @@ class BaseLoader:
 
 def decode_text(path: Path) -> str:
     raw = path.read_bytes()
-    for encoding in ("utf-8", "gb18030", "utf-16", "latin-1"):
+    if raw.startswith((b"\xff\xfe", b"\xfe\xff")):
+        return raw.decode("utf-16")
+    for encoding in ("utf-8-sig", "gb18030", "utf-16", "latin-1"):
         try:
             return raw.decode(encoding)
         except UnicodeDecodeError:

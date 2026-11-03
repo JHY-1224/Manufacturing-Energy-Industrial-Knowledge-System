@@ -13,6 +13,9 @@ def _overlap(left: str, right: str) -> float:
 class RagasEvaluator:
     """Offline-compatible metric proxy with the same output contract as RAGAS."""
 
+    mode = "offline_proxy"
+    limitation = "离线词项重合代理评分，未调用 LLM/RAGAS；context_precision 仅为片段词项命中比例，不评价排序或事实正确性。"
+
     def evaluate(self, question: str, answer: str, contexts: list[str], ground_truth: str | None) -> dict[str, float | None]:
         context = " ".join(contexts)
         context_scores = [_overlap(item, question) for item in contexts]
@@ -45,6 +48,8 @@ class RagasEvaluator:
             retrieved_chunk_ids=retrieved_chunk_ids,
         )
         return {
+            "evaluation_mode": self.mode,
+            "evaluation_limitation": self.limitation,
             "metrics": metrics,
             "failure_type": diagnosis.get("primary_failure_type"),
             "root_cause": diagnosis.get("root_cause"),

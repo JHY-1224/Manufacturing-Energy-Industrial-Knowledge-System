@@ -13,6 +13,8 @@ class HashEmbedding:
     def __init__(self, model_name: str, dimension: int = 256) -> None:
         self.model_name = model_name
         self.dimension = dimension
+        self.fingerprint = hashlib.sha256(f"offline-hash-sha256-v1:{dimension}".encode()).hexdigest()
+        self.last_call = None
 
     def embed(self, text: str) -> list[float]:
         vector = [0.0] * self.dimension
