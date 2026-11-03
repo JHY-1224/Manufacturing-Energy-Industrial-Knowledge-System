@@ -106,6 +106,12 @@
         ]
       },
       {
+        "requirement": "numpy==2.5.4",
+        "recorded_versions": [
+          "2.5.4"
+        ]
+      },
+      {
         "requirement": "openpyxl==3.1.5",
         "recorded_versions": [
           "3.1.5"

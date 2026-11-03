@@ -7,6 +7,8 @@
 PyMuPDF==1.26.7
 # Static first-frame image previews; same version as the existing vision profile.
 Pillow==13.0.0
+# Scan-grid detection and deskew use NumPy independently of model services.
+numpy==2.5.4
 # MIT-licensed Office Open XML parsers; defusedxml protects openpyxl XML parsing.
 openpyxl==3.1.5
 python-docx==1.2.0

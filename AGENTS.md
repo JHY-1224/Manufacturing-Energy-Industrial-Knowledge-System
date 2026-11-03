@@ -2041,3 +2041,10 @@ AHSS FLC的1×2 HTML表实际为公式图片布局。已按原HTML链接补存�
 首次受限沙箱的Python运行中3处HTTP监听被系统禁止，原日志 `python-final.log` 保留；放行回环监听后同一完整套件315项通过，没有删测试或降低断言。浏览器使用显式合成fixture，合成颜色、文字和固定2d响应不作为工业准确率；真实主库检索结果另存。主库没有写入这些合成资料或界面验收审核。
 
 本轮工作台与用户保留的开源交付范围已完成；取消的恢复/长测/干净环境工作没有执行。公开分支内容、提交及CI的最终核对以本轮发布收据为准，私有数据和运行证据保留本机。
+
+
+### GitHub 发布与 CI 的透明记录
+
+公开源码首提交为 [`7d41a02`](https://github.com/JHY-1224/General-Energy-RAG-System/commit/7d41a0241aae00bd3c62cd5d4dee4205f55dd8de)，是原 `db35205` 的正常后继提交；337个文件全部按公开清单核对。仓库About与README已更新为“制造能源工业知识库系统”，保留原URL与历史，不携带私有运行库、行业原件或权重。
+
+首次远端 [CI #4](https://github.com/JHY-1224/General-Energy-RAG-System/actions/runs/41573846043) 安装成功后执行315项测试，8项扫描表格测试因 `ModuleNotFoundError: numpy` 失败。本机NumPy原由检索环境提供，暴露了解析依赖清单漏声明的问题；原CI日志保留在 `github-ci-first.log`。已在 `backend/requirements-parsers.txt` 补上既有 `numpy==2.5.4` 并重建许可证清单，不改算法、预期或断言；相关解析回归通过。后续远端检查可在 [Actions](https://github.com/JHY-1224/General-Energy-RAG-System/actions) 按提交追溯，最终状态另存本机发布收据。常规CI依赖安装和合成测试不称作用户已取消的整套干净环境/模型复现。
